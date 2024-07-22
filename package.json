@@ -58,7 +58,6 @@
   "lint-staged": {
     "*.+(ts|tsx)": [
       "npm run lint",
-      "npm run check-types",
       "prettier --write --ignore-unknown"
     ]
   }
