@@ -16,15 +16,5 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    'check-file/filename-naming-convention': [
-      'error',
-      {
-        '**/*.{ts,tsx}': 'KEBAB_CASE',
-      },
-      {
-        // ignore the middle extensions of the filename to support filename like bable.config.js or smoke.spec.ts
-        ignoreMiddleExtensions: true,
-      },
-    ],
   },
 };

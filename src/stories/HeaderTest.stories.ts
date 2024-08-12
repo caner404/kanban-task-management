@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import { Header } from './Header';
+import { HeaderTest } from './HeaderTest';
 
 const meta = {
-  title: 'Example/Header',
-  component: Header,
+  title: 'Example/HeaderTest',
+  component: HeaderTest,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -17,7 +17,7 @@ const meta = {
     onLogout: fn(),
     onCreateAccount: fn(),
   },
-} satisfies Meta<typeof Header>;
+} satisfies Meta<typeof HeaderTest>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
