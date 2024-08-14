@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 
 type ButtonProps = ComponentProps<'main'>;
-export function Main(props: ButtonProps) {
+export function BoardMain(props: ButtonProps) {
   return (
     <main
       {...props}

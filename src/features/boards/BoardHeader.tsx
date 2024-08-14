@@ -5,7 +5,7 @@ import logolightMobile from '@assets/logo-mobile.svg';
 import logoDark from '@assets/logo-dark.svg';
 import { Button } from '@components/Button';
 
-export function Header() {
+export function BoardHeader() {
   return (
     <div className="p-4 sm:p-0 sm:px-4 sm:border-b sm:border-b-lines-light sm:h-[81px] flex gap-[34px] items-center justify-center sm:justify-normal">
       <img
