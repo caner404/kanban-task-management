@@ -2,6 +2,43 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontSize: {
+      sm: [
+        '12px',
+        {
+          lineHeight: '15px',
+          fontWeight: '800',
+        },
+      ],
+      base: [
+        '13px',
+        {
+          lineHeight: '23px',
+          fontWeight: '500',
+        },
+      ],
+      md: [
+        '15px',
+        {
+          lineHeight: '19px',
+          fontWeight: 800,
+        },
+      ],
+      lg: [
+        '18px',
+        {
+          lineHeight: '23px',
+          fontWeight: 800,
+        },
+      ],
+      xl: [
+        '24px',
+        {
+          lineHeight: '30px',
+          fontWeight: 800,
+        },
+      ],
+    },
     colors: {
       primary: {
         DEFAULT: '#635FC7',
