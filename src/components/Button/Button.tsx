@@ -9,7 +9,11 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   return (
-    <button className={variants({ variant, size, disabled })} {...props}>
+    <button
+      disabled
+      {...props}
+      className={`${props.className} ${variants({ variant, size, disabled })}`}
+    >
       {props.children}
     </button>
   );
