@@ -1,7 +1,7 @@
-import { AppLayout } from './components/layout';
+import { BoardOverview } from './features/boards/BoardOverview';
 
 function App() {
-  return <AppLayout />;
+  return <BoardOverview />;
 }
 
 export default App;
