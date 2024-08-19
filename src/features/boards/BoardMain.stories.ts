@@ -15,12 +15,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ProjectEmpty: Story = {
+export const BoardIsEmpty: Story = {
   args: {
     board: {
       id: '1',
       name: 'Moonspring Vale',
       columns: [],
     },
+  },
+};
+
+export const NoBoardFound: Story = {
+  args: {
+    board: null,
   },
 };

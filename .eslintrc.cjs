@@ -11,6 +11,7 @@ module.exports = {
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
+  ignorePatterns: ['!/.storybook'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
