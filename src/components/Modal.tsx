@@ -59,7 +59,7 @@ function Window({ children, name }: PropsWithChildren<{ name: string }>) {
         if (targetElement === e.currentTarget) close();
       }}
     >
-      <div className="bg-white rounded-md p-8 ">
+      <div className="bg-white rounded-md ">
         {React.Children.map(children, (child) =>
           React.isValidElement(child)
             ? React.cloneElement(

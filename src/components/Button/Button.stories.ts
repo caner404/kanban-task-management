@@ -1,22 +1,21 @@
+import { action } from '@storybook/addon-actions';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
 import { buttonVariants, sizes } from './button-variants';
-import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   args: {
-    children: 'Button',
     variant: 'primary',
     disabled: false,
     size: 'medium',
     onClick: action('onClick'),
+    children: 'Button',
   },
   argTypes: {
     children: {
       name: 'Label',
-      control: 'text',
     },
     size: {
       control: 'select',
@@ -51,17 +50,18 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {
   args: {
     variant: 'primary',
+    children: 'Button',
+  },
+};
+
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
   },
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: 'small',
   },
 };

@@ -12,7 +12,7 @@ export function BoardMain(props: ButtonProps) {
         className={`${props.className} flex flex-col gap-6 justify-center items-center bg-neutral-light p-6`}
       >
         <p className="text-lg text-neutral text-center">
-          Please create a board.
+          Please create a board to get started.
         </p>
         <AddBoard />
       </main>
