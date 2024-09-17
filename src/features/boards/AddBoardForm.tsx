@@ -15,11 +15,14 @@ export interface BoardFormValues {
 
 export function AddBoardForm({
   onSubmit,
+  onClose,
 }: {
   onSubmit: (data: BoardFormValues) => void;
+  onClose?: () => void; //comes from Modal Component
 }) {
   const onSubmitForm: SubmitHandler<BoardFormValues> = (data) => {
     onSubmit(data);
+    onClose?.();
   };
 
   const { register, handleSubmit, control } = useForm<BoardFormValues>({

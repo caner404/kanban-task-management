@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { AddBoardForm } from './AddBoardForm';
+import { AddBoardModal } from './AddBoardModal';
 
 const meta = {
-  title: 'boards/AddBoardForm',
-  component: AddBoardForm,
+  title: 'boards/AddBoardModal',
+  component: AddBoardModal,
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
@@ -12,7 +12,7 @@ const meta = {
   argTypes: {
     onSubmit: { type: 'function', control: false },
   },
-} satisfies Meta<typeof AddBoardForm>;
+} satisfies Meta<typeof AddBoardModal>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
