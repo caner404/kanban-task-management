@@ -3,6 +3,8 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Label } from '@/components/Label';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { useAppDispatch } from '../../apps/hooks';
+import { boardAdded } from './boardsSlice';
 
 interface Column {
   columnName: string;
@@ -14,7 +16,15 @@ interface FormValues {
 }
 
 export function AddBoardForm() {
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const dispatch = useAppDispatch();
+  const onSubmit: SubmitHandler<FormValues> = (data) =>
+    dispatch(
+      boardAdded({
+        id: Date.now().toString(36),
+        name: data.name,
+        columns: data.columns.map((value) => value.columnName),
+      }),
+    );
 
   const { register, handleSubmit, control } = useForm<FormValues>({
     defaultValues: {

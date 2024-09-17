@@ -1,9 +1,9 @@
+import { useAppSelector } from '../../apps/hooks';
 import { BoardHeader } from './BoardHeader';
 import { BoardMain } from './BoardMain';
-import { Board } from './types/Board';
 
 export function BoardOverview() {
-  const boards: Board[] = [];
+  const boards = useAppSelector((state) => state.boards.board);
   return (
     <div className="flex flex-col h-[100vh]">
       <BoardHeader board={boards[0]} />
