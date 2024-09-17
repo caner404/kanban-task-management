@@ -1,8 +1,12 @@
 import Modal from '@components/Modal';
 import { Button } from '@components/Button';
-import { AddBoardForm } from './AddBoardForm';
+import { AddBoardForm, BoardFormValues } from './AddBoardForm';
 
-export function AddBoard() {
+export function AddBoardModal({
+  onSubmit,
+}: {
+  onSubmit: (data: BoardFormValues) => void;
+}) {
   return (
     <div>
       <Modal.Root>
@@ -10,7 +14,7 @@ export function AddBoard() {
           <Button>+ add a board</Button>
         </Modal.Open>
         <Modal.Window name="board-form">
-          <AddBoardForm />
+          <AddBoardForm onSubmit={onSubmit} />
         </Modal.Window>
       </Modal.Root>
     </div>

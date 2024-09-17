@@ -1,10 +1,15 @@
 import { ComponentProps } from 'react';
 import { Button } from '@/components/Button';
 import { Board } from './types/Board';
-import { AddBoard } from './AddBoard';
+import { AddBoardModal } from './AddBoardModal';
+import { boardAdded } from './boardsSlice';
+import { BoardFormValues } from './AddBoardForm';
+import { useAppDispatch } from '../../apps/hooks';
 
 type ButtonProps = ComponentProps<'main'> & { board: Board | null };
 export function BoardMain(props: ButtonProps) {
+  const dispatch = useAppDispatch();
+
   if (!props.board)
     return (
       <main
@@ -14,7 +19,17 @@ export function BoardMain(props: ButtonProps) {
         <p className="text-lg text-neutral text-center">
           Please create a board to get started.
         </p>
-        <AddBoard />
+        <AddBoardModal
+          onSubmit={(data: BoardFormValues) =>
+            dispatch(
+              boardAdded({
+                id: Date.now().toString(36),
+                name: data.name,
+                columns: data.columns.map((value) => value.columnName),
+              }),
+            )
+          }
+        />
       </main>
     );
   return (

@@ -1,5 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { BoardMain } from './BoardMain';
+import { BoardMockStore } from './BoardOverview.stories';
+
+const defaultBoard = [
+  {
+    id: '1',
+    name: 'Moonlight Sun',
+    columns: ['Todo', 'Doing', 'Done'],
+  },
+];
 
 const meta = {
   title: 'boards/BoardMain',
@@ -10,6 +19,19 @@ const meta = {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
+  decorators: [
+    (story) => (
+      <div style={{ margin: '3rem' }}>
+        <BoardMockStore
+          boardState={{
+            board: defaultBoard,
+          }}
+        >
+          {story()}
+        </BoardMockStore>
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof BoardMain>;
 
 export default meta;
@@ -17,11 +39,7 @@ type Story = StoryObj<typeof meta>;
 
 export const BoardIsEmpty: Story = {
   args: {
-    board: {
-      id: '1',
-      name: 'Moonspring Vale',
-      columns: [],
-    },
+    board: defaultBoard[0],
   },
 };
 

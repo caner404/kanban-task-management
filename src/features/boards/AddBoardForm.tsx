@@ -3,32 +3,28 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { Label } from '@/components/Label';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { useAppDispatch } from '../../apps/hooks';
-import { boardAdded } from './boardsSlice';
 
 interface Column {
   columnName: string;
 }
 
-interface FormValues {
+export interface BoardFormValues {
   name: string;
   columns: Column[];
 }
 
-export function AddBoardForm() {
-  const dispatch = useAppDispatch();
-  const onSubmit: SubmitHandler<FormValues> = (data) =>
-    dispatch(
-      boardAdded({
-        id: Date.now().toString(36),
-        name: data.name,
-        columns: data.columns.map((value) => value.columnName),
-      }),
-    );
+export function AddBoardForm({
+  onSubmit,
+}: {
+  onSubmit: (data: BoardFormValues) => void;
+}) {
+  const onSubmitForm: SubmitHandler<BoardFormValues> = (data) => {
+    onSubmit(data);
+  };
 
-  const { register, handleSubmit, control } = useForm<FormValues>({
+  const { register, handleSubmit, control } = useForm<BoardFormValues>({
     defaultValues: {
-      name: 'Harry potter',
+      name: '',
       columns: [{ columnName: 'Todo' }, { columnName: 'Doing' }],
     },
   });
@@ -41,13 +37,16 @@ export function AddBoardForm() {
   return (
     <form
       className="flex flex-col gap-6 w-[480px] p-8"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmitForm)}
     >
       <h2 className="text-lg">Add Board</h2>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
           <Label>Name</Label>
-          <Input placeholder="e.g Web Design" {...register('name')} />
+          <Input
+            placeholder="e.g Web Design"
+            {...register('name', { required: true })}
+          />
         </div>
         <div className="flex flex-col gap-2">
           <Label>Columns</Label>
@@ -55,7 +54,7 @@ export function AddBoardForm() {
             <div className="flex gap-2" key={field.id}>
               <Input
                 className="flex-1"
-                {...register(`columns.${index}.columnName`)}
+                {...register(`columns.${index}.columnName`, { required: true })}
               />
               <Button variant="inline" onClick={() => remove(index)}>
                 <IconCross />

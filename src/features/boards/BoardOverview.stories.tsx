@@ -6,7 +6,7 @@ import { BoardOverview } from './BoardOverview';
 import { boardsSlice, Boardstate } from './boardsSlice';
 
 // A super-simple mock of a redux store
-const Mockstore = ({
+export const BoardMockStore = ({
   boardState,
   children,
 }: {
@@ -34,7 +34,7 @@ const meta = {
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   decorators: [(story) => <div style={{ margin: '3rem' }}>{story()}</div>],
-  excludeStories: /.*MockedState$/,
+  excludeStories: /.*BoardMockStore$/,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
@@ -47,7 +47,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (story) => (
-      <Mockstore
+      <BoardMockStore
         boardState={{
           board: [
             {
@@ -59,7 +59,7 @@ export const Default: Story = {
         }}
       >
         {story()}
-      </Mockstore>
+      </BoardMockStore>
     ),
   ],
 };
@@ -67,13 +67,13 @@ export const Default: Story = {
 export const NoProject: Story = {
   decorators: [
     (story) => (
-      <Mockstore
+      <BoardMockStore
         boardState={{
           board: [],
         }}
       >
         {story()}
-      </Mockstore>
+      </BoardMockStore>
     ),
   ],
 };
