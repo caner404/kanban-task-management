@@ -9,7 +9,7 @@ interface Column {
 }
 
 export interface BoardFormValues {
-  name: string;
+  boardName: string;
   columns: Column[];
 }
 
@@ -27,8 +27,8 @@ export function AddBoardForm({
 
   const { register, handleSubmit, control } = useForm<BoardFormValues>({
     defaultValues: {
-      name: '',
-      columns: [{ columnName: 'Todo' }, { columnName: 'Doing' }],
+      boardName: '',
+      columns: [{ columnName: '' }, { columnName: '' }],
     },
   });
 
@@ -41,14 +41,16 @@ export function AddBoardForm({
     <form
       className="flex flex-col gap-6 w-[480px] p-8"
       onSubmit={handleSubmit(onSubmitForm)}
+      data-testid="addBoardForm"
     >
       <h2 className="text-lg">Add Board</h2>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-2">
-          <Label>Name</Label>
+          <Label htmlFor="boardname">Name</Label>
           <Input
             placeholder="e.g Web Design"
-            {...register('name', { required: true })}
+            id="boardname"
+            {...register('boardName', { required: true })}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -57,6 +59,7 @@ export function AddBoardForm({
             <div className="flex gap-2" key={field.id}>
               <Input
                 className="flex-1"
+                data-testid={`columns.${index}.columnName`}
                 {...register(`columns.${index}.columnName`, { required: true })}
               />
               <Button variant="inline" onClick={() => remove(index)}>
@@ -69,7 +72,9 @@ export function AddBoardForm({
           + Add New Column
         </Button>
       </div>
-      <Button variant="primary">Create new Board</Button>
+      <Button variant="primary" name="addBoardFormBtn">
+        Create new Board
+      </Button>
     </form>
   );
 }

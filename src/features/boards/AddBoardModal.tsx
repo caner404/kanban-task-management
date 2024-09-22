@@ -11,7 +11,7 @@ export function AddBoardModal({
     <div>
       <Modal.Root>
         <Modal.Open opens="board-form">
-          <Button>+ add a board</Button>
+          <Button name="addBoardBtn">+ add a board</Button>
         </Modal.Open>
         <Modal.Window name="board-form">
           <AddBoardForm onSubmit={onSubmit} />

@@ -24,7 +24,7 @@ export function BoardMain(props: ButtonProps) {
             dispatch(
               boardAdded({
                 id: Date.now().toString(36),
-                name: data.name,
+                name: data.boardName,
                 columns: data.columns.map((value) => value.columnName),
               }),
             )
