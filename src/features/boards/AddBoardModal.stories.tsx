@@ -30,7 +30,7 @@ export const Default: Story = {
     await expect(addBoardForm).toBeInTheDocument();
 
     await userEvent.type(
-      within(addBoardForm).getByLabelText('Name'),
+      within(addBoardForm).getByLabelText('Board Name'),
       'Moonlight Sun',
     );
 

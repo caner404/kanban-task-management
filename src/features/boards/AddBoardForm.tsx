@@ -3,6 +3,7 @@ import { Button } from '@/components/Button';
 import { Textbox } from '@/components/Textbox';
 import { Label } from '@/components/Label';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { Input } from '@/components/Input';
 
 interface Column {
   columnName: string;
@@ -48,15 +49,17 @@ export function AddBoardForm({
         <Textbox
           placeholder="e.g Web Design"
           label="Board Name"
+          id="board-name"
           {...register('boardName', { required: true })}
         />
         <div className="flex flex-col gap-2">
           <Label>Columns</Label>
           {fields.map((field, index) => (
             <div className="flex gap-2" key={field.id}>
-              <Textbox
+              <Input
                 className="flex-1"
                 data-testid={`columns.${index}.columnName`}
+                id={`columns.${index}.columnName`}
                 {...register(`columns.${index}.columnName`, { required: true })}
               />
               <Button variant="inline" onClick={() => remove(index)}>
