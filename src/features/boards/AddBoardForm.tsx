@@ -1,6 +1,6 @@
 import { IconCross } from '@/assets/IconCross';
 import { Button } from '@/components/Button';
-import { Input } from '@/components/Input';
+import { Textbox } from '@/components/Textbox';
 import { Label } from '@/components/Label';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 
@@ -45,19 +45,16 @@ export function AddBoardForm({
     >
       <h2 className="text-lg">Add Board</h2>
       <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <Label htmlFor="boardname">Name</Label>
-          <Input
-            placeholder="e.g Web Design"
-            id="boardname"
-            {...register('boardName', { required: true })}
-          />
-        </div>
+        <Textbox
+          placeholder="e.g Web Design"
+          label="Board Name"
+          {...register('boardName', { required: true })}
+        />
         <div className="flex flex-col gap-2">
           <Label>Columns</Label>
           {fields.map((field, index) => (
             <div className="flex gap-2" key={field.id}>
-              <Input
+              <Textbox
                 className="flex-1"
                 data-testid={`columns.${index}.columnName`}
                 {...register(`columns.${index}.columnName`, { required: true })}
