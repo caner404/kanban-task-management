@@ -6,7 +6,7 @@ const defaultBoard = [
   {
     id: '1',
     name: 'Moonlight Sun',
-    columns: ['Todo', 'Doing', 'Done'],
+    columns: [],
   },
 ];
 

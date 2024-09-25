@@ -44,7 +44,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const NoColumns: Story = {
   decorators: [
     (story) => (
       <BoardMockStore
@@ -53,7 +53,7 @@ export const Default: Story = {
             {
               id: '1',
               name: 'Moonlight Sun',
-              columns: ['Todo', 'Doing', 'Done'],
+              columns: [],
             },
           ],
         }}

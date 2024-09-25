@@ -20,7 +20,10 @@ export const Default: Story = {
     board: {
       id: '1',
       name: 'Moonspring Valley',
-      columns: ['Todo', 'Progress', 'Done'],
+      columns: [
+        { title: 'Todo', tasks: [] },
+        { title: 'Doing', tasks: [] },
+      ],
     },
   },
 };
