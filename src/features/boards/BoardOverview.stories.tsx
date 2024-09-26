@@ -44,6 +44,83 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+export const Default: Story = {
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        boardState={{
+          board: [
+            {
+              id: '1',
+              name: 'Moonlight Beach',
+              columns: [
+                {
+                  title: 'Todo',
+                  tasks: [
+                    {
+                      id: '1',
+                      title: 'Bring out the trash',
+                      boardId: '1',
+                      subTasks: [
+                        {
+                          id: '1',
+                          title: 'Nothing',
+                          isCompleted: false,
+                          taskId: '1',
+                        },
+                      ],
+                    },
+                    {
+                      id: '2',
+                      title: 'Build UI for onboarding flow',
+                      boardId: '1',
+                      subTasks: [
+                        {
+                          id: '1',
+                          title: 'Nothing',
+                          isCompleted: false,
+                          taskId: '1',
+                        },
+                      ],
+                    },
+                    {
+                      id: '3',
+                      title: 'Build UI for search',
+                      boardId: '1',
+                      subTasks: [
+                        {
+                          id: '1',
+                          title: 'Nothing',
+                          isCompleted: false,
+                          taskId: '1',
+                        },
+                        {
+                          id: '2',
+                          title: 'Test',
+                          isCompleted: false,
+                          taskId: '1',
+                        },
+                        {
+                          id: '3',
+                          title: 'NothingV2',
+                          isCompleted: false,
+                          taskId: '1',
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
+};
+
 export const NoColumns: Story = {
   decorators: [
     (story) => (
