@@ -2,8 +2,8 @@ import { configureStore, createSlice } from '@reduxjs/toolkit';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
-import { BoardOverview } from './BoardOverview';
-import { boardsSlice, Boardstate } from './boardsSlice';
+import { AppLayout } from './AppLayout';
+import { boardsSlice, Boardstate } from '@/features/boards';
 
 // A super-simple mock of a redux store
 export const BoardMockStore = ({
@@ -29,8 +29,8 @@ export const BoardMockStore = ({
 );
 
 const meta = {
-  title: 'boards/BoardOverview',
-  component: BoardOverview,
+  title: 'components/layouts/AppLayout',
+  component: AppLayout,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   decorators: [(story) => <div style={{ margin: '3rem' }}>{story()}</div>],
@@ -39,7 +39,7 @@ const meta = {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof BoardOverview>;
+} satisfies Meta<typeof AppLayout>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

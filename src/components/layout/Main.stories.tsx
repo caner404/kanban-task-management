@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { BoardMain } from './BoardMain';
-import { BoardMockStore } from './BoardOverview.stories';
+import { Main } from './Main';
+import { BoardMockStore } from './AppLayout.stories';
 
 const defaultBoard = [
   {
@@ -11,8 +11,8 @@ const defaultBoard = [
 ];
 
 const meta = {
-  title: 'boards/BoardMain',
-  component: BoardMain,
+  title: 'components/layouts/Main',
+  component: Main,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   parameters: {
@@ -32,7 +32,7 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof BoardMain>;
+} satisfies Meta<typeof Main>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

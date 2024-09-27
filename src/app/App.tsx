@@ -1,9 +1,9 @@
-import { BoardOverview } from '../features/boards/BoardOverview';
+import { AppLayout } from '@/components/layout/AppLayout';
 
 function App() {
   return (
     <div className="flex flex-col h-[100vh]">
-      <BoardOverview />
+      <AppLayout />
     </div>
   );
 }

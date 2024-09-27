@@ -1,12 +1,13 @@
+import React from 'react';
 import { IconMenu } from '@/assets/IconMenu';
 import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
 import logoDark from '@assets/logo-dark.svg';
 import logolightMobile from '@assets/logo-mobile.svg';
 import iconChevronDown from '@assets/icon-chevron-down.svg';
 import { Button } from '@components/Button';
-import { Board } from './types/Board';
+import { Board } from '@/features/boards';
 
-export function BoardHeader({ board }: { board: Board | null }) {
+export function Header({ board }: { board: Board | null }) {
   return (
     <div
       className={`p-4 sm:p-0 sm:px-4 sm:border-b sm:border-b-lines-light sm:h-[81px] flex gap-[34px] items-center sm:justify-normal`}

@@ -1,11 +1,9 @@
+import { Board, AddBoard, AddBoardColumn } from '@/features/boards';
 import { ComponentProps } from 'react';
-import { AddBoard } from './AddBoard';
-import { AddBoardColumn } from './AddBoardColumn';
-import { Board } from './types/Board';
-import { Card } from '../../components/Card';
+import { Card } from '../Card';
 
 type ButtonProps = ComponentProps<'main'> & { board: Board | null };
-export function BoardMain(props: ButtonProps) {
+export function Main(props: ButtonProps) {
   const { board } = props;
   if (!board) return <AddBoard />;
   if (!board.columns?.length) return <AddBoardColumn />;
