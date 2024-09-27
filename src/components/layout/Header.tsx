@@ -1,11 +1,10 @@
-import React from 'react';
 import { IconMenu } from '@/assets/IconMenu';
+import { Board } from '@/features/boards';
+import iconChevronDown from '@assets/icon-chevron-down.svg';
 import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
 import logoDark from '@assets/logo-dark.svg';
 import logolightMobile from '@assets/logo-mobile.svg';
-import iconChevronDown from '@assets/icon-chevron-down.svg';
 import { Button } from '@components/Button';
-import { Board } from '@/features/boards';
 
 export function Header({ board }: { board: Board | null }) {
   return (

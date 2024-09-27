@@ -1,6 +1,6 @@
-import { Header } from '@/components/layout';
 import { useAppSelector } from '../../app/hooks';
 import { Main } from './Main';
+import { Header } from './Header';
 
 export function AppLayout() {
   const boards = useAppSelector((state) => state.boards.board);
