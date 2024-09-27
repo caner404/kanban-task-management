@@ -1,4 +1,4 @@
-import { useAppSelector } from '../../apps/hooks';
+import { useAppSelector } from '../../app/hooks';
 import { BoardHeader } from './BoardHeader';
 import { BoardMain } from './BoardMain';
 

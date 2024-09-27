@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../apps/hooks';
+import { useAppDispatch } from '../../app/hooks';
 import { BoardFormValues } from './AddBoardForm';
 import { AddBoardModal } from './AddBoardModal';
 import { boardAdded } from './boardsSlice';

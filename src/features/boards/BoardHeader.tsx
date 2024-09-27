@@ -46,6 +46,7 @@ export function BoardHeader({ board }: { board: Board | null }) {
           >
             + Add New Task
           </Button>
+
           <IconMenu />
         </>
       )}

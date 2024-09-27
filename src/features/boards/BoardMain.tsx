@@ -11,7 +11,7 @@ export function BoardMain(props: ButtonProps) {
   if (!board.columns?.length) return <AddBoardColumn />;
 
   return (
-    <div className="flex p-6 bg-neutral-light">
+    <main className="flex flex-1 gap-5 p-6 bg-neutral-light">
       {board.columns.map((column) => (
         <div className="flex flex-col gap-5">
           <h3 className="text-sm text-neutral uppercase">
@@ -25,6 +25,6 @@ export function BoardMain(props: ButtonProps) {
           ))}
         </div>
       ))}
-    </div>
+    </main>
   );
 }
