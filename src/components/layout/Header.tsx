@@ -1,5 +1,6 @@
 import { IconMenu } from '@/assets/IconMenu';
 import { Board } from '@/features/boards';
+import { AddTaskModal } from '@/features/tasks';
 import iconChevronDown from '@assets/icon-chevron-down.svg';
 import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
 import logoDark from '@assets/logo-dark.svg';
@@ -40,13 +41,7 @@ export function Header({ board }: { board: Board | null }) {
           >
             <IconAddTaskMobile />
           </Button>
-          <Button
-            disabled={!(board.columns.length > 0)}
-            className="hidden sm:block"
-          >
-            + Add New Task
-          </Button>
-
+          <AddTaskModal />
           <IconMenu />
         </>
       )}

@@ -60,6 +60,7 @@ export const Default: Story = {
                     {
                       id: '1',
                       title: 'Bring out the trash',
+                      description: 'Nothing',
                       boardId: '1',
                       subTasks: [
                         {
@@ -73,6 +74,7 @@ export const Default: Story = {
                     {
                       id: '2',
                       title: 'Build UI for onboarding flow',
+                      description: 'Nothing',
                       boardId: '1',
                       subTasks: [
                         {
@@ -86,6 +88,7 @@ export const Default: Story = {
                     {
                       id: '3',
                       title: 'Build UI for search',
+                      description: 'Nothing',
                       boardId: '1',
                       subTasks: [
                         {
