@@ -1,9 +1,8 @@
 import { IconCross } from '@/assets/IconCross';
 import { Button } from '@/components/Button';
-import { Textbox } from '@/components/Textbox';
-import { Label } from '@/components/Label';
+import { Input, Label, Textbox } from '@/components/form';
+
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { Input } from '@/components/Input';
 
 interface Column {
   columnName: string;

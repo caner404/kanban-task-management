@@ -1,14 +1,22 @@
 import { IconCross } from '@/assets/IconCross';
 import { Button } from '@/components/Button';
-import { Textbox } from '@/components/Textbox';
-import { Label } from '@/components/Label';
+
+import { Label } from '@/components/form/Label';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { Input } from '@/components/Input';
+
+import {
+  Input,
+  Textarea,
+  Textbox,
+  Select,
+  SelectItem,
+} from '@/components/form';
 
 export interface TaskFormValues {
   title: string;
   description: string;
   subTasks: { subTask: string }[];
+  column: string;
 }
 
 export function AddTaskForm({
@@ -50,12 +58,13 @@ export function AddTaskForm({
           id="task-title"
           {...register('title', { required: true })}
         />
-        <Textbox
-          placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+        <Textarea
           label="Description"
-          id="description-title"
+          id="task-description"
+          placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
           {...register('description', { required: true })}
         />
+
         <div className="flex flex-col gap-2">
           <Label>SubTasks</Label>
           {fields.map((field, index) => (
@@ -79,6 +88,16 @@ export function AddTaskForm({
           + Add New SubTask
         </Button>
       </div>
+
+      <div className="flex flex-col gap-2">
+        <Label>Current Status</Label>
+        <Select {...register('column', { required: true })}>
+          <SelectItem value="Todo">Todo</SelectItem>
+          <SelectItem value="Doing">Doing</SelectItem>
+          <SelectItem value="Done">Done</SelectItem>
+        </Select>
+      </div>
+
       <Button variant="primary" name="addTaskFormBtn">
         Create new Task
       </Button>

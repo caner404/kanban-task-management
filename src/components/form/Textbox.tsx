@@ -1,6 +1,6 @@
 import { ComponentProps, forwardRef } from 'react';
-import { Label } from './Label';
 import { Input } from './Input';
+import { Label } from './Label';
 
 type TextboxLabelProps = { label: string; id: string };
 type TextboxProps = ComponentProps<'input'> & TextboxLabelProps;
