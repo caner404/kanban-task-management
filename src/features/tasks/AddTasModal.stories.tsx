@@ -24,26 +24,34 @@ export const Default: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByText('+ add a board'));
+    await userEvent.click(canvas.getByText('+ Add New Task'));
 
-    const addBoardForm = screen.getByTestId('addBoardForm');
-    await expect(addBoardForm).toBeInTheDocument();
+    const addTaskForm = screen.getByTestId('addTaskForm');
+    await expect(addTaskForm).toBeInTheDocument();
 
     await userEvent.type(
-      within(addBoardForm).getByLabelText('Board Name'),
-      'Moonlight Sun',
+      within(addTaskForm).getByLabelText('Title'),
+      'take coffee break',
     );
 
     await userEvent.type(
-      within(addBoardForm).getByTestId('columns.0.columnName'),
-      'Todo',
+      within(addTaskForm).getByLabelText('Description'),
+      'it"s always good to take a break. This 15 minute break will recharge the batteries a little',
     );
 
     await userEvent.type(
-      within(addBoardForm).getByTestId('columns.1.columnName'),
-      'Doing',
+      within(addTaskForm).getByTestId('subTasks.0.subTask'),
+      'prepare coffee',
     );
-    await userEvent.click(within(addBoardForm).getByText('Create new Board'));
-    await expect(addBoardForm).not.toBeInTheDocument();
+
+    await userEvent.click(within(addTaskForm).getByText('+ Add New SubTask'));
+
+    await userEvent.type(
+      within(addTaskForm).getByTestId('subTasks.1.subTask'),
+      'let the coffee brew for 3 minutes',
+    );
+
+    await userEvent.click(within(addTaskForm).getByText('Create new Task'));
+    await expect(addTaskForm).not.toBeInTheDocument();
   },
 };
