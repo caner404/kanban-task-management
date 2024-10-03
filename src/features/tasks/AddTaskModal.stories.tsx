@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within, screen } from '@storybook/test';
 import { AddTaskModal } from './AddTaskModal';
+import {
+  BoardMockStore,
+  mockBoard,
+} from '@/components/layout/AppLayout.stories';
 
 const meta = {
   title: 'tasks/AddTaskModal',
@@ -9,10 +13,6 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-
-  argTypes: {
-    onSubmit: { type: 'function', control: false },
-  },
 } satisfies Meta<typeof AddTaskModal>;
 
 export default meta;
@@ -20,8 +20,15 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    onSubmit: () => {},
+    board: mockBoard[0],
   },
+  decorators: [
+    (story) => (
+      <BoardMockStore state={{ boardState: mockBoard, taskState: [] }}>
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByText('+ Add New Task'));

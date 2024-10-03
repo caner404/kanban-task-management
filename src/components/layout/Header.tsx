@@ -35,13 +35,13 @@ export function Header({ board }: { board: Board | null }) {
             />
           </div>
           <Button
-            disabled={!(board.columns.length > 0)}
+            disabled={!(board.status.length > 0)}
             size="small"
             className="block sm:hidden"
           >
             <IconAddTaskMobile />
           </Button>
-          <AddTaskModal />
+          <AddTaskModal board={board} />
           <IconMenu />
         </>
       )}

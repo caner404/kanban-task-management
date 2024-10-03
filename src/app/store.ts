@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { boardsSlice } from '@/features/boards';
+import { tasksSlice } from '@/features/tasks';
 
 export const store = configureStore({
   reducer: {
     boards: boardsSlice.reducer,
+    tasks: tasksSlice.reducer,
   },
 });
 

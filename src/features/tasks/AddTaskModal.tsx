@@ -1,8 +1,9 @@
-import Modal from '@components/Modal';
 import { Button } from '@components/Button';
+import Modal from '@components/Modal';
 import { AddTaskForm } from './AddTaskForm';
+import { Board } from '@/features/boards';
 
-export function AddTaskModal() {
+export function AddTaskModal({ board }: { board: Board }) {
   return (
     <div>
       <Modal.Root>
@@ -10,7 +11,7 @@ export function AddTaskModal() {
           <Button name="addTaskBtn"> + Add New Task</Button>
         </Modal.Open>
         <Modal.Window name="task-form">
-          <AddTaskForm />
+          <AddTaskForm board={board} />
         </Modal.Window>
       </Modal.Root>
     </div>

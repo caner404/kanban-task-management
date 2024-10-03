@@ -1,14 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Main } from './Main';
 import { BoardMockStore } from './AppLayout.stories';
-
-const defaultBoard = [
-  {
-    id: '1',
-    name: 'Moonlight Sun',
-    columns: [],
-  },
-];
+import { Main } from './Main';
 
 const meta = {
   title: 'components/layouts/Main',
@@ -23,8 +15,9 @@ const meta = {
     (story) => (
       <div style={{ margin: '3rem' }}>
         <BoardMockStore
-          boardState={{
-            board: defaultBoard,
+          state={{
+            boardState: [],
+            taskState: [],
           }}
         >
           {story()}
@@ -39,7 +32,11 @@ type Story = StoryObj<typeof meta>;
 
 export const BoardIsEmpty: Story = {
   args: {
-    board: defaultBoard[0],
+    board: {
+      id: '1',
+      name: 'Moonlight Sun',
+      status: [],
+    },
   },
 };
 

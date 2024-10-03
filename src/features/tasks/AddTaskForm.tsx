@@ -1,16 +1,19 @@
 import { IconCross } from '@/assets/IconCross';
 import { Button } from '@/components/Button';
-
 import { Label } from '@/components/form/Label';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 
+import { useAppDispatch } from '@/app/hooks';
 import {
   Input,
-  Textarea,
-  Textbox,
   Select,
   SelectItem,
+  Textarea,
+  Textbox,
 } from '@/components/form';
+import { nanoid } from '@reduxjs/toolkit';
+import { Board } from '@/features/boards';
+import { taskAdded } from './tasksSlice';
 
 export interface TaskFormValues {
   title: string;
@@ -20,12 +23,38 @@ export interface TaskFormValues {
 }
 
 export function AddTaskForm({
+  board,
   onClose,
 }: {
+  board: Board;
   onClose?: () => void; //comes from Modal Component
 }) {
+  const dispatch = useAppDispatch();
   const onSubmitForm: SubmitHandler<TaskFormValues> = (data) => {
-    console.log(data);
+    const boardStatus = board.status.filter(
+      (value) => value.name === data.column,
+    )[0];
+
+    const taskId = nanoid();
+    dispatch(
+      taskAdded({
+        id: taskId,
+        title: data.title,
+        description: data.description,
+
+        subTasks: data.subTasks.map((subTask) => {
+          return {
+            id: nanoid(),
+            title: subTask.subTask,
+            isCompleted: false,
+            taskId: taskId,
+          };
+        }),
+        boardId: board.id,
+        boardStatusId: boardStatus.id,
+      }),
+    );
+
     onClose?.();
   };
 
@@ -92,9 +121,11 @@ export function AddTaskForm({
       <div className="flex flex-col gap-2">
         <Label>Current Status</Label>
         <Select {...register('column', { required: true })}>
-          <SelectItem value="Todo">Todo</SelectItem>
-          <SelectItem value="Doing">Doing</SelectItem>
-          <SelectItem value="Done">Done</SelectItem>
+          {board.status.map((value) => (
+            <SelectItem key={value.id} value={`${value.name}`}>
+              {value.name}
+            </SelectItem>
+          ))}
         </Select>
       </div>
 

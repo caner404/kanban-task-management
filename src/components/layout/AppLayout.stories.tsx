@@ -1,16 +1,18 @@
+import { Board, boardsSlice } from '@/features/boards';
+import { tasksSlice } from '@/features/tasks';
+import { Task } from '@/features/tasks';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { AppLayout } from './AppLayout';
-import { boardsSlice, Boardstate } from '@/features/boards';
 
 // A super-simple mock of a redux store
 export const BoardMockStore = ({
-  boardState,
+  state,
   children,
 }: {
-  boardState: Boardstate;
+  state: { boardState: Board[]; taskState: Task[] };
   children: ReactNode;
 }) => (
   <Provider
@@ -18,8 +20,13 @@ export const BoardMockStore = ({
       reducer: {
         boards: createSlice({
           name: 'boards',
-          initialState: boardState,
+          initialState: state.boardState,
           reducers: boardsSlice.caseReducers,
+        }).reducer,
+        tasks: createSlice({
+          name: 'tasks',
+          initialState: state.taskState,
+          reducers: tasksSlice.caseReducers,
         }).reducer,
       },
     })}
@@ -28,13 +35,35 @@ export const BoardMockStore = ({
   </Provider>
 );
 
+export const mockBoard: Board[] = [
+  {
+    id: '1',
+    name: 'Moonlight Beach',
+    status: [
+      { id: '1', name: 'Todo', boardId: '1' },
+      { id: '2', name: 'Doing', boardId: '1' },
+    ],
+  },
+];
+
+export const mockTasks: Task[] = [
+  {
+    id: '1',
+    title: 'Coffee break',
+    description: 'Something Something description',
+    subTasks: [],
+    boardId: '1',
+    boardStatusId: '1',
+  },
+];
+
 const meta = {
   title: 'components/layouts/AppLayout',
   component: AppLayout,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
   decorators: [(story) => <div style={{ margin: '3rem' }}>{story()}</div>],
-  excludeStories: /.*BoardMockStore$/,
+  excludeStories: ['mockBoard', 'BoardMockStore', 'mockTasks'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
@@ -47,77 +76,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (story) => (
-      <BoardMockStore
-        boardState={{
-          board: [
-            {
-              id: '1',
-              name: 'Moonlight Beach',
-              columns: [
-                {
-                  title: 'Todo',
-                  tasks: [
-                    {
-                      id: '1',
-                      title: 'Bring out the trash',
-                      description: 'Nothing',
-                      boardId: '1',
-                      subTasks: [
-                        {
-                          id: '1',
-                          title: 'Nothing',
-                          isCompleted: false,
-                          taskId: '1',
-                        },
-                      ],
-                    },
-                    {
-                      id: '2',
-                      title: 'Build UI for onboarding flow',
-                      description: 'Nothing',
-                      boardId: '1',
-                      subTasks: [
-                        {
-                          id: '1',
-                          title: 'Nothing',
-                          isCompleted: false,
-                          taskId: '1',
-                        },
-                      ],
-                    },
-                    {
-                      id: '3',
-                      title: 'Build UI for search',
-                      description: 'Nothing',
-                      boardId: '1',
-                      subTasks: [
-                        {
-                          id: '1',
-                          title: 'Nothing',
-                          isCompleted: false,
-                          taskId: '1',
-                        },
-                        {
-                          id: '2',
-                          title: 'Test',
-                          isCompleted: false,
-                          taskId: '1',
-                        },
-                        {
-                          id: '3',
-                          title: 'NothingV2',
-                          isCompleted: false,
-                          taskId: '1',
-                        },
-                      ],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        }}
-      >
+      <BoardMockStore state={{ boardState: mockBoard, taskState: mockTasks }}>
         {story()}
       </BoardMockStore>
     ),
@@ -128,14 +87,9 @@ export const NoColumns: Story = {
   decorators: [
     (story) => (
       <BoardMockStore
-        boardState={{
-          board: [
-            {
-              id: '1',
-              name: 'Moonlight Sun',
-              columns: [],
-            },
-          ],
+        state={{
+          boardState: [{ id: '1', name: 'Moonlight Sun', status: [] }],
+          taskState: [],
         }}
       >
         {story()}
@@ -148,8 +102,9 @@ export const NoProject: Story = {
   decorators: [
     (story) => (
       <BoardMockStore
-        boardState={{
-          board: [],
+        state={{
+          boardState: [],
+          taskState: [],
         }}
       >
         {story()}

@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within, screen } from '@storybook/test';
 import { AddBoardModal } from './AddBoardModal';
+import {
+  BoardMockStore,
+  mockBoard,
+} from '@/components/layout/AppLayout.stories';
 
 const meta = {
   title: 'boards/AddBoardModal',
@@ -22,6 +26,13 @@ export const Default: Story = {
   args: {
     onSubmit: () => {},
   },
+  decorators: [
+    (story) => (
+      <BoardMockStore state={{ boardState: mockBoard, taskState: [] }}>
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByText('+ add a board'));
@@ -35,12 +46,12 @@ export const Default: Story = {
     );
 
     await userEvent.type(
-      within(addBoardForm).getByTestId('columns.0.columnName'),
+      within(addBoardForm).getByTestId('status.0.statusName'),
       'Todo',
     );
 
     await userEvent.type(
-      within(addBoardForm).getByTestId('columns.1.columnName'),
+      within(addBoardForm).getByTestId('status.1.statusName'),
       'Doing',
     );
     await userEvent.click(within(addBoardForm).getByText('Create new Board'));

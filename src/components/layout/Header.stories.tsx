@@ -20,9 +20,9 @@ export const Default: Story = {
     board: {
       id: '1',
       name: 'Moonspring Valley',
-      columns: [
-        { title: 'Todo', tasks: [] },
-        { title: 'Doing', tasks: [] },
+      status: [
+        { id: '1', name: 'Todo', boardId: '1' },
+        { id: '2', name: 'Doing', boardId: '1' },
       ],
     },
   },
@@ -37,7 +37,7 @@ export const ProjectWithoutColumns: Story = {
     board: {
       id: '1',
       name: 'Moonspring Valley',
-      columns: [],
+      status: [],
     },
   },
 };
