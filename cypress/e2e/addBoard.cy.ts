@@ -5,8 +5,8 @@ describe('add a board', () => {
     // Fill out the form
     cy.get('button[name=addBoardBtn]').click();
     cy.get('input[name=boardName]').type('Moonlight Sun');
-    cy.get('[data-testid="columns.0.columnName"]').type('Todo');
-    cy.get('[data-testid="columns.1.columnName"]').type('Doing');
+    cy.get('[data-testid="status.0.statusName"]').type('Todo');
+    cy.get('[data-testid="status.1.statusName"]').type('Doing');
 
     // Click the sign-in button
     cy.get('button[name=addBoardFormBtn]').click();

@@ -1,6 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within, screen } from '@storybook/test';
 import { AddBoardModal } from './AddBoardModal';
+import {
+  BoardMockStore,
+  mockBoard,
+} from '@/components/layout/AppLayout.stories';
 
 const meta = {
   title: 'boards/AddBoardModal',
@@ -9,7 +13,7 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-
+  excludeStories: ['openModalAndAddBoardPlay'],
   argTypes: {
     onSubmit: { type: 'function', control: false },
   },
@@ -18,32 +22,45 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const openModalAndAddBoardPlay = async ({
+  canvasElement,
+}: {
+  canvasElement: HTMLElement;
+}) => {
+  const canvas = within(canvasElement);
+  await userEvent.click(canvas.getByText('+ add a board'));
+
+  const addBoardForm = screen.getByTestId('addBoardForm');
+  await expect(addBoardForm).toBeInTheDocument();
+
+  await userEvent.type(
+    within(addBoardForm).getByLabelText('Board Name'),
+    'Moonlight Sun',
+  );
+
+  await userEvent.type(
+    within(addBoardForm).getByTestId('status.0.statusName'),
+    'Todo',
+  );
+
+  await userEvent.type(
+    within(addBoardForm).getByTestId('status.1.statusName'),
+    'Doing',
+  );
+  await userEvent.click(within(addBoardForm).getByText('Create new Board'));
+  await expect(addBoardForm).not.toBeInTheDocument();
+};
+
+export const OpenModalAndAddBoard: Story = {
   args: {
     onSubmit: () => {},
   },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByText('+ add a board'));
-
-    const addBoardForm = screen.getByTestId('addBoardForm');
-    await expect(addBoardForm).toBeInTheDocument();
-
-    await userEvent.type(
-      within(addBoardForm).getByLabelText('Board Name'),
-      'Moonlight Sun',
-    );
-
-    await userEvent.type(
-      within(addBoardForm).getByTestId('columns.0.columnName'),
-      'Todo',
-    );
-
-    await userEvent.type(
-      within(addBoardForm).getByTestId('columns.1.columnName'),
-      'Doing',
-    );
-    await userEvent.click(within(addBoardForm).getByText('Create new Board'));
-    await expect(addBoardForm).not.toBeInTheDocument();
-  },
+  decorators: [
+    (story) => (
+      <BoardMockStore state={{ boardState: mockBoard, taskState: [] }}>
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
+  play: openModalAndAddBoardPlay,
 };

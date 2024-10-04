@@ -1,17 +1,16 @@
 import { IconCross } from '@/assets/IconCross';
 import { Button } from '@/components/Button';
-import { Textbox } from '@/components/Textbox';
-import { Label } from '@/components/Label';
+import { Input, Label, Textbox } from '@/components/form';
+
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { Input } from '@/components/Input';
 
 interface Column {
-  columnName: string;
+  statusName: string;
 }
 
 export interface BoardFormValues {
   boardName: string;
-  columns: Column[];
+  status: Column[];
 }
 
 export function AddBoardForm({
@@ -29,13 +28,13 @@ export function AddBoardForm({
   const { register, handleSubmit, control } = useForm<BoardFormValues>({
     defaultValues: {
       boardName: '',
-      columns: [{ columnName: '' }, { columnName: '' }],
+      status: [{ statusName: '' }, { statusName: '' }],
     },
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'columns',
+    name: 'status',
   });
 
   return (
@@ -58,9 +57,9 @@ export function AddBoardForm({
             <div className="flex gap-2" key={field.id}>
               <Input
                 className="flex-1"
-                data-testid={`columns.${index}.columnName`}
-                id={`columns.${index}.columnName`}
-                {...register(`columns.${index}.columnName`, { required: true })}
+                data-testid={`status.${index}.statusName`}
+                id={`status.${index}.statusName`}
+                {...register(`status.${index}.statusName`, { required: true })}
               />
               <Button variant="inline" onClick={() => remove(index)}>
                 <IconCross />
@@ -68,7 +67,7 @@ export function AddBoardForm({
             </div>
           ))}
         </div>
-        <Button variant="secondary" onClick={() => append({ columnName: '' })}>
+        <Button variant="secondary" onClick={() => append({ statusName: '' })}>
           + Add New Column
         </Button>
       </div>
