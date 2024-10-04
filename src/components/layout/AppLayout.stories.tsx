@@ -1,13 +1,12 @@
 import { Board, boardsSlice } from '@/features/boards';
-import { tasksSlice } from '@/features/tasks';
-import { Task } from '@/features/tasks';
+import { openModalAndAddTaskPlay, Task, tasksSlice } from '@/features/tasks';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { AppLayout } from './AppLayout';
+import { within } from '@storybook/test';
 
-// A super-simple mock of a redux store
 export const BoardMockStore = ({
   state,
   children,
@@ -81,6 +80,11 @@ export const Default: Story = {
       </BoardMockStore>
     ),
   ],
+  play: async ({ context, canvasElement }) => {
+    const canvas = within(canvasElement);
+    console.log(canvas);
+    openModalAndAddTaskPlay(context);
+  },
 };
 
 export const NoColumns: Story = {

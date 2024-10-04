@@ -13,7 +13,7 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-
+  excludeStories: ['openModalAndAddBoardPlay'],
   argTypes: {
     onSubmit: { type: 'function', control: false },
   },
@@ -22,7 +22,36 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const openModalAndAddBoardPlay = async ({
+  canvasElement,
+}: {
+  canvasElement: HTMLElement;
+}) => {
+  const canvas = within(canvasElement);
+  await userEvent.click(canvas.getByText('+ add a board'));
+
+  const addBoardForm = screen.getByTestId('addBoardForm');
+  await expect(addBoardForm).toBeInTheDocument();
+
+  await userEvent.type(
+    within(addBoardForm).getByLabelText('Board Name'),
+    'Moonlight Sun',
+  );
+
+  await userEvent.type(
+    within(addBoardForm).getByTestId('status.0.statusName'),
+    'Todo',
+  );
+
+  await userEvent.type(
+    within(addBoardForm).getByTestId('status.1.statusName'),
+    'Doing',
+  );
+  await userEvent.click(within(addBoardForm).getByText('Create new Board'));
+  await expect(addBoardForm).not.toBeInTheDocument();
+};
+
+export const OpenModalAndAddBoard: Story = {
   args: {
     onSubmit: () => {},
   },
@@ -33,28 +62,5 @@ export const Default: Story = {
       </BoardMockStore>
     ),
   ],
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByText('+ add a board'));
-
-    const addBoardForm = screen.getByTestId('addBoardForm');
-    await expect(addBoardForm).toBeInTheDocument();
-
-    await userEvent.type(
-      within(addBoardForm).getByLabelText('Board Name'),
-      'Moonlight Sun',
-    );
-
-    await userEvent.type(
-      within(addBoardForm).getByTestId('status.0.statusName'),
-      'Todo',
-    );
-
-    await userEvent.type(
-      within(addBoardForm).getByTestId('status.1.statusName'),
-      'Doing',
-    );
-    await userEvent.click(within(addBoardForm).getByText('Create new Board'));
-    await expect(addBoardForm).not.toBeInTheDocument();
-  },
+  play: openModalAndAddBoardPlay,
 };

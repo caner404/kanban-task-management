@@ -5,3 +5,5 @@ export * from './AddBoardModal';
 
 export * from './boardsSlice';
 export * from './types';
+
+export * from './AddBoardModal.stories';
