@@ -2,7 +2,11 @@ import { Label, Select, SelectItem, Checkbox } from '@/components/form';
 import { Task } from './types';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectBoardById } from '../boards';
-import { selectSubTasksCompleted, subTaskUpdated } from './tasksSlice';
+import {
+  selectSubTasksCompleted,
+  subTaskUpdated,
+  taskUpdated,
+} from './tasksSlice';
 
 export function TaskDetails({ task }: { task: Task }) {
   const dispatch = useAppDispatch();
@@ -35,9 +39,27 @@ export function TaskDetails({ task }: { task: Task }) {
       </div>
       <div className="flex flex-col gap-2">
         <Label>Current Status</Label>
-        <Select>
-          {board?.status.map((value) => {
-            return <SelectItem key={value.id}>{value.name}</SelectItem>;
+        <Select
+          defaultValue={
+            board?.status.find((status) => status.id === task.boardStatusId)
+              ?.name
+          }
+          onSelectedChange={(selectionValue) =>
+            dispatch(() => {
+              const boardStatus = board?.status.find(
+                (status) => status.name === selectionValue,
+              );
+              if (boardStatus)
+                dispatch(
+                  taskUpdated({ ...task, boardStatusId: boardStatus.id }),
+                );
+            })
+          }
+        >
+          {board?.status.map((boardStatus) => {
+            return (
+              <SelectItem key={boardStatus.id}>{boardStatus.name}</SelectItem>
+            );
           })}
         </Select>
       </div>
