@@ -3,6 +3,8 @@ import { AddBoard, AddBoardColumn, Board } from '@/features/boards';
 import { ComponentProps } from 'react';
 import { Card } from '../Card';
 import { selectTasksByBoardId } from '@/features/tasks';
+import Modal from '@/components/Modal';
+import { TaskDetails } from '@/features/tasks';
 
 type ButtonProps = ComponentProps<'main'> & { board: Board | null };
 export function Main(props: ButtonProps) {
@@ -34,11 +36,18 @@ export function Main(props: ButtonProps) {
             {column.statusName} ({column.tasksByStatusId.length})
           </h3>
           {column.tasksByStatusId.map((task) => (
-            <Card
-              key={task.id}
-              title={task.title}
-              description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
-            />
+            <Modal.Root>
+              <Modal.Open opens="task-details">
+                <Card
+                  key={task.id}
+                  title={task.title}
+                  description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
+                />
+              </Modal.Open>
+              <Modal.Window name="task-details">
+                <TaskDetails task={task} />
+              </Modal.Window>
+            </Modal.Root>
           ))}
         </div>
       ))}
