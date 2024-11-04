@@ -1,12 +1,15 @@
-import { useRef, useEffect, useState, ComponentProps } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { Card } from '@/components/Card';
+import { Task } from './types';
 
-export type CardProps = ComponentProps<'div'> & {
-  title: string;
-  description: string;
+export function TaskCard({
+  task,
+  onClick,
+}: {
+  task: Task;
   onClick?: () => void;
-};
-export function Card({ title, description, onClick }: CardProps) {
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState<boolean>(false);
 
@@ -17,21 +20,18 @@ export function Card({ title, description, onClick }: CardProps) {
       element: el,
       onDragStart: () => setDragging(true),
       onDrop: () => setDragging(false),
-      getInitialData: () => ({ title }),
+      getInitialData: () => ({ task }),
     });
-  }, [title]);
+  }, [task]);
 
   return (
-    <div
+    <Card
+      title={task.title}
+      description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
       ref={ref}
       role="button"
       onClick={onClick}
       className={`${dragging ? 'bg-neutral-light' : 'bg-white'} rounded-md py-6 px-4 drop-shadow-lg`}
-    >
-      <div className="flex flex-col gap-2 hover:cursor-pointer">
-        <p className="text-md">{title}</p>
-        <p className="text-sm text-neutral">{description}</p>
-      </div>
-    </div>
+    />
   );
 }

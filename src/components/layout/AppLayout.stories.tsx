@@ -5,7 +5,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { AppLayout } from './AppLayout';
-import { within } from '@storybook/test';
 
 export const BoardMockStore = ({
   state,
@@ -80,9 +79,7 @@ export const Default: Story = {
       </BoardMockStore>
     ),
   ],
-  play: async ({ context, canvasElement }) => {
-    const canvas = within(canvasElement);
-    console.log(canvas);
+  play: async ({ context }) => {
     openModalAndAddTaskPlay(context);
   },
 };
