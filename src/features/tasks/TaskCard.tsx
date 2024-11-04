@@ -26,12 +26,12 @@ export function TaskCard({
 
   return (
     <Card
+      ref={ref}
       title={task.title}
       description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
-      ref={ref}
       role="button"
       onClick={onClick}
-      className={`${dragging ? 'bg-neutral-light' : 'bg-white'} rounded-md py-6 px-4 drop-shadow-lg`}
+      className={`${dragging ? 'bg-neutral-light' : 'bg-white'}`}
     />
   );
 }

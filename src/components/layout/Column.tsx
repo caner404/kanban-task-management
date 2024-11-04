@@ -1,7 +1,6 @@
-import { Task, TaskDetails } from '@/features/tasks';
+import { Task, TaskCard, TaskDetails } from '@/features/tasks';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useEffect, useRef, useState } from 'react';
-import { Card } from '../Card';
 import Modal from '../Modal';
 
 function Columns({
@@ -35,10 +34,7 @@ function Columns({
       {column.tasksByStatusId.map((task) => (
         <Modal.Root key={task.id}>
           <Modal.Open opens="task-details">
-            <Card
-              title={task.title}
-              description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
-            />
+            <TaskCard task={task} />
           </Modal.Open>
           <Modal.Window name="task-details">
             <TaskDetails task={task} />
