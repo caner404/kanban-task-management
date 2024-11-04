@@ -1,6 +1,6 @@
-import { useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { AddBoard, AddBoardColumn, Board } from '@/features/boards';
-import { selectTasksByBoardId } from '@/features/tasks';
+import { selectTasksByBoardId, Task, taskUpdated } from '@/features/tasks';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { ComponentProps, useEffect } from 'react';
 import Column from './Column';
@@ -8,6 +8,7 @@ import Column from './Column';
 type ButtonProps = ComponentProps<'main'> & { board: Board | null };
 export function Main(props: ButtonProps) {
   const { board } = props;
+  const dispatch = useAppDispatch();
 
   const tasks = useAppSelector((state) =>
     selectTasksByBoardId(state, board?.id ?? null),
@@ -27,11 +28,23 @@ export function Main(props: ButtonProps) {
   useEffect(() => {
     monitorForElements({
       onDrop({ source, location }) {
-        console.log(source.data);
-        console.log(location.current.dropTargets);
+        const draggedTask = source.data as Task;
+        const columnData = location.current.dropTargets[0].data;
+
+        const dropTargetColumn = board?.status.find(
+          (column) => column.name === columnData.statusName,
+        );
+        if (!dropTargetColumn) return;
+
+        dispatch(
+          taskUpdated({
+            ...draggedTask,
+            boardStatusId: dropTargetColumn.id,
+          }),
+        );
       },
     });
-  });
+  }, [board, dispatch]);
 
   if (!board) return <AddBoard />;
   if (!board.status?.length) return <AddBoardColumn />;

@@ -20,7 +20,7 @@ export function TaskCard({
       element: el,
       onDragStart: () => setDragging(true),
       onDrop: () => setDragging(false),
-      getInitialData: () => ({ task }),
+      getInitialData: () => task,
     });
   }, [task]);
 
