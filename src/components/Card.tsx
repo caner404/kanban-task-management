@@ -1,22 +1,24 @@
-export function Card({
-  title,
-  description,
-  onClick,
-}: {
+import { ComponentProps, forwardRef } from 'react';
+
+export type CardProps = ComponentProps<'div'> & {
   title: string;
   description: string;
-  onClick?: () => void; // onClick optional hinzufügen
-}) {
-  return (
-    <div
-      role="button"
-      onClick={onClick}
-      className="bg-white rounded-md py-6 px-4 drop-shadow-lg"
-    >
-      <div className="flex flex-col gap-2 hover:cursor-pointer">
-        <p className="text-md">{title}</p>
-        <p className="text-sm text-neutral">{description}</p>
+  onClick?: () => void;
+};
+export const Card = forwardRef<HTMLDivElement, CardProps>(
+  ({ title, description, onClick, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        role="button"
+        onClick={onClick}
+        className={`${props.className} rounded-md py-6 px-4 drop-shadow-lg bg-white hover:text-primary`}
+      >
+        <div className="flex flex-col gap-2 ">
+          <p className="text-md">{title}</p>
+          <p className="text-sm text-neutral">{description}</p>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  },
+);
