@@ -6,9 +6,11 @@ import { Task } from './types';
 export function TaskCard({
   task,
   onClick,
+  className,
 }: {
   task: Task;
   onClick?: () => void;
+  className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState<boolean>(false);
@@ -31,7 +33,7 @@ export function TaskCard({
       description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
       role="button"
       onClick={onClick}
-      className={`${dragging ? 'bg-neutral-light' : 'bg-white'}`}
+      className={`${dragging ? 'bg-opacity-70' : 'bg-white'} hover:cursor-grab focus-within:cursor-grab ${className}`}
     />
   );
 }

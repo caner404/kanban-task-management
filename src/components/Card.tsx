@@ -6,15 +6,15 @@ export type CardProps = ComponentProps<'div'> & {
   onClick?: () => void;
 };
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ title, description, onClick }, ref) => {
+  ({ title, description, onClick, ...props }, ref) => {
     return (
       <div
         ref={ref}
         role="button"
         onClick={onClick}
-        className={'rounded-md py-6 px-4 drop-shadow-lg bg-white'}
+        className={`${props.className} rounded-md py-6 px-4 drop-shadow-lg bg-white hover:text-primary`}
       >
-        <div className="flex flex-col gap-2 hover:cursor-pointer">
+        <div className="flex flex-col gap-2 ">
           <p className="text-md">{title}</p>
           <p className="text-sm text-neutral">{description}</p>
         </div>

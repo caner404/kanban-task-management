@@ -24,23 +24,25 @@ function Columns({
   }, [isDraggedOver, column]);
 
   return (
-    <div
-      ref={ref}
-      className={`${isDraggedOver ? 'bg-primary' : 'bg-danger'} flex flex-col gap-5 border-2`}
-    >
+    <div className="flex flex-col gap-3">
       <h3 className="text-sm text-neutral uppercase">
         {column.statusName} ({column.tasksByStatusId.length})
       </h3>
-      {column.tasksByStatusId.map((task) => (
-        <Modal.Root key={task.id}>
-          <Modal.Open opens="task-details">
-            <TaskCard task={task} />
-          </Modal.Open>
-          <Modal.Window name="task-details">
-            <TaskDetails task={task} />
-          </Modal.Window>
-        </Modal.Root>
-      ))}
+      <div
+        ref={ref}
+        className={`${isDraggedOver ? 'bg-neutral bg-opacity-25' : ''} flex-1 w-[280px]`}
+      >
+        {column.tasksByStatusId.map((task) => (
+          <Modal.Root key={task.id}>
+            <Modal.Open opens="task-details">
+              <TaskCard task={task} className="m-5" />
+            </Modal.Open>
+            <Modal.Window name="task-details">
+              <TaskDetails task={task} />
+            </Modal.Window>
+          </Modal.Root>
+        ))}
+      </div>
     </div>
   );
 }

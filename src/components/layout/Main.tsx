@@ -50,7 +50,7 @@ export function Main(props: ButtonProps) {
   if (!board.status?.length) return <AddBoardColumn />;
 
   return (
-    <main className="flex flex-1 gap-5 p-6 bg-neutral-light">
+    <main className="flex flex-1 gap-6 p-6 bg-neutral-light">
       {tasksByStatus.map((column, index) => (
         <Column key={index} column={column} />
       ))}
