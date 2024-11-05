@@ -1,9 +1,12 @@
 import { RootState } from '@/app/store';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  nanoid,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { Board, BoardStatus } from './types/Board';
 import { taskAdded } from '../tasks';
-
-const generateId = () => Math.random().toString(36).substr(2, 9);
 
 interface BoardsState {
   boards: Board[];
@@ -43,11 +46,11 @@ export const fetchBoards = createAsyncThunk(
     if (!response.ok) throw new Error('Failed to load data.json');
     const data = await response.json();
     const boards: Board[] = data.boards.map((boardData: BoardJSONData) => {
-      const boardId = generateId();
+      const boardId = nanoid();
 
       const statuses: BoardStatus[] = boardData.columns.map(
         (column: ColumnJSONData) => ({
-          id: generateId(),
+          id: nanoid(),
           name: column.name,
           boardId: boardId,
         }),
@@ -58,7 +61,7 @@ export const fetchBoards = createAsyncThunk(
         const boardStatusId =
           statuses.find((status) => status.name === column.name)?.id || '';
         column.tasks.forEach((taskData: TaskJSONData) => {
-          const taskId = generateId();
+          const taskId = nanoid();
           thunkAPI.dispatch(
             taskAdded({
               id: taskId,
@@ -67,10 +70,10 @@ export const fetchBoards = createAsyncThunk(
               boardId: boardId,
               boardStatusId: boardStatusId,
               subTasks: taskData.subtasks.map((subtask: SubtaskJSONData) => ({
-                id: generateId(),
+                id: nanoid(),
                 title: subtask.title,
                 isCompleted: subtask.isCompleted,
-                taskId: generateId(),
+                taskId: nanoid(),
               })),
             }),
           );
