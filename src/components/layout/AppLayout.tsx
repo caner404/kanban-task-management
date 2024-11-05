@@ -3,7 +3,7 @@ import { Main } from './Main';
 import { Header } from './Header';
 
 export function AppLayout() {
-  const boards = useAppSelector((state) => state.boards);
+  const boards = useAppSelector((state) => state.boards.boards);
 
   return (
     <div className="flex flex-col h-[100vh]">

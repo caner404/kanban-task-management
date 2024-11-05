@@ -68,16 +68,20 @@ export const OpenModalAddTask: Story = {
     (story) => (
       <BoardMockStore
         state={{
-          boardState: [
-            {
-              id: '1',
-              name: 'Moonlight Beach',
-              status: [
-                { id: '1', name: 'Todo', boardId: '1' },
-                { id: '2', name: 'Doing', boardId: '1' },
-              ],
-            },
-          ],
+          boardState: {
+            boards: [
+              {
+                id: '1',
+                name: 'Moonlight Beach',
+                status: [
+                  { id: '1', name: 'Todo', boardId: '1' },
+                  { id: '2', name: 'Doing', boardId: '1' },
+                ],
+              },
+            ],
+            loading: false,
+            error: '',
+          },
           taskState: [],
         }}
       >

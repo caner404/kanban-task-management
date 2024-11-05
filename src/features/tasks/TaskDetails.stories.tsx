@@ -51,16 +51,20 @@ export const Default: Story = {
     (story) => (
       <BoardMockStore
         state={{
-          boardState: [
-            {
-              id: '1',
-              name: 'Moonlight Sun',
-              status: [
-                { boardId: '1', id: '1', name: 'todo' },
-                { boardId: '1', id: '2', name: 'Doing' },
-              ],
-            },
-          ],
+          boardState: {
+            boards: [
+              {
+                id: '1',
+                name: 'Moonlight Sun',
+                status: [
+                  { boardId: '1', id: '1', name: 'todo' },
+                  { boardId: '1', id: '2', name: 'Doing' },
+                ],
+              },
+            ],
+            loading: false,
+            error: '',
+          },
           taskState: [mockTask],
         }}
       >
