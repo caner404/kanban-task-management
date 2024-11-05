@@ -73,7 +73,7 @@ export const fetchBoards = createAsyncThunk(
                 id: nanoid(),
                 title: subtask.title,
                 isCompleted: subtask.isCompleted,
-                taskId: nanoid(),
+                taskId: taskId,
               })),
             }),
           );
