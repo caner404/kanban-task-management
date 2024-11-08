@@ -4,13 +4,7 @@ export const buttonVariants = {
   primary: ['bg-primary', 'text-white'],
   secondary: ['bg-primary', 'bg-opacity-10', 'border-none', 'text-primary'],
   inline: ['bg-transparent'],
-  destructive: [
-    'bg-danger-600',
-    'text-white',
-    'border-transparent',
-    'hover:bg-danger-500',
-    'active:bg-danger-400',
-  ],
+  destructive: ['bg-danger', 'text-white', 'border-transparent'],
 } as const;
 
 export const sizes = {
