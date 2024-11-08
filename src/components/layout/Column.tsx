@@ -24,7 +24,7 @@ function Columns({
   }, [isDraggedOver, column]);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 ">
       <h3 className="text-sm text-neutral uppercase">
         {column.statusName} ({column.tasksByStatusId.length})
       </h3>
