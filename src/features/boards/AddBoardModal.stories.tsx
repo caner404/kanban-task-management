@@ -57,7 +57,12 @@ export const OpenModalAndAddBoard: Story = {
   },
   decorators: [
     (story) => (
-      <BoardMockStore state={{ boardState: mockBoard, taskState: [] }}>
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: [],
+        }}
+      >
         {story()}
       </BoardMockStore>
     ),

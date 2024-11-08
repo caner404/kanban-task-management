@@ -10,7 +10,10 @@ export const BoardMockStore = ({
   state,
   children,
 }: {
-  state: { boardState: Board[]; taskState: Task[] };
+  state: {
+    boardState: { boards: Board[]; loading: boolean; error?: string };
+    taskState: Task[];
+  };
   children: ReactNode;
 }) => (
   <Provider
@@ -74,7 +77,12 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (story) => (
-      <BoardMockStore state={{ boardState: mockBoard, taskState: mockTasks }}>
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: mockTasks,
+        }}
+      >
         {story()}
       </BoardMockStore>
     ),
@@ -89,7 +97,11 @@ export const NoColumns: Story = {
     (story) => (
       <BoardMockStore
         state={{
-          boardState: [{ id: '1', name: 'Moonlight Sun', status: [] }],
+          boardState: {
+            boards: [{ id: '1', name: 'Moonlight Sun', status: [] }],
+            loading: false,
+            error: '',
+          },
           taskState: [],
         }}
       >
@@ -104,7 +116,11 @@ export const NoProject: Story = {
     (story) => (
       <BoardMockStore
         state={{
-          boardState: [],
+          boardState: {
+            boards: [],
+            loading: false,
+            error: '',
+          },
           taskState: [],
         }}
       >

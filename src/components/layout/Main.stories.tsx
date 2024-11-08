@@ -16,7 +16,7 @@ const meta = {
       <div style={{ margin: '3rem' }}>
         <BoardMockStore
           state={{
-            boardState: [],
+            boardState: { boards: [], loading: false, error: '' },
             taskState: [],
           }}
         >
