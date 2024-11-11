@@ -67,8 +67,10 @@ export const selectColumnsCount = (
   return boardColumns.reduce(
     (acc, column) => {
       acc[column.name] = {
-        count: state.tasks.filter((task) => task.boardStatusId === column.id)
-          .length,
+        count: state.tasks.reduce(
+          (acc, task) => (task.boardStatusId === column.id ? (acc += 1) : acc),
+          0,
+        ),
       };
       return acc;
     },
