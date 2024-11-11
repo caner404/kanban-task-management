@@ -1,6 +1,7 @@
 import { RootState } from '@/app/store';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SubTask, Task } from './types/Task';
+import { BoardStatus } from '../boards';
 
 const initialState: Task[] = [];
 
@@ -57,6 +58,23 @@ export const selectSubTasksCompleted = createSelector(
     return task.subTasks.filter((subTask) => subTask.isCompleted);
   },
 );
+
+export const selectColumnsCount = (
+  state: RootState,
+  boardColumns: BoardStatus[] | undefined,
+): Record<string, { count: number }> => {
+  if (!boardColumns) return {};
+  return boardColumns.reduce(
+    (acc, column) => {
+      acc[column.name] = {
+        count: state.tasks.filter((task) => task.boardStatusId === column.id)
+          .length,
+      };
+      return acc;
+    },
+    {} as Record<string, { count: number }>,
+  );
+};
 
 export const { taskAdded, taskUpdated, subTaskUpdated } = tasksSlice.actions;
 export default tasksSlice.reducer;
