@@ -20,8 +20,46 @@ type Story = StoryObj<typeof BoardMenu>;
 export const Default: Story = {
   decorators: [
     (story) => (
-      <BoardMockStore state={{ boardState: mockBoard, taskState: [] }}>
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: [],
+        }}
+      >
         {story()}
+      </BoardMockStore>
+    ),
+  ],
+};
+
+export const EditBoard: Story = {
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: {
+            boards: [
+              {
+                id: '1',
+                name: 'Moonlight Sun',
+                status: [{ id: '1', name: 'Todod', boardId: '1' }],
+              },
+            ],
+            loading: false,
+            error: '',
+          },
+          taskState: [],
+        }}
+      >
+        {story({
+          args: {
+            board: {
+              id: '1',
+              name: 'Moonlight Sun',
+              status: [{ id: '1', name: 'Todo', boardId: '1' }],
+            },
+          },
+        })}
       </BoardMockStore>
     ),
   ],

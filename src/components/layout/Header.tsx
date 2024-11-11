@@ -1,5 +1,4 @@
-import { IconMenu } from '@/assets/IconMenu';
-import { Board } from '@/features/boards';
+import { Board, BoardMenu } from '@/features/boards';
 import { AddTaskModal } from '@/features/tasks';
 import iconChevronDown from '@assets/icon-chevron-down.svg';
 import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
@@ -42,7 +41,7 @@ export function Header({ board }: { board: Board | null }) {
             <IconAddTaskMobile />
           </Button>
           <AddTaskModal board={board} />
-          <IconMenu />
+          <BoardMenu board={board} />
         </>
       )}
     </div>

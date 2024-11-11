@@ -1,13 +1,15 @@
+import { useAppDispatch } from '@/app/hooks';
 import { Menu, MenuContent, MenuItem, MenuTrigger } from '@/components/menu';
 import Modal from '@/components/Modal';
 import { AddBoardForm, BoardFormValues } from './AddBoardForm';
-import { nanoid } from '@reduxjs/toolkit';
-import { boardAdded } from './boardsSlice';
-import { useAppDispatch } from '@/app/hooks';
+import { boardUpdated } from './boardsSlice';
 import DeleteBoardForm from './DeleteBoardForm';
+import { Board } from './types';
+import { nanoid } from '@reduxjs/toolkit';
 
-export function BoardMenu() {
+export function BoardMenu({ board }: { board: Board }) {
   const dispatch = useAppDispatch();
+
   return (
     <Menu>
       <MenuTrigger />
@@ -16,22 +18,26 @@ export function BoardMenu() {
           <Modal.Root>
             <Modal.Open opens="edit-board">
               <MenuItem>
-                <p className="text-neutral">edit board</p>
+                <p className="text-neutral">Edit board</p>
               </MenuItem>
             </Modal.Open>
             <Modal.Window name="edit-board">
               <AddBoardForm
+                editBoard={board}
                 onSubmit={(data: BoardFormValues) => {
-                  const boardId = nanoid();
                   dispatch(
-                    boardAdded({
-                      id: boardId,
+                    boardUpdated({
+                      id: board.id,
                       name: data.boardName,
-                      status: data.status.map((value) => ({
-                        id: nanoid(),
-                        name: value.statusName,
-                        boardId: boardId,
-                      })),
+                      status: data.status.map((value, index) => {
+                        return {
+                          id: board.status[index]
+                            ? board.status[index].id
+                            : nanoid(),
+                          boardId: board.id,
+                          name: value.statusName,
+                        };
+                      }),
                     }),
                   );
                 }}
@@ -44,11 +50,11 @@ export function BoardMenu() {
             <Modal.Root>
               <Modal.Open opens="delete-board">
                 <MenuItem>
-                  <p className="text-danger">delete board</p>
+                  <p className="text-danger">Delete board</p>
                 </MenuItem>
               </Modal.Open>
               <Modal.Window name="delete-board">
-                <DeleteBoardForm />
+                <DeleteBoardForm board={board} />
               </Modal.Window>
             </Modal.Root>
           </MenuItem>

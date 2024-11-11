@@ -100,6 +100,13 @@ export const boardsSlice = createSlice({
         status: action.payload.status,
       });
     },
+    boardUpdated(state, action: PayloadAction<Board>) {
+      const { id, name, status } = action.payload;
+      const updateBoard = state.boards.find((board) => board.id === id);
+      if (!updateBoard) throw new Error('Board not found');
+      updateBoard.name = name ?? updateBoard.name;
+      updateBoard.status = status ?? updateBoard.status;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -111,7 +118,6 @@ export const boardsSlice = createSlice({
         fetchBoards.fulfilled,
         (state, action: PayloadAction<{ boards: Board[] }>) => {
           state.boards = action.payload.boards;
-          console.log(state.boards);
           state.loading = false;
         },
       )
@@ -128,5 +134,5 @@ export const selectBoardById = (state: RootState, boardId: string) => {
   return board;
 };
 
-export const { boardAdded } = boardsSlice.actions;
+export const { boardAdded, boardUpdated } = boardsSlice.actions;
 export default boardsSlice.reducer;

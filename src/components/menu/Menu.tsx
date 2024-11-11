@@ -5,6 +5,8 @@ import {
   PropsWithChildren,
   SetStateAction,
   useContext,
+  useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -21,10 +23,28 @@ const useMenuContext = () => useContext(MenuContext);
 
 export function Menu({ children }: PropsWithChildren) {
   const [isVisible, setIsVisible] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      console.log(event.target);
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsVisible(false);
+      }
+    }
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   return (
     <MenuContext.Provider value={{ isVisible, setIsVisible }}>
-      <div className="relative flex flex-col justify-center items-center gap-2">
+      <div
+        ref={menuRef}
+        className="relative flex flex-col justify-center items-center gap-2"
+      >
         {children}
       </div>
     </MenuContext.Provider>
@@ -49,7 +69,7 @@ export function MenuContent({ children }: PropsWithChildren) {
   const { isVisible } = useMenuContext();
   return (
     <ul
-      className={`${isVisible ? 'block' : 'hidden'} p-4 rounded-lg bg-white flex flex-col gap-4`}
+      className={`${isVisible ? 'flex' : 'hidden'} absolute p-4 rounded-lg bg-white flex-col gap-4 right-0 w-[200px] top-16 drop-shadow-md`}
     >
       {children}
     </ul>

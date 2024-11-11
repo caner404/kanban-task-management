@@ -3,6 +3,7 @@ import { Button } from '@/components/Button';
 import { Input, Label, Textbox } from '@/components/form';
 
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { Board } from './types';
 
 interface Column {
   statusName: string;
@@ -16,9 +17,11 @@ export interface BoardFormValues {
 export function AddBoardForm({
   onSubmit,
   onClose,
+  editBoard,
 }: {
   onSubmit: (data: BoardFormValues) => void;
   onClose?: () => void; //comes from Modal Component
+  editBoard?: Board;
 }) {
   const onSubmitForm: SubmitHandler<BoardFormValues> = (data) => {
     onSubmit(data);
@@ -27,8 +30,10 @@ export function AddBoardForm({
 
   const { register, handleSubmit, control } = useForm<BoardFormValues>({
     defaultValues: {
-      boardName: '',
-      status: [{ statusName: '' }, { statusName: '' }],
+      boardName: editBoard?.name ?? '',
+      status: editBoard?.status.map((value) => {
+        return { statusName: value.name };
+      }) ?? [{ statusName: '' }],
     },
   });
 
@@ -43,7 +48,7 @@ export function AddBoardForm({
       onSubmit={handleSubmit(onSubmitForm)}
       data-testid="addBoardForm"
     >
-      <h2 className="text-lg">Add Board</h2>
+      <h2 className="text-lg"> {editBoard ? 'Edit' : 'Add'} Board</h2>
       <div className="flex flex-col gap-6">
         <Textbox
           placeholder="e.g Web Design"
@@ -72,7 +77,7 @@ export function AddBoardForm({
         </Button>
       </div>
       <Button variant="primary" name="addBoardFormBtn">
-        Create new Board
+        {editBoard ? 'Save Changes' : 'Create new Board'}
       </Button>
     </form>
   );
