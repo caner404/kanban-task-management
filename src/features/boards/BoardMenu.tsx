@@ -11,8 +11,8 @@ export function BoardMenu({ board }: { board: Board }) {
   const dispatch = useAppDispatch();
 
   return (
-    <Menu>
-      <MenuTrigger />
+    <Menu data-testid="board-menu">
+      <MenuTrigger data-testid="board-menu-trigger" />
       <MenuContent>
         <MenuItem>
           <Modal.Root>

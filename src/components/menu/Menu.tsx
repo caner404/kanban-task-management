@@ -1,5 +1,6 @@
 import { IconMenu } from '@/assets/IconMenu';
 import {
+  ComponentProps,
   createContext,
   Dispatch,
   PropsWithChildren,
@@ -21,13 +22,15 @@ const MenuContext = createContext<MenuContextType>({
 });
 const useMenuContext = () => useContext(MenuContext);
 
-export function Menu({ children }: PropsWithChildren) {
+export function Menu({
+  children,
+  ...props
+}: PropsWithChildren & ComponentProps<'div'>) {
   const [isVisible, setIsVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      console.log(event.target);
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsVisible(false);
       }
@@ -42,6 +45,7 @@ export function Menu({ children }: PropsWithChildren) {
   return (
     <MenuContext.Provider value={{ isVisible, setIsVisible }}>
       <div
+        {...props}
         ref={menuRef}
         className="relative flex flex-col justify-center items-center gap-2"
       >
@@ -51,7 +55,7 @@ export function Menu({ children }: PropsWithChildren) {
   );
 }
 
-export function MenuTrigger() {
+export function MenuTrigger({ ...props }: ComponentProps<'div'>) {
   const { setIsVisible } = useMenuContext();
   function handleClick(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
@@ -59,7 +63,7 @@ export function MenuTrigger() {
   }
 
   return (
-    <div onClick={handleClick} className="hover:cursor-pointer p-4">
+    <div {...props} onClick={handleClick} className="hover:cursor-pointer p-4">
       <IconMenu />
     </div>
   );
