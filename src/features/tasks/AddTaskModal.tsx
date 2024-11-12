@@ -8,7 +8,9 @@ export function AddTaskModal({ board }: { board: Board }) {
     <div>
       <Modal.Root>
         <Modal.Open opens="task-form">
-          <Button name="addTaskBtn"> + Add New Task</Button>
+          <Button name="addTaskBtn" disabled={board.status.length === 0}>
+            + Add New Task
+          </Button>
         </Modal.Open>
         <Modal.Window name="task-form">
           <AddTaskForm board={board} />
