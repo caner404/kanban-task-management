@@ -13,6 +13,7 @@
     "cy:open": "cypress open",
     "storybook": "storybook dev -p 6006",
     "test-storybook": "test-storybook",
+    "test-storybook-watch": "test-storybook --watch",
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic --project-token=chpt_bffc79eae59b803",
     "prepare": "husky || true"
@@ -42,6 +43,7 @@
     "@storybook/test-runner": "^0.19.1",
     "@testing-library/dom": "^10.3.2",
     "@testing-library/react": "^16.0.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.2.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

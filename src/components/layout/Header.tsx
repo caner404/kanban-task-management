@@ -26,7 +26,9 @@ export function Header({ board }: { board: Board | null }) {
       {board && (
         <>
           <div className="flex gap-2 justify-center items-center sm:mr-auto sm:h-full">
-            <h1 className="text-lg">{board.name}</h1>
+            <h1 className="text-lg" data-testid="board-header-name">
+              {board.name}
+            </h1>
             <img
               src={iconChevronDown}
               alt="logo kanban tablet"

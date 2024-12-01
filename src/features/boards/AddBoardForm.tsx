@@ -94,7 +94,11 @@ export function AddBoardForm({
           + Add New Column
         </Button>
       </div>
-      <Button variant="primary" name="addBoardFormBtn">
+      <Button
+        variant="primary"
+        name="addBoardFormBtn"
+        data-testid="saveBoardButton"
+      >
         {editBoard ? 'Save Changes' : 'Create new Board'}
       </Button>
     </form>

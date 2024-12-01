@@ -1,12 +1,16 @@
 import { Task, TaskCard, TaskDetails } from '@/features/tasks';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { useEffect, useRef, useState } from 'react';
+import { ComponentProps, useEffect, useRef, useState } from 'react';
 import Modal from '../Modal';
 
 function Columns({
   column,
+  ...props
 }: {
-  column: { statusName: string; tasksByStatusId: Task[] };
+  column: {
+    statusName: string;
+    tasksByStatusId: Task[];
+  } & ComponentProps<'div'>;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [isDraggedOver, setIsDraggedOver] = useState(false);
@@ -24,7 +28,7 @@ function Columns({
   }, [isDraggedOver, column]);
 
   return (
-    <div className="flex flex-col gap-3 ">
+    <div className="flex flex-col gap-3 " {...props}>
       <h3 className="text-sm text-neutral uppercase">
         {column.statusName} ({column.tasksByStatusId.length})
       </h3>
