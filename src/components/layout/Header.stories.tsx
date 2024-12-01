@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { BoardMockStore, mockTasks } from './AppLayout.stories';
 import { Header } from './Header';
 
 const meta = {
@@ -26,11 +27,52 @@ export const Default: Story = {
       ],
     },
   },
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: {
+            boards: [
+              {
+                id: '1',
+                name: 'Moonspring Valley',
+                status: [
+                  { id: '1', name: 'Todo', boardId: '1' },
+                  { id: '2', name: 'Doing', boardId: '1' },
+                ],
+              },
+            ],
+            loading: false,
+            error: '',
+          },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
 };
 export const ProjectEmpty: Story = {
   args: {
     board: null,
   },
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: {
+            boards: null!,
+            loading: false,
+            error: '',
+          },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
 };
 export const ProjectWithoutColumns: Story = {
   args: {
@@ -40,4 +82,26 @@ export const ProjectWithoutColumns: Story = {
       status: [],
     },
   },
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: {
+            boards: [
+              {
+                id: '1',
+                name: 'Moonspring Valley',
+                status: [],
+              },
+            ],
+            loading: false,
+            error: '',
+          },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
 };

@@ -2,6 +2,7 @@ import { Board, boardsSlice } from '@/features/boards';
 import { openModalAndAddTaskPlay, Task, tasksSlice } from '@/features/tasks';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, screen, userEvent, waitFor, within } from '@storybook/test';
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { AppLayout } from './AppLayout';
@@ -89,6 +90,56 @@ export const Default: Story = {
   ],
   play: async ({ context }) => {
     openModalAndAddTaskPlay(context);
+  },
+};
+
+export const EditBoard: Story = {
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const boardmenuTrigger = canvas.getByTestId('board-menu-trigger');
+    await userEvent.click(boardmenuTrigger);
+    await userEvent.click(canvas.getByText(/Edit/));
+
+    const addBoardForm = screen.getByTestId('addBoardForm');
+    await expect(addBoardForm).toBeInTheDocument();
+
+    await userEvent.clear(within(addBoardForm).getByLabelText('Board Name'));
+    await userEvent.type(
+      within(addBoardForm).getByLabelText('Board Name'),
+      'Moonlight Sun',
+    );
+    await userEvent.clear(
+      within(addBoardForm).getByTestId('status.0.statusName'),
+    );
+    await userEvent.type(
+      within(addBoardForm).getByTestId('status.0.statusName'),
+      'todo test',
+    );
+
+    await userEvent.click(
+      within(addBoardForm).getByRole('button', { name: '+ Add New Column' }),
+    );
+    await userEvent.type(
+      within(addBoardForm).getByTestId('status.2.statusName'),
+      'Done',
+    );
+
+    await userEvent.click(
+      await within(addBoardForm).findByRole('button', { name: /Save Changes/ }),
+    );
+    await waitFor(() => expect(addBoardForm).not.toBeInTheDocument());
   },
 };
 

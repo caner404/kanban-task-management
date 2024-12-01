@@ -52,7 +52,11 @@ export function Main(props: ButtonProps) {
   return (
     <main className="flex flex-1 gap-6 p-6 bg-neutral-light overflow-x-auto">
       {tasksByStatus.map((column, index) => (
-        <Column key={index} column={column} />
+        <Column
+          key={index}
+          column={column}
+          data-testid={`column-${index + 1}`}
+        />
       ))}
     </main>
   );

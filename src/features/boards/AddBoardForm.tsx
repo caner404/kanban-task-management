@@ -3,9 +3,13 @@ import { Button } from '@/components/Button';
 import { Input, Label, Textbox } from '@/components/form';
 
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { Board } from './types';
+import { useAppSelector } from '@/app/hooks';
+import { selectColumnsCount } from '../tasks';
 
 interface Column {
   statusName: string;
+  count: number;
 }
 
 export interface BoardFormValues {
@@ -16,19 +20,31 @@ export interface BoardFormValues {
 export function AddBoardForm({
   onSubmit,
   onClose,
+  editBoard,
 }: {
   onSubmit: (data: BoardFormValues) => void;
   onClose?: () => void; //comes from Modal Component
+  editBoard?: Board;
 }) {
   const onSubmitForm: SubmitHandler<BoardFormValues> = (data) => {
     onSubmit(data);
     onClose?.();
   };
 
+  const columnCounts = useAppSelector((state) =>
+    selectColumnsCount(state, editBoard?.status),
+  );
+
+  console.log(columnCounts);
   const { register, handleSubmit, control } = useForm<BoardFormValues>({
     defaultValues: {
-      boardName: '',
-      status: [{ statusName: '' }, { statusName: '' }],
+      boardName: editBoard?.name ?? '',
+      status: editBoard?.status.map((value) => {
+        return {
+          statusName: value.name,
+          count: columnCounts[value.name] ? columnCounts[value.name].count : 0,
+        };
+      }) ?? [{ statusName: '', count: 0 }],
     },
   });
 
@@ -43,7 +59,7 @@ export function AddBoardForm({
       onSubmit={handleSubmit(onSubmitForm)}
       data-testid="addBoardForm"
     >
-      <h2 className="text-lg">Add Board</h2>
+      <h2 className="text-lg"> {editBoard ? 'Edit' : 'Add'} Board</h2>
       <div className="flex flex-col gap-6">
         <Textbox
           placeholder="e.g Web Design"
@@ -61,18 +77,29 @@ export function AddBoardForm({
                 id={`status.${index}.statusName`}
                 {...register(`status.${index}.statusName`, { required: true })}
               />
-              <Button variant="inline" onClick={() => remove(index)}>
+              <Button
+                variant="inline"
+                onClick={() => remove(index)}
+                disabled={field.count > 1}
+              >
                 <IconCross />
               </Button>
             </div>
           ))}
         </div>
-        <Button variant="secondary" onClick={() => append({ statusName: '' })}>
+        <Button
+          variant="secondary"
+          onClick={() => append({ statusName: '', count: 0 })}
+        >
           + Add New Column
         </Button>
       </div>
-      <Button variant="primary" name="addBoardFormBtn">
-        Create new Board
+      <Button
+        variant="primary"
+        name="addBoardFormBtn"
+        data-testid="saveBoardButton"
+      >
+        {editBoard ? 'Save Changes' : 'Create new Board'}
       </Button>
     </form>
   );

@@ -65,3 +65,9 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
+
+export const Destructive: Story = {
+  args: {
+    variant: 'destructive',
+  },
+};

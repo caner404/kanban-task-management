@@ -1,5 +1,4 @@
-import { IconMenu } from '@/assets/IconMenu';
-import { Board } from '@/features/boards';
+import { Board, BoardMenu } from '@/features/boards';
 import { AddTaskModal } from '@/features/tasks';
 import iconChevronDown from '@assets/icon-chevron-down.svg';
 import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
@@ -27,7 +26,9 @@ export function Header({ board }: { board: Board | null }) {
       {board && (
         <>
           <div className="flex gap-2 justify-center items-center sm:mr-auto sm:h-full">
-            <h1 className="text-lg">{board.name}</h1>
+            <h1 className="text-lg" data-testid="board-header-name">
+              {board.name}
+            </h1>
             <img
               src={iconChevronDown}
               alt="logo kanban tablet"
@@ -35,14 +36,14 @@ export function Header({ board }: { board: Board | null }) {
             />
           </div>
           <Button
-            disabled={!(board.status.length > 0)}
+            disabled={board.status.length > 0}
             size="small"
             className="block sm:hidden"
           >
             <IconAddTaskMobile />
           </Button>
           <AddTaskModal board={board} />
-          <IconMenu />
+          <BoardMenu board={board} />
         </>
       )}
     </div>

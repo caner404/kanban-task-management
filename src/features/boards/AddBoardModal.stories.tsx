@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within, screen } from '@storybook/test';
+import { expect, userEvent, within, screen, waitFor } from '@storybook/test';
 import { AddBoardModal } from './AddBoardModal';
 import {
   BoardMockStore,
@@ -43,12 +43,15 @@ export const openModalAndAddBoardPlay = async ({
     'Todo',
   );
 
+  await userEvent.click(
+    within(addBoardForm).getByRole('button', { name: '+ Add New Column' }),
+  );
   await userEvent.type(
     within(addBoardForm).getByTestId('status.1.statusName'),
     'Doing',
   );
   await userEvent.click(within(addBoardForm).getByText('Create new Board'));
-  await expect(addBoardForm).not.toBeInTheDocument();
+  await waitFor(() => expect(addBoardForm).not.toBeInTheDocument());
 };
 
 export const OpenModalAndAddBoard: Story = {
