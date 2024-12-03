@@ -143,6 +143,48 @@ export const EditBoard: Story = {
   },
 };
 
+export const DeleteBoard: Story = {
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const boardmenuTrigger = canvas.getByTestId('board-menu-trigger');
+    await userEvent.click(boardmenuTrigger);
+    await userEvent.click(canvas.getByText(/Delete/i));
+
+    const deleteBoard = screen.getByTestId('deleteBoard');
+    const deleteButton = screen.getByRole('button', { name: /delete/i });
+
+    await userEvent.click(deleteButton);
+
+    await waitFor(() => expect(deleteBoard).not.toBeInTheDocument());
+
+    await waitFor(() =>
+      expect(screen.queryByTestId('board-header-name')).not.toBeInTheDocument(),
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole('button', { name: /add new task/i }),
+      ).not.toBeInTheDocument(),
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByTestId('board-menu')).not.toBeInTheDocument(),
+    );
+  },
+};
+
 export const NoColumns: Story = {
   decorators: [
     (story) => (

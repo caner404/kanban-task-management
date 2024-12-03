@@ -107,6 +107,11 @@ export const boardsSlice = createSlice({
       updateBoard.name = name ?? updateBoard.name;
       updateBoard.status = status ?? updateBoard.status;
     },
+    boarddDeleted(state, action: PayloadAction<Board>) {
+      const { id } = action.payload;
+      const boards = state.boards.filter((board) => board.id !== id);
+      state.boards = boards;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -134,5 +139,5 @@ export const selectBoardById = (state: RootState, boardId: string) => {
   return board;
 };
 
-export const { boardAdded, boardUpdated } = boardsSlice.actions;
+export const { boardAdded, boardUpdated, boarddDeleted } = boardsSlice.actions;
 export default boardsSlice.reducer;
