@@ -28,6 +28,7 @@ function DeleteBoardForm({
         <Button
           className="flex-1"
           variant="destructive"
+          data-testid="deleteBoardBtn"
           onClick={handleDeleteBoard}
         >
           Delete

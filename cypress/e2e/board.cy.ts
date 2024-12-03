@@ -23,9 +23,23 @@ describe('board', () => {
 
     cy.get('[data-testid="saveBoardButton"]').click();
 
-    cy.get('[data-testid="column-1"]').contains('Not Started');
-    cy.get('[data-testid="column-2"]').contains('In Progress');
-    cy.get('[data-testid="column-3"]').contains('Finished');
-    cy.get('[data-testid="board-header-name"]').contains('Moonspring Risen');
+    cy.get('[data-testid="column-1"]').should('contain', 'Not Started');
+    cy.get('[data-testid="column-2"]').should('contain', 'In Progress');
+    cy.get('[data-testid="column-3"]').should('contain', 'Finished');
+    cy.get('[data-testid="board-header-name"]').should(
+      'contain',
+      'Moonspring Risen',
+    );
+  });
+
+  it('should delete a board ', () => {
+    cy.get('[data-testid="board-menu"]').click();
+    cy.contains('Delete board').click();
+    cy.get('[data-testid="deleteBoardBtn"]').click();
+
+    cy.get('[data-testid="board-header-name"]').should(
+      'not.be',
+      'Plattform Launch',
+    );
   });
 });
