@@ -38,6 +38,10 @@ export const tasksSlice = createSlice({
       updateSubTask.isCompleted = isCompleted;
       updateSubTask.title = title;
     },
+    tasksDeleted(state, action: PayloadAction<Task[]>) {
+      const tasksToDelete = action.payload;
+      state = state.filter((task) => !tasksToDelete.includes(task));
+    },
   },
 });
 
@@ -78,5 +82,6 @@ export const selectColumnsCount = (
   );
 };
 
-export const { taskAdded, taskUpdated, subTaskUpdated } = tasksSlice.actions;
+export const { taskAdded, taskUpdated, subTaskUpdated, tasksDeleted } =
+  tasksSlice.actions;
 export default tasksSlice.reducer;

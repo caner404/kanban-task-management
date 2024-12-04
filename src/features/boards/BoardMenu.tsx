@@ -1,14 +1,23 @@
-import { useAppDispatch } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { Menu, MenuContent, MenuItem, MenuTrigger } from '@/components/menu';
 import Modal from '@/components/Modal';
+import { nanoid } from '@reduxjs/toolkit';
+import { selectTasksByBoardId, tasksDeleted } from '../tasks';
 import { AddBoardForm, BoardFormValues } from './AddBoardForm';
-import { boardUpdated } from './boardsSlice';
+import { boarddDeleted, boardUpdated } from './boardsSlice';
 import DeleteBoardForm from './DeleteBoardForm';
 import { Board } from './types';
-import { nanoid } from '@reduxjs/toolkit';
 
 export function BoardMenu({ board }: { board: Board }) {
   const dispatch = useAppDispatch();
+  const tasks = useAppSelector((state) =>
+    selectTasksByBoardId(state, board?.id ?? null),
+  );
+
+  function handleDelete() {
+    dispatch(boarddDeleted(board));
+    dispatch(tasksDeleted(tasks));
+  }
 
   return (
     <Menu data-testid="board-menu">
@@ -54,7 +63,10 @@ export function BoardMenu({ board }: { board: Board }) {
                 </MenuItem>
               </Modal.Open>
               <Modal.Window name="delete-board">
-                <DeleteBoardForm board={board} />
+                <DeleteBoardForm
+                  board={board}
+                  onDelete={() => handleDelete()}
+                />
               </Modal.Window>
             </Modal.Root>
           </MenuItem>
