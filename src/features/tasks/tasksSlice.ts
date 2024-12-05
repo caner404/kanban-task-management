@@ -20,18 +20,33 @@ export const tasksSlice = createSlice({
       });
     },
     taskUpdated(state, action: PayloadAction<Task>) {
-      const { id, boardId, boardStatusId, description, subTasks, title } =
+      console.log('taskUpdated');
+      const { id, boardStatusId, description, subTasks, title } =
         action.payload;
-      const updateTask = state.find((task) => task.id === id);
-      if (!updateTask) throw new Error('Task not found');
-      (updateTask.boardId = boardId),
-        (updateTask.boardStatusId = boardStatusId);
-      updateTask.description = description;
-      (updateTask.subTasks = subTasks), (updateTask.title = title);
+
+      console.log(state);
+      const index = state.findIndex((task) => task.id === id);
+      if (index === -1) {
+        throw new Error('Task not found');
+      }
+
+      console.log(index);
+
+      console.log(state[index]);
+
+      state[index] = {
+        ...state[index],
+        title,
+        description,
+        subTasks,
+        boardStatusId,
+      };
     },
     subTaskUpdated(state, action: PayloadAction<SubTask>) {
+      console.log('subTaskUpdated');
       const { id, taskId, isCompleted, title } = action.payload;
       const task = state.find((task) => task.id === taskId);
+      console.log(state);
       if (!task) throw new Error('task not found');
       const updateSubTask = task.subTasks.find((subTask) => subTask.id === id);
       if (!updateSubTask) throw new Error('updateSubTask not found');

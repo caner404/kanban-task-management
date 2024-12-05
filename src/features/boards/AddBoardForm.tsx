@@ -34,8 +34,6 @@ export function AddBoardForm({
   const columnCounts = useAppSelector((state) =>
     selectColumnsCount(state, editBoard?.status),
   );
-
-  console.log(columnCounts);
   const { register, handleSubmit, control } = useForm<BoardFormValues>({
     defaultValues: {
       boardName: editBoard?.name ?? '',

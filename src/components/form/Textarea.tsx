@@ -14,7 +14,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={id}
           placeholder={props.placeholder}
           aria-labelledby="textarea-lbl"
-          className={`resize-none rounded border border-neutral border-opacity-25 px-4 py-2 text-base placeholder:opacity-25 text-black`}
+          className={`resize-none rounded border border-neutral border-opacity-25 px-4 py-2 text-base placeholder:opacity-25 text-black h-28`}
         />
       </div>
     );

@@ -1,7 +1,7 @@
-import { Task, TaskCard, TaskDetails } from '@/features/tasks';
+import { Task } from '@/features/tasks';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
-import Modal from '../Modal';
+import { TaskModal } from '../../features/tasks/TaskModal';
 
 function Columns({
   column,
@@ -37,14 +37,7 @@ function Columns({
         className={`${isDraggedOver ? 'bg-neutral bg-opacity-25' : ''} flex-1 w-[280px]`}
       >
         {column.tasksByStatusId.map((task) => (
-          <Modal.Root key={task.id}>
-            <Modal.Open opens="task-details">
-              <TaskCard task={task} className="m-5" />
-            </Modal.Open>
-            <Modal.Window name="task-details">
-              <TaskDetails task={task} />
-            </Modal.Window>
-          </Modal.Root>
+          <TaskModal task={task} key={task.id} />
         ))}
       </div>
     </div>

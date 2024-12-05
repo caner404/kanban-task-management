@@ -185,6 +185,66 @@ export const DeleteBoard: Story = {
   },
 };
 
+export const EditTask: Story = {
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const taskCard = canvas.getByRole('button', {
+      name: /coffee break/i,
+    });
+
+    await userEvent.click(taskCard);
+
+    const taskmenuTrigger = screen.getByTestId('task-menu-trigger');
+    await userEvent.click(taskmenuTrigger);
+    await userEvent.click(screen.getByText(/Edit Task/i));
+
+    const taskForm = screen.getByTestId('addTaskForm');
+    await userEvent.clear(within(taskForm).getByLabelText('Title'));
+    await userEvent.type(
+      within(taskForm).getByLabelText('Title'),
+      'Coffe break with friend and family',
+    );
+    await userEvent.clear(within(taskForm).getByLabelText('Description'));
+    await userEvent.type(
+      within(taskForm).getByLabelText('Description'),
+      'I want to chill with family and friends and drink coffee and tea ',
+    );
+
+    await userEvent.type(
+      within(taskForm).getByTestId('subTasks.0.subTask'),
+      'Buy coffee and snacks',
+    );
+
+    await userEvent.click(
+      within(taskForm).getByRole('button', {
+        name: /\+ add new subtask/i,
+      }),
+    );
+
+    await userEvent.type(
+      within(taskForm).getByTestId('subTasks.1.subTask'),
+      'invite friends',
+    );
+
+    await userEvent.click(
+      await within(taskForm).findByRole('button', { name: /Save Changes/ }),
+    );
+    await waitFor(() => expect(taskForm).not.toBeInTheDocument());
+  },
+};
+
 export const NoColumns: Story = {
   decorators: [
     (story) => (

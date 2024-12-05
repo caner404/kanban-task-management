@@ -7,6 +7,7 @@ import {
   subTaskUpdated,
   taskUpdated,
 } from './tasksSlice';
+import { TaskMenu } from './Taskmenu';
 
 export function TaskDetails({ task }: { task: Task }) {
   const dispatch = useAppDispatch();
@@ -15,9 +16,14 @@ export function TaskDetails({ task }: { task: Task }) {
     selectSubTasksCompleted(state, task.id),
   );
 
+  if (!board) return <div>No Board to this task was found</div>;
+
   return (
     <div className="flex flex-col gap-6 w-[480px] p-6">
-      <h2 className="text-lg">{task.title}</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-lg">{task.title}</h2>
+        <TaskMenu task={task} currentBoard={board} />
+      </div>
       <p className="text-base text-neutral">{task.description}</p>
       <Label>
         Subtasks ({subTasksCompleted.length} of {task.subTasks.length})
