@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { TaskDetails } from './TaskDetails';
-import { BoardMockStore } from '@/components/layout/AppLayout.stories';
+import {
+  BoardMockStore,
+  mockBoard,
+} from '@/components/layout/AppLayout.stories';
 import { Task } from './types';
 
 const meta = {
@@ -51,20 +54,7 @@ export const Default: Story = {
     (story) => (
       <BoardMockStore
         state={{
-          boardState: {
-            boards: [
-              {
-                id: '1',
-                name: 'Moonlight Sun',
-                status: [
-                  { boardId: '1', id: '1', name: 'todo' },
-                  { boardId: '1', id: '2', name: 'Doing' },
-                ],
-              },
-            ],
-            loading: false,
-            error: '',
-          },
+          boardState: { boards: mockBoard, loading: false, error: '' },
           taskState: [mockTask],
         }}
       >

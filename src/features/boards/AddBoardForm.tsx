@@ -34,8 +34,6 @@ export function AddBoardForm({
   const columnCounts = useAppSelector((state) =>
     selectColumnsCount(state, editBoard?.status),
   );
-
-  console.log(columnCounts);
   const { register, handleSubmit, control } = useForm<BoardFormValues>({
     defaultValues: {
       boardName: editBoard?.name ?? '',
@@ -98,6 +96,7 @@ export function AddBoardForm({
         variant="primary"
         name="addBoardFormBtn"
         data-testid="saveBoardButton"
+        type="submit"
       >
         {editBoard ? 'Save Changes' : 'Create new Board'}
       </Button>

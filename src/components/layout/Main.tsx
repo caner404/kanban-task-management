@@ -13,7 +13,6 @@ export function Main(props: ButtonProps) {
   const tasks = useAppSelector((state) =>
     selectTasksByBoardId(state, board?.id ?? null),
   );
-
   const tasksByStatus =
     board?.status?.map((value) => {
       const tasksByStatusId = tasks.filter(

@@ -13,7 +13,8 @@ import {
 } from '@/components/form';
 import { nanoid } from '@reduxjs/toolkit';
 import { Board } from '@/features/boards';
-import { taskAdded } from './tasksSlice';
+import { taskAdded, taskUpdated } from './tasksSlice';
+import { Task } from './types';
 
 export interface TaskFormValues {
   title: string;
@@ -24,47 +25,74 @@ export interface TaskFormValues {
 
 export function AddTaskForm({
   board,
+  editTask,
   onClose,
 }: {
   board: Board;
+  editTask?: Task;
   onClose?: () => void; //comes from Modal Component
 }) {
   const dispatch = useAppDispatch();
   const onSubmitForm: SubmitHandler<TaskFormValues> = (data) => {
+    console.log('save');
     const boardStatus = board.status.filter(
       (value) => value.name === data.column,
     )[0];
 
-    const taskId = nanoid();
-    dispatch(
-      taskAdded({
-        id: taskId,
-        title: data.title,
-        description: data.description,
-
-        subTasks: data.subTasks.map((subTask) => {
-          return {
-            id: nanoid(),
-            title: subTask.subTask,
-            isCompleted: false,
-            taskId: taskId,
-          };
+    if (editTask) {
+      dispatch(
+        taskUpdated({
+          ...editTask,
+          title: data.title,
+          description: data.description,
+          boardStatusId: boardStatus.id,
+          subTasks: data.subTasks.map((subTaskTitle) => {
+            const foundSubTask = editTask.subTasks.find((subTask) => {
+              subTask.title === subTaskTitle.subTask;
+            });
+            return foundSubTask
+              ? foundSubTask
+              : {
+                  id: nanoid(),
+                  title: subTaskTitle.subTask,
+                  isCompleted: false,
+                  taskId: editTask.id,
+                };
+          }),
         }),
-        boardId: board.id,
-        boardStatusId: boardStatus.id,
-      }),
-    );
+      );
+    } else {
+      const taskId = nanoid();
+      dispatch(
+        taskAdded({
+          id: taskId,
+          title: data.title,
+          description: data.description,
 
+          subTasks: data.subTasks.map((subTask) => {
+            return {
+              id: nanoid(),
+              title: subTask.subTask,
+              isCompleted: false,
+              taskId: taskId,
+            };
+          }),
+          boardId: board.id,
+          boardStatusId: boardStatus.id,
+        }),
+      );
+    }
     onClose?.();
   };
+  const defaultSubTasks = editTask
+    ? editTask.subTasks.map((subTask) => ({ subTask: subTask.title }))
+    : [{ subTask: '' }];
 
   const { register, handleSubmit, control } = useForm<TaskFormValues>({
     defaultValues: {
-      subTasks: [
-        {
-          subTask: '',
-        },
-      ],
+      title: editTask ? editTask.title : '',
+      description: editTask?.description ?? '',
+      subTasks: defaultSubTasks,
     },
   });
 
@@ -76,10 +104,10 @@ export function AddTaskForm({
   return (
     <form
       className="flex flex-col gap-6 w-[480px] p-8"
-      onSubmit={handleSubmit(onSubmitForm)}
       data-testid="addTaskForm"
+      onSubmit={handleSubmit(onSubmitForm)}
     >
-      <h2 className="text-lg">Add New Task</h2>
+      <h2 className="text-lg">{editTask ? 'Edit Task' : 'Add New Task'}</h2>
       <div className="flex flex-col gap-6">
         <Textbox
           placeholder="e.g Take coffee break"
@@ -113,7 +141,12 @@ export function AddTaskForm({
             </div>
           ))}
         </div>
-        <Button variant="secondary" onClick={() => append({ subTask: '' })}>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            append({ subTask: '' });
+          }}
+        >
           + Add New SubTask
         </Button>
       </div>
@@ -129,8 +162,13 @@ export function AddTaskForm({
         </Select>
       </div>
 
-      <Button variant="primary" name="addTaskFormBtn">
-        Create new Task
+      <Button
+        variant="primary"
+        name="addTaskFormBtn"
+        data-testid="submitTaskFormBtn"
+        type="submit"
+      >
+        {editTask ? 'Save Changes' : 'Create new Task'}
       </Button>
     </form>
   );

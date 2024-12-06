@@ -10,11 +10,13 @@ export const Button = ({
   size = 'small',
   disabled = false,
   children,
+  type = 'button',
   ...props
 }: ButtonProps) => {
   return (
     <button
       {...props}
+      type={type}
       disabled={disabled}
       className={`${props.className} ${variants({ variant, size, disabled })}`}
     >
