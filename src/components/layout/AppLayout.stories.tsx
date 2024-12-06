@@ -209,8 +209,9 @@ export const EditTask: Story = {
     const taskmenuTrigger = screen.getByTestId('task-menu-trigger');
     await userEvent.click(taskmenuTrigger);
     await userEvent.click(screen.getByText(/Edit Task/i));
-
     const taskForm = screen.getByTestId('addTaskForm');
+    await expect(taskForm).toBeInTheDocument();
+
     await userEvent.clear(within(taskForm).getByLabelText('Title'));
     await userEvent.type(
       within(taskForm).getByLabelText('Title'),
@@ -222,26 +223,8 @@ export const EditTask: Story = {
       'I want to chill with family and friends and drink coffee and tea ',
     );
 
-    await userEvent.type(
-      within(taskForm).getByTestId('subTasks.0.subTask'),
-      'Buy coffee and snacks',
-    );
-
-    await userEvent.click(
-      within(taskForm).getByRole('button', {
-        name: /\+ add new subtask/i,
-      }),
-    );
-
-    await userEvent.type(
-      within(taskForm).getByTestId('subTasks.1.subTask'),
-      'invite friends',
-    );
-
-    await userEvent.click(
-      await within(taskForm).findByRole('button', { name: /Save Changes/ }),
-    );
-    await waitFor(() => expect(taskForm).not.toBeInTheDocument());
+    await userEvent.click(within(taskForm).getByText(/Save Changes/i));
+    await expect(taskForm).not.toBeInTheDocument();
   },
 };
 

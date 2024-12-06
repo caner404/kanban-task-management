@@ -20,19 +20,12 @@ export const tasksSlice = createSlice({
       });
     },
     taskUpdated(state, action: PayloadAction<Task>) {
-      console.log('taskUpdated');
       const { id, boardStatusId, description, subTasks, title } =
         action.payload;
-
-      console.log(state);
       const index = state.findIndex((task) => task.id === id);
       if (index === -1) {
         throw new Error('Task not found');
       }
-
-      console.log(index);
-
-      console.log(state[index]);
 
       state[index] = {
         ...state[index],

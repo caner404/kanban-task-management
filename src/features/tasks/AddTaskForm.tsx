@@ -34,6 +34,7 @@ export function AddTaskForm({
 }) {
   const dispatch = useAppDispatch();
   const onSubmitForm: SubmitHandler<TaskFormValues> = (data) => {
+    console.log('save');
     const boardStatus = board.status.filter(
       (value) => value.name === data.column,
     )[0];
@@ -87,8 +88,6 @@ export function AddTaskForm({
     ? editTask.subTasks.map((subTask) => ({ subTask: subTask.title }))
     : [{ subTask: '' }];
 
-  defaultSubTasks.push({ subTask: '' });
-
   const { register, handleSubmit, control } = useForm<TaskFormValues>({
     defaultValues: {
       title: editTask ? editTask.title : '',
@@ -105,8 +104,8 @@ export function AddTaskForm({
   return (
     <form
       className="flex flex-col gap-6 w-[480px] p-8"
-      onSubmit={handleSubmit(onSubmitForm)}
       data-testid="addTaskForm"
+      onSubmit={handleSubmit(onSubmitForm)}
     >
       <h2 className="text-lg">{editTask ? 'Edit Task' : 'Add New Task'}</h2>
       <div className="flex flex-col gap-6">
@@ -142,7 +141,12 @@ export function AddTaskForm({
             </div>
           ))}
         </div>
-        <Button variant="secondary" onClick={() => append({ subTask: '' })}>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            append({ subTask: '' });
+          }}
+        >
           + Add New SubTask
         </Button>
       </div>
@@ -158,7 +162,12 @@ export function AddTaskForm({
         </Select>
       </div>
 
-      <Button variant="primary" name="addTaskFormBtn">
+      <Button
+        variant="primary"
+        name="addTaskFormBtn"
+        data-testid="submitTaskFormBtn"
+        type="submit"
+      >
         {editTask ? 'Save Changes' : 'Create new Task'}
       </Button>
     </form>
