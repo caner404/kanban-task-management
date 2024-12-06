@@ -88,9 +88,6 @@ export const Default: Story = {
       </BoardMockStore>
     ),
   ],
-  play: async ({ context }) => {
-    openModalAndAddTaskPlay(context);
-  },
 };
 
 export const EditBoard: Story = {
@@ -182,6 +179,24 @@ export const DeleteBoard: Story = {
     await waitFor(() =>
       expect(screen.queryByTestId('board-menu')).not.toBeInTheDocument(),
     );
+  },
+};
+
+export const AddTask: Story = {
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
+  play: async ({ context }) => {
+    openModalAndAddTaskPlay(context);
   },
 };
 
