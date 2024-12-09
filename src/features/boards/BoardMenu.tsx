@@ -1,11 +1,16 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { Menu, MenuContent, MenuItem, MenuTrigger } from '@/components/menu';
+import {
+  DeleteDialog,
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuTrigger,
+} from '@/components/menu';
 import Modal from '@/components/Modal';
 import { nanoid } from '@reduxjs/toolkit';
 import { selectTasksByBoardId, tasksDeleted } from '../tasks';
 import { AddBoardForm, BoardFormValues } from './AddBoardForm';
 import { boarddDeleted, boardUpdated } from './boardsSlice';
-import DeleteBoardForm from './DeleteBoardForm';
 import { Board } from './types';
 
 export function BoardMenu({ board }: { board: Board }) {
@@ -18,6 +23,8 @@ export function BoardMenu({ board }: { board: Board }) {
     dispatch(boarddDeleted(board));
     dispatch(tasksDeleted(tasks));
   }
+
+  if (!board) return <div>No Board was found</div>;
 
   return (
     <Menu data-testid="board-menu">
@@ -63,8 +70,9 @@ export function BoardMenu({ board }: { board: Board }) {
                 </MenuItem>
               </Modal.Open>
               <Modal.Window name="delete-board">
-                <DeleteBoardForm
-                  board={board}
+                <DeleteDialog
+                  type="board"
+                  description={`Are you sure you want to delete the '${board.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
                   onDelete={() => handleDelete()}
                 />
               </Modal.Window>

@@ -4,11 +4,14 @@ export type CardProps = ComponentProps<'div'> & {
   title: string;
   description: string;
   onClick?: () => void;
+  dataTestid?: string;
 };
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ title, description, onClick, ...props }, ref) => {
+  ({ title, description, onClick, dataTestid, ...props }, ref) => {
     return (
       <div
+        {...props}
+        data-testid={dataTestid}
         ref={ref}
         role="button"
         onClick={onClick}

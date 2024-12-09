@@ -159,7 +159,7 @@ export const DeleteBoard: Story = {
     await userEvent.click(boardmenuTrigger);
     await userEvent.click(canvas.getByText(/Delete/i));
 
-    const deleteBoard = screen.getByTestId('deleteBoard');
+    const deleteBoard = screen.getByTestId('deleteDialog');
     const deleteButton = screen.getByRole('button', { name: /delete/i });
 
     await userEvent.click(deleteButton);
@@ -240,6 +240,41 @@ export const EditTask: Story = {
 
     await userEvent.click(within(taskForm).getByText(/Save Changes/i));
     await expect(taskForm).not.toBeInTheDocument();
+  },
+};
+
+export const DeleteTask: Story = {
+  decorators: [
+    (story) => (
+      <BoardMockStore
+        state={{
+          boardState: { boards: mockBoard, loading: false, error: '' },
+          taskState: mockTasks,
+        }}
+      >
+        {story()}
+      </BoardMockStore>
+    ),
+  ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const taskCard = canvas.getByRole('button', {
+      name: /coffee break/i,
+    });
+
+    await userEvent.click(taskCard);
+
+    const taskmenuTrigger = screen.getByTestId('task-menu-trigger');
+    await userEvent.click(taskmenuTrigger);
+    await userEvent.click(screen.getByText(/Delete Task/i));
+    const deleteDialog = screen.getByTestId('deleteDialog');
+    await expect(deleteDialog).toBeInTheDocument();
+
+    await userEvent.click(
+      within(deleteDialog).getByRole('button', { name: /delete/i }),
+    );
+
+    await waitFor(() => expect(deleteDialog).not.toBeInTheDocument());
   },
 };
 

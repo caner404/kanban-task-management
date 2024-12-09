@@ -6,7 +6,7 @@ describe('task', () => {
   });
 
   it('should edit a task', () => {
-    cy.get('[data-testid="column-1"] > ul > :nth-child(1)').first().click();
+    cy.get('[data-testid="column-1"] [data-testid="task-1"]').first().click();
     cy.get("[data-testid='task-menu-trigger']").click();
     cy.contains(/edit task/i).click();
 
@@ -28,5 +28,17 @@ describe('task', () => {
     );
 
     cy.get('[data-testid="submitTaskFormBtn"]').click();
+  });
+
+  it('should delete a task', () => {
+    cy.get('[data-testid="column-1"] [data-testid="task-1"]').click();
+    cy.get("[data-testid='task-menu-trigger']").click();
+    cy.contains(/delete task/i).click();
+
+    cy.get("[data-testid='deleteDialogBtn']").click();
+
+    cy.get('[data-testid="column-1"] [data-testid="task-1"]')
+      .contains('Build UI for onboarding flow')
+      .should('not.exist');
   });
 });
