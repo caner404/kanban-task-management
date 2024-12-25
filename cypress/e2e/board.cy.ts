@@ -35,7 +35,7 @@ describe('board', () => {
   it('should delete a board ', () => {
     cy.get('[data-testid="board-menu"]').click();
     cy.contains('Delete board').click();
-    cy.get('[data-testid="deleteBoardBtn"]').click();
+    cy.get('[data-testid="deleteDialogBtn"]').click();
 
     cy.get('[data-testid="board-header-name"]').should(
       'not.be',

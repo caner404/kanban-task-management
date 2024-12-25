@@ -7,10 +7,12 @@ export function TaskCard({
   task,
   onClick,
   className,
+  dataTestid,
 }: {
   task: Task;
   onClick?: () => void;
   className?: string;
+  dataTestid?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [dragging, setDragging] = useState<boolean>(false);
@@ -34,6 +36,7 @@ export function TaskCard({
       role="button"
       onClick={onClick}
       className={`${dragging ? 'bg-opacity-70' : 'bg-white'} hover:cursor-grab focus-within:cursor-grab ${className}`}
+      dataTestid={dataTestid}
     />
   );
 }

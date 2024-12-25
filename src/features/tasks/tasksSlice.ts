@@ -48,7 +48,8 @@ export const tasksSlice = createSlice({
     },
     tasksDeleted(state, action: PayloadAction<Task[]>) {
       const tasksToDelete = action.payload;
-      state = state.filter((task) => !tasksToDelete.includes(task));
+      const taskIdsToRemove = tasksToDelete.map((task) => task.id);
+      return state.filter((task) => !taskIdsToRemove.includes(task.id));
     },
   },
 });
