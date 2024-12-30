@@ -36,10 +36,8 @@ export const tasksSlice = createSlice({
       };
     },
     subTaskUpdated(state, action: PayloadAction<SubTask>) {
-      console.log('subTaskUpdated');
       const { id, taskId, isCompleted, title } = action.payload;
       const task = state.find((task) => task.id === taskId);
-      console.log(state);
       if (!task) throw new Error('task not found');
       const updateSubTask = task.subTasks.find((subTask) => subTask.id === id);
       if (!updateSubTask) throw new Error('updateSubTask not found');
@@ -57,8 +55,11 @@ export const tasksSlice = createSlice({
 export const selectTasksByBoardId = createSelector(
   [(state: RootState) => state.tasks, (_, boardId: string | null) => boardId],
   (tasks: Task[], boardId: string | null) => {
+    console.log(boardId);
     if (!boardId) return [];
-    return tasks.filter((task) => task.boardId === boardId);
+    const tasksByBoardId = tasks.filter((task) => task.boardId === boardId);
+    console.log(tasksByBoardId);
+    return tasksByBoardId;
   },
 );
 

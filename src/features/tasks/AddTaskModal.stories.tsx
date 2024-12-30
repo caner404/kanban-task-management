@@ -1,13 +1,34 @@
+import { KanbanMockStore } from '@/app/ReduxMockStore';
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within, screen } from '@storybook/test';
+import { expect, screen, userEvent, within } from '@storybook/test';
+import { testBoards } from '../boards';
 import { AddTaskModal } from './AddTaskModal';
-import { BoardMockStore } from '@/components/layout/AppLayout.stories';
+import { testTasks } from './data';
 
 const meta = {
   title: 'tasks/AddTaskModal',
   component: AddTaskModal,
   tags: ['autodocs'],
   excludeStories: ['openModalAndAddTaskPlay'],
+  decorators: [
+    (story) => (
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: testBoards,
+              loading: false,
+              error: '',
+              activeBoard: testBoards[0],
+            },
+            taskState: testTasks,
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
+    ),
+  ],
   parameters: {
     layout: 'centered',
   },
@@ -64,30 +85,5 @@ export const OpenModalAddTask: Story = {
       ],
     },
   },
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: {
-            boards: [
-              {
-                id: '1',
-                name: 'Moonlight Beach',
-                status: [
-                  { id: '1', name: 'Todo', boardId: '1' },
-                  { id: '2', name: 'Doing', boardId: '1' },
-                ],
-              },
-            ],
-            loading: false,
-            error: '',
-          },
-          taskState: [],
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: openModalAndAddTaskPlay,
 };

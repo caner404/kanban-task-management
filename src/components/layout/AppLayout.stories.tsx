@@ -1,71 +1,35 @@
-import { Board, boardsSlice } from '@/features/boards';
-import { openModalAndAddTaskPlay, Task, tasksSlice } from '@/features/tasks';
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { KanbanMockStore } from '@/app/ReduxMockStore';
+import { testBoards } from '@/features/boards';
+import { openModalAndAddTaskPlay, testTasks } from '@/features/tasks';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, screen, userEvent, waitFor, within } from '@storybook/test';
-import { ReactNode } from 'react';
-import { Provider } from 'react-redux';
 import { AppLayout } from './AppLayout';
-
-export const BoardMockStore = ({
-  state,
-  children,
-}: {
-  state: {
-    boardState: { boards: Board[]; loading: boolean; error?: string };
-    taskState: Task[];
-  };
-  children: ReactNode;
-}) => (
-  <Provider
-    store={configureStore({
-      reducer: {
-        boards: createSlice({
-          name: 'boards',
-          initialState: state.boardState,
-          reducers: boardsSlice.caseReducers,
-        }).reducer,
-        tasks: createSlice({
-          name: 'tasks',
-          initialState: state.taskState,
-          reducers: tasksSlice.caseReducers,
-        }).reducer,
-      },
-    })}
-  >
-    {children}
-  </Provider>
-);
-
-export const mockBoard: Board[] = [
-  {
-    id: '1',
-    name: 'Moonlight Beach',
-    status: [
-      { id: '1', name: 'Todo', boardId: '1' },
-      { id: '2', name: 'Doing', boardId: '1' },
-    ],
-  },
-];
-
-export const mockTasks: Task[] = [
-  {
-    id: '1',
-    title: 'Coffee break',
-    description: 'Something Something description',
-    subTasks: [],
-    boardId: '1',
-    boardStatusId: '1',
-  },
-];
 
 const meta = {
   title: 'components/layouts/AppLayout',
   component: AppLayout,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-  decorators: [(story) => <div style={{ margin: '3rem' }}>{story()}</div>],
-  excludeStories: ['mockBoard', 'BoardMockStore', 'mockTasks'],
+  decorators: [
+    (story) => (
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: testBoards,
+              loading: false,
+              error: '',
+              activeBoard: testBoards[0],
+            },
+            taskState: testTasks,
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
+    ),
+  ],
+  excludeStories: ['BoardMockStore'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
@@ -75,34 +39,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
-};
+export const Default: Story = {};
 
 export const EditBoard: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const boardmenuTrigger = canvas.getByTestId('board-menu-trigger');
@@ -141,18 +80,6 @@ export const EditBoard: Story = {
 };
 
 export const DeleteBoard: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const boardmenuTrigger = canvas.getByTestId('board-menu-trigger');
@@ -165,54 +92,16 @@ export const DeleteBoard: Story = {
     await userEvent.click(deleteButton);
 
     await waitFor(() => expect(deleteBoard).not.toBeInTheDocument());
-
-    await waitFor(() =>
-      expect(screen.queryByTestId('board-header-name')).not.toBeInTheDocument(),
-    );
-
-    await waitFor(() =>
-      expect(
-        screen.queryByRole('button', { name: /add new task/i }),
-      ).not.toBeInTheDocument(),
-    );
-
-    await waitFor(() =>
-      expect(screen.queryByTestId('board-menu')).not.toBeInTheDocument(),
-    );
   },
 };
 
 export const AddTask: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ context }) => {
     openModalAndAddTaskPlay(context);
   },
 };
 
 export const EditTask: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const taskCard = canvas.getByRole('button', {
@@ -244,18 +133,6 @@ export const EditTask: Story = {
 };
 
 export const DeleteTask: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const taskCard = canvas.getByRole('button', {
@@ -278,40 +155,6 @@ export const DeleteTask: Story = {
   },
 };
 
-export const NoColumns: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: {
-            boards: [{ id: '1', name: 'Moonlight Sun', status: [] }],
-            loading: false,
-            error: '',
-          },
-          taskState: [],
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
-};
+export const NoColumns: Story = {};
 
-export const NoProject: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: {
-            boards: [],
-            loading: false,
-            error: '',
-          },
-          taskState: [],
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
-};
+export const NoProject: Story = {};

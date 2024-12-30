@@ -1,16 +1,32 @@
+import { KanbanMockStore } from '@/app/ReduxMockStore';
 import type { Meta, StoryObj } from '@storybook/react';
+import { testBoards } from '../boards';
+import { testTasks } from './data';
 import { TaskDetails } from './TaskDetails';
-import {
-  BoardMockStore,
-  mockBoard,
-} from '@/components/layout/AppLayout.stories';
-import { Task } from './types';
 
 const meta = {
   title: 'tasks/TaskDetails',
   component: TaskDetails,
   tags: ['autodocs'],
-  excludeStories: ['mockTask'],
+  decorators: [
+    (story) => (
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: testBoards,
+              loading: false,
+              error: '',
+              activeBoard: testBoards[0],
+            },
+            taskState: testTasks,
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
+    ),
+  ],
   parameters: {
     layout: 'centered',
   },
@@ -19,50 +35,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const mockTask: Task = {
-  id: '1',
-  title:
-    'Research pricing points of various competitors and trial different business models',
-  description:
-    "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
-  boardId: '1',
-  boardStatusId: '1',
-  subTasks: [
-    {
-      id: '1',
-      title: 'Research competitor pricing and business models',
-      isCompleted: true,
-      taskId: '1',
-    },
-    {
-      id: '2',
-      title: 'Outline a business model that works for our solution',
-      isCompleted: true,
-      taskId: '1',
-    },
-    {
-      id: '3',
-      title: 'Surveying and testing',
-      isCompleted: false,
-      taskId: '1',
-    },
-  ],
-};
-
 export const Default: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: [mockTask],
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   args: {
-    task: mockTask,
+    task: testTasks[0],
   },
 };

@@ -5,7 +5,6 @@ import { useAppDispatch } from './hooks';
 
 function App() {
   const dispatch = useAppDispatch();
-  //const { boards, loading, error } = useAppSelector((state) => state.boards);
 
   useEffect(() => {
     dispatch(fetchBoards());

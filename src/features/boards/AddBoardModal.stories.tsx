@@ -1,10 +1,9 @@
+import { KanbanMockStore } from '@/app/ReduxMockStore';
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent, within, screen, waitFor } from '@storybook/test';
+import { expect, screen, userEvent, waitFor, within } from '@storybook/test';
+import { testTasks } from '../tasks';
 import { AddBoardModal } from './AddBoardModal';
-import {
-  BoardMockStore,
-  mockBoard,
-} from '@/components/layout/AppLayout.stories';
+import { testBoards } from './data';
 
 const meta = {
   title: 'boards/AddBoardModal',
@@ -13,6 +12,25 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
+  decorators: [
+    (story) => (
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: testBoards,
+              loading: false,
+              error: '',
+              activeBoard: testBoards[0],
+            },
+            taskState: testTasks,
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
+    ),
+  ],
   excludeStories: ['openModalAndAddBoardPlay'],
   argTypes: {
     onSubmit: { type: 'function', control: false },
@@ -58,17 +76,5 @@ export const OpenModalAndAddBoard: Story = {
   args: {
     onSubmit: () => {},
   },
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: [],
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: openModalAndAddBoardPlay,
 };

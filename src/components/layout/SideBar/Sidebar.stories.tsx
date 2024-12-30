@@ -1,15 +1,13 @@
-import { KanbanMockStore } from '@/app/ReduxMockStore';
-import type { Meta, StoryObj } from '@storybook/react';
-import { testTasks } from '../tasks';
-import { BoardMenu } from './BoardMenu';
-import { testBoards } from './data';
+import { testBoards } from '@/features/boards';
 
-const meta: Meta<typeof BoardMenu> = {
-  title: 'boards/BoardMenu',
-  component: BoardMenu,
-  parameters: {
-    layout: 'centered',
-  },
+import type { Meta, StoryObj } from '@storybook/react';
+import { Sidebar } from './Sidebar';
+import { KanbanMockStore } from '@/app/ReduxMockStore';
+import { testTasks } from '@/features/tasks';
+
+const meta = {
+  title: 'components/layouts/Sidebar',
+  component: Sidebar,
   tags: ['autodocs'],
   decorators: [
     (story) => (
@@ -30,13 +28,17 @@ const meta: Meta<typeof BoardMenu> = {
       </div>
     ),
   ],
-} satisfies Meta<typeof BoardMenu>;
+  parameters: {
+    layout: 'fullscreen',
+  },
+} satisfies Meta<typeof Sidebar>;
 
 export default meta;
-type Story = StoryObj<typeof BoardMenu>;
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-
-export const EditBoard: Story = {
-  args: { board: testBoards[0] },
+export const Default: Story = {
+  args: {
+    activeBoard: testBoards[0],
+    boards: testBoards,
+  },
 };

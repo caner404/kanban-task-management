@@ -10,12 +10,14 @@ import { taskAdded } from '../tasks';
 
 interface BoardsState {
   boards: Board[];
+  activeBoard: Board;
   loading: boolean;
   error?: string;
 }
 
 const initialState: BoardsState = {
   boards: [],
+  activeBoard: {} as Board,
   loading: false,
 };
 
@@ -83,6 +85,7 @@ export const fetchBoards = createAsyncThunk(
       return { id: boardId, name: boardData.name, status: statuses };
     });
 
+    console.log(boards);
     return {
       boards,
     };
@@ -111,6 +114,13 @@ export const boardsSlice = createSlice({
       const { id } = action.payload;
       const boards = state.boards.filter((board) => board.id !== id);
       state.boards = boards;
+      state.activeBoard = state.boards.length > 1 ? boards[0] : null!;
+    },
+    updateActiveBoard(state, action: PayloadAction<Board>) {
+      const { id } = action.payload;
+      const board = state.boards.find((board) => board.id === id);
+      if (board === undefined) throw new Error('Board not found');
+      state.activeBoard = board;
     },
   },
   extraReducers: (builder) => {
@@ -123,6 +133,7 @@ export const boardsSlice = createSlice({
         fetchBoards.fulfilled,
         (state, action: PayloadAction<{ boards: Board[] }>) => {
           state.boards = action.payload.boards;
+          state.activeBoard = action.payload.boards[0];
           state.loading = false;
         },
       )
@@ -139,5 +150,6 @@ export const selectBoardById = (state: RootState, boardId: string) => {
   return board;
 };
 
-export const { boardAdded, boardUpdated, boarddDeleted } = boardsSlice.actions;
+export const { boardAdded, boardUpdated, boarddDeleted, updateActiveBoard } =
+  boardsSlice.actions;
 export default boardsSlice.reducer;

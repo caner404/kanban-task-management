@@ -6,6 +6,7 @@ export * from './BoardMenu';
 
 export * from './boardsSlice';
 export * from './types';
+export * from './data';
 
 export * from './AddBoardModal.stories';
 export * from './BoardMenu.stories';
