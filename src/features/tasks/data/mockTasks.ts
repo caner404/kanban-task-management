@@ -57,14 +57,14 @@ export const testTasks: Task[] = [
     description: 'coffee breaks are important',
     boardId: 'board-1',
     boardStatusId: 'status-2',
-    subTasks: testSubTasks.filter((subTask) => subTask.taskId === 'task-2'),
+    subTasks: testSubTasks.filter((subTask) => subTask.taskId === 'task-3'),
   },
   {
-    id: 'task-3',
+    id: 'task-4',
     title: 'Launch product',
     description: 'Deploy the final version to production',
     boardId: 'board-2',
     boardStatusId: 'status-5',
-    subTasks: testSubTasks.filter((subTask) => subTask.taskId === 'task-3'),
+    subTasks: testSubTasks.filter((subTask) => subTask.taskId === 'task-4'),
   },
 ];

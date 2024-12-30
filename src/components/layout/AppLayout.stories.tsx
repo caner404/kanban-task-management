@@ -155,6 +155,56 @@ export const DeleteTask: Story = {
   },
 };
 
-export const NoColumns: Story = {};
+export const NoColumns: Story = {
+  decorators: [
+    (story) => (
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: [
+                {
+                  id: 'board-1',
+                  name: 'Play GTA 6',
+                  status: [],
+                },
+              ],
+              activeBoard: {
+                id: 'board-1',
+                name: 'Play GTA 6',
+                status: [],
+              },
+              loading: false,
+              error: '',
+            },
+            taskState: [],
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
+    ),
+  ],
+};
 
-export const NoProject: Story = {};
+export const NoProject: Story = {
+  decorators: [
+    (story) => (
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: [],
+              loading: false,
+              error: '',
+              activeBoard: null!,
+            },
+            taskState: [],
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
+    ),
+  ],
+};

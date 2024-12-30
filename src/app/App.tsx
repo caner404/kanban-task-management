@@ -9,6 +9,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchBoards());
   }, [dispatch]);
+
   return (
     <div className="flex flex-col h-[100vh]">
       <AppLayout />

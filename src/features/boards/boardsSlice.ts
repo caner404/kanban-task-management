@@ -10,14 +10,14 @@ import { taskAdded } from '../tasks';
 
 interface BoardsState {
   boards: Board[];
-  activeBoard: Board;
+  activeBoard: Board | null;
   loading: boolean;
   error?: string;
 }
 
 const initialState: BoardsState = {
   boards: [],
-  activeBoard: {} as Board,
+  activeBoard: null,
   loading: false,
 };
 
@@ -85,7 +85,6 @@ export const fetchBoards = createAsyncThunk(
       return { id: boardId, name: boardData.name, status: statuses };
     });
 
-    console.log(boards);
     return {
       boards,
     };

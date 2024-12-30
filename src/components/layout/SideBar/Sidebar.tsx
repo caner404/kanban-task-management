@@ -8,7 +8,7 @@ export function Sidebar({
   activeBoard,
 }: {
   boards: Board[];
-  activeBoard: Board;
+  activeBoard: Board | null;
 }) {
   const dispatch = useAppDispatch();
 
@@ -26,7 +26,7 @@ export function Sidebar({
           <li key={board.id}>
             <SidebarListItem
               title={board.name}
-              variant={activeBoard.id === board.id ? 'active' : 'default'}
+              variant={activeBoard?.id === board.id ? 'active' : 'default'}
               onClick={() => handleSelectBoard(board)}
             />
           </li>

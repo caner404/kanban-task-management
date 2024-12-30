@@ -16,8 +16,7 @@ export function TaskDetails({ task }: { task: Task }) {
     selectSubTasksCompleted(state, task.id),
   );
 
-  if (!board) return <div>No Board to this task was found</div>;
-
+  if (!board) return;
   return (
     <div className="flex flex-col gap-6 w-[480px] p-6">
       <div className="flex justify-between items-center">

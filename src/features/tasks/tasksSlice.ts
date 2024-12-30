@@ -55,10 +55,8 @@ export const tasksSlice = createSlice({
 export const selectTasksByBoardId = createSelector(
   [(state: RootState) => state.tasks, (_, boardId: string | null) => boardId],
   (tasks: Task[], boardId: string | null) => {
-    console.log(boardId);
     if (!boardId) return [];
     const tasksByBoardId = tasks.filter((task) => task.boardId === boardId);
-    console.log(tasksByBoardId);
     return tasksByBoardId;
   },
 );
@@ -68,7 +66,7 @@ export const selectSubTasksCompleted = createSelector(
   (tasks: Task[], taskId: string | null) => {
     if (!taskId) return [];
     const task = tasks.find((task) => task.id === taskId);
-    if (!task) throw new Error('task not found');
+    if (!task) return [];
     return task.subTasks.filter((subTask) => subTask.isCompleted);
   },
 );
