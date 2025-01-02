@@ -41,6 +41,52 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const CreateBoard: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const createBoardBtn = canvas.getByRole('button', {
+      name: /create/i,
+    });
+
+    await userEvent.click(createBoardBtn);
+
+    const addBoardForm = screen.getByTestId('addBoardForm');
+    await expect(addBoardForm).toBeInTheDocument();
+
+    await userEvent.clear(within(addBoardForm).getByLabelText('Board Name'));
+    await userEvent.type(
+      within(addBoardForm).getByLabelText('Board Name'),
+      'Moonlight Sun',
+    );
+    await userEvent.clear(
+      within(addBoardForm).getByTestId('status.0.statusName'),
+    );
+    await userEvent.type(
+      within(addBoardForm).getByTestId('status.0.statusName'),
+      'todo',
+    );
+
+    await userEvent.click(
+      within(addBoardForm).getByRole('button', { name: '+ Add New Column' }),
+    );
+    await userEvent.type(
+      within(addBoardForm).getByTestId('status.1.statusName'),
+      'Done',
+    );
+
+    await userEvent.click(
+      await within(addBoardForm).findByRole('button', {
+        name: /create new board/i,
+      }),
+    );
+    await waitFor(() => expect(addBoardForm).not.toBeInTheDocument());
+
+    expect(screen.getByTestId('board-header-name')).toHaveTextContent(
+      'Moonlight Sun',
+    );
+  },
+};
+
 export const EditBoard: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -61,15 +107,19 @@ export const EditBoard: Story = {
     );
     await userEvent.type(
       within(addBoardForm).getByTestId('status.0.statusName'),
-      'todo test',
+      'todo',
     );
 
     await userEvent.click(
       within(addBoardForm).getByRole('button', { name: '+ Add New Column' }),
     );
+
+    await userEvent.clear(
+      within(addBoardForm).getByTestId('status.3.statusName'),
+    );
     await userEvent.type(
-      within(addBoardForm).getByTestId('status.2.statusName'),
-      'Done',
+      within(addBoardForm).getByTestId('status.3.statusName'),
+      'Testing',
     );
 
     await userEvent.click(

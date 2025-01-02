@@ -96,11 +96,13 @@ export const boardsSlice = createSlice({
   initialState: initialState,
   reducers: {
     boardAdded(state, action: PayloadAction<Board>) {
-      state.boards.push({
+      const newBoard = {
         id: action.payload.id,
         name: action.payload.name,
         status: action.payload.status,
-      });
+      };
+      state.boards.push(newBoard);
+      state.activeBoard = newBoard;
     },
     boardUpdated(state, action: PayloadAction<Board>) {
       const { id, name, status } = action.payload;

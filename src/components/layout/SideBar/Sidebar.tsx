@@ -1,19 +1,14 @@
 import { IconDarkTheme, IconHideSidebar, IconLightTheme } from '@/assets';
 import { SidebarListItem } from './SideBarListItem';
-import { Board, updateActiveBoard } from '@/features/boards';
-import { useAppDispatch } from '@/app/hooks';
+import { AddBoardModal, Board, updateActiveBoard } from '@/features/boards';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 
-export function Sidebar({
-  boards,
-  activeBoard,
-}: {
-  boards: Board[];
-  activeBoard: Board | null;
-}) {
+export function Sidebar() {
   const dispatch = useAppDispatch();
+  const boards = useAppSelector((state) => state.boards.boards);
+  const activeBoard = useAppSelector((state) => state.boards.activeBoard);
 
   function handleSelectBoard(board: Board) {
-    console.log(`Select new board ${board.name}`);
     dispatch(updateActiveBoard(board));
   }
   return (
@@ -31,7 +26,9 @@ export function Sidebar({
             />
           </li>
         ))}
-        <SidebarListItem title="+ Create new Board" variant="create" />
+        <AddBoardModal>
+          <SidebarListItem title="+ Create new Board" variant="create" />
+        </AddBoardModal>
       </ul>
       <div className="flex items-center justify-center gap-6 mt-auto mx-4 p-4 rounded-xl bg-neutral-light">
         <IconLightTheme />

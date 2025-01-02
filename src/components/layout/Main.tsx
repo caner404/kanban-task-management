@@ -1,14 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { AddBoard, AddBoardColumn, Board } from '@/features/boards';
+import { AddBoard, AddBoardColumn } from '@/features/boards';
 import { selectTasksByBoardId, Task, taskUpdated } from '@/features/tasks';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { ComponentProps, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Column from './Column';
 
-type ButtonProps = ComponentProps<'main'> & { board: Board | null };
-export function Main(props: ButtonProps) {
-  const { board } = props;
+export function Main() {
   const dispatch = useAppDispatch();
+  const board = useAppSelector((state) => state.boards.activeBoard);
 
   const tasks = useAppSelector((state) =>
     selectTasksByBoardId(state, board?.id ?? null),

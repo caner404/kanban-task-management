@@ -71,24 +71,30 @@ export const selectSubTasksCompleted = createSelector(
   },
 );
 
-export const selectColumnsCount = (
-  state: RootState,
-  boardColumns: BoardStatus[] | undefined,
-): Record<string, { count: number }> => {
-  if (!boardColumns) return {};
-  return boardColumns.reduce(
-    (acc, column) => {
-      acc[column.name] = {
-        count: state.tasks.reduce(
-          (acc, task) => (task.boardStatusId === column.id ? (acc += 1) : acc),
-          0,
-        ),
-      };
-      return acc;
-    },
-    {} as Record<string, { count: number }>,
-  );
-};
+const selectTasks = (state: RootState) => state.tasks;
+const selectBoardColumns = (_: RootState, boardColumns?: BoardStatus[]) =>
+  boardColumns;
+
+export const selectColumnsCount = createSelector(
+  [selectTasks, selectBoardColumns],
+  (tasks, boardColumns) => {
+    if (!boardColumns) return {};
+
+    return boardColumns.reduce(
+      (acc, column) => {
+        acc[column.name] = {
+          count: tasks.reduce(
+            (taskCount, task) =>
+              task.boardStatusId === column.id ? taskCount + 1 : taskCount,
+            0,
+          ),
+        };
+        return acc;
+      },
+      {} as Record<string, { count: number }>,
+    );
+  },
+);
 
 export const { taskAdded, taskUpdated, subTaskUpdated, tasksDeleted } =
   tasksSlice.actions;

@@ -1,4 +1,5 @@
-import { Board, BoardMenu } from '@/features/boards';
+import { useAppSelector } from '@/app/hooks';
+import { BoardMenu } from '@/features/boards';
 import { AddTaskModal } from '@/features/tasks';
 import iconChevronDown from '@assets/icon-chevron-down.svg';
 import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
@@ -6,7 +7,8 @@ import logoDark from '@assets/logo-dark.svg';
 import logolightMobile from '@assets/logo-mobile.svg';
 import { Button } from '@components/Button';
 
-export function Header({ board }: { board: Board | null }) {
+export function Header() {
+  const board = useAppSelector((state) => state.boards.activeBoard);
   return (
     <div
       className={`p-4 sm:px-4 sm:border-b sm:border-b-lines-light sm:h-[81px] flex gap-[34px] items-center sm:justify-normal`}

@@ -26,6 +26,7 @@ export function SidebarListItem({
 
   return (
     <div
+      role="button"
       className={`${variants({ variant })} hover:cursor-pointer`}
       onClick={onClick}
     >
