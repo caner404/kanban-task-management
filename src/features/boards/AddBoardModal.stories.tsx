@@ -32,9 +32,6 @@ const meta = {
     ),
   ],
   excludeStories: ['openModalAndAddBoardPlay'],
-  argTypes: {
-    onSubmit: { type: 'function', control: false },
-  },
 } satisfies Meta<typeof AddBoardModal>;
 
 export default meta;
@@ -73,8 +70,5 @@ export const openModalAndAddBoardPlay = async ({
 };
 
 export const OpenModalAndAddBoard: Story = {
-  args: {
-    onSubmit: () => {},
-  },
   play: openModalAndAddBoardPlay,
 };
