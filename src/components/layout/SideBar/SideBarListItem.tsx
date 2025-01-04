@@ -6,7 +6,7 @@ import {
   variants,
 } from './sidebarListItem-variants';
 
-export type SidebarListItemProps = ComponentProps<'li'> &
+export type SidebarListItemProps = ComponentProps<'div'> &
   SidebarListItemVariants & {
     children?: React.ReactNode;
     onClick?: MouseEventHandler<HTMLDivElement>;
@@ -17,6 +17,7 @@ export function SidebarListItem({
   variant = 'default',
   children,
   onClick,
+  ...props
 }: SidebarListItemProps) {
   const fillColorValue: Record<SidebarListItemVariantKeys, string> = {
     default: '#828FA3',
@@ -26,8 +27,9 @@ export function SidebarListItem({
 
   return (
     <div
+      {...props}
       role="button"
-      className={`${variants({ variant })} hover:cursor-pointer`}
+      className={`${props.className} ${variants({ variant })} hover:cursor-pointer`}
       onClick={onClick}
     >
       {children || (

@@ -10,10 +10,13 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
   function handleSelectBoard(board: Board) {
     dispatch(updateActiveBoard(board));
+    onClose?.();
   }
   return (
-    <div className={`flex flex-col gap-3 w-[300px] h-screen bg-white `}>
-      <h2 className="text-sm text-neutral tracking-[2.4px] pl-8 py-4">
+    <div
+      className={`flex flex-col gap-3 w-[300px] bg-white rounded-lg md:rounded-none md:h-screen py-4`}
+    >
+      <h2 className="text-sm text-neutral tracking-[2.4px] pl-8">
         ALL BOARDS ({boards.length})
       </h2>
       <ul className="w-[275px]">
@@ -35,11 +38,14 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
         <div className="w-10 h5 bg-primary rounded-xl p-1">
           <div className="h-4 w-4 bg-white rounded-full"></div>
         </div>
-
         <IconDarkTheme />
       </div>
 
-      <SidebarListItem title="Hide Sidebar" onClick={onClose}>
+      <SidebarListItem
+        title="Hide Sidebar"
+        onClick={onClose}
+        className="hidden sm:flex"
+      >
         <IconHideSidebar />
       </SidebarListItem>
     </div>

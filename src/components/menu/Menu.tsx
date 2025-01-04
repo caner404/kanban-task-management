@@ -73,7 +73,7 @@ export function MenuContent({ children }: PropsWithChildren) {
   const { isVisible } = useMenuContext();
   return (
     <ul
-      className={`${isVisible ? 'flex' : 'hidden'} absolute p-4 rounded-lg bg-white flex-col gap-4 right-0 w-[200px] top-16 drop-shadow-md`}
+      className={`${isVisible ? 'flex' : 'hidden'} absolute p-4 rounded-lg bg-white flex-col gap-4 right-0 w-[200px] top-16 drop-shadow-md z-50`}
     >
       {children}
     </ul>

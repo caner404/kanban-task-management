@@ -1,11 +1,12 @@
 import { useAppSelector } from '@/app/hooks';
 import { BoardMenu } from '@/features/boards';
 import { AddTaskModal } from '@/features/tasks';
-import iconChevronDown from '@assets/icon-chevron-down.svg';
-import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
+
 import logoDark from '@assets/logo-dark.svg';
 import logolightMobile from '@assets/logo-mobile.svg';
-import { Button } from '@components/Button';
+import { Sidebar } from './SideBar';
+import Modal from '../Modal';
+import { IconChevronDown } from '@/assets';
 
 export function Header() {
   const board = useAppSelector((state) => state.boards.activeBoard);
@@ -27,25 +28,26 @@ export function Header() {
 
       {board && (
         <>
-          <div className="flex gap-2 justify-center items-center sm:mr-auto sm:h-full">
+          <div className="flex gap-2 items-center sm:h-full mr-auto">
             <h1 className="text-lg" data-testid="board-header-name">
               {board.name}
             </h1>
-            <img
-              src={iconChevronDown}
-              alt="logo kanban tablet"
-              className="block sm:hidden"
-            />
+
+            <Modal.Root>
+              <Modal.Open opens="sidebar-modal">
+                <div className="flex-1 hover:cursor-pointer sm:hidden">
+                  <IconChevronDown />
+                </div>
+              </Modal.Open>
+              <Modal.Window name="sidebar-modal">
+                <Sidebar />
+              </Modal.Window>
+            </Modal.Root>
           </div>
-          <Button
-            disabled={board.status.length > 0}
-            size="small"
-            className="block sm:hidden"
-          >
-            <IconAddTaskMobile />
-          </Button>
-          <AddTaskModal board={board} />
-          <BoardMenu board={board} />
+          <div className="flex items-center">
+            <AddTaskModal board={board} />
+            <BoardMenu board={board} />
+          </div>
         </>
       )}
     </div>
