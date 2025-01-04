@@ -12,21 +12,19 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (story) => (
-      <div style={{ margin: '3rem' }}>
-        <KanbanMockStore
-          state={{
-            boardState: {
-              boards: testBoards,
-              loading: false,
-              error: '',
-              activeBoard: testBoards[0],
-            },
-            taskState: testTasks,
-          }}
-        >
-          {story()}
-        </KanbanMockStore>
-      </div>
+      <KanbanMockStore
+        state={{
+          boardState: {
+            boards: testBoards,
+            loading: false,
+            error: '',
+            activeBoard: testBoards[0],
+          },
+          taskState: testTasks,
+        }}
+      >
+        {story()}
+      </KanbanMockStore>
     ),
   ],
   excludeStories: ['BoardMockStore'],

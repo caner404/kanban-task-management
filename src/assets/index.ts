@@ -8,3 +8,4 @@ export * from './IconLightTheme';
 export * from './IconMenu';
 export * from './LogoLight';
 export * from './LogoLightMobile';
+export * from './IconShowSidebar';

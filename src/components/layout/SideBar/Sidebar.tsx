@@ -1,9 +1,9 @@
-import { IconDarkTheme, IconHideSidebar, IconLightTheme } from '@/assets';
-import { SidebarListItem } from './SideBarListItem';
-import { AddBoardModal, Board, updateActiveBoard } from '@/features/boards';
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
+import { IconDarkTheme, IconHideSidebar, IconLightTheme } from '@/assets';
+import { AddBoardModal, Board, updateActiveBoard } from '@/features/boards';
+import { SidebarListItem } from './SideBarListItem';
 
-export function Sidebar() {
+export function Sidebar({ onClose }: { onClose?: () => void }) {
   const dispatch = useAppDispatch();
   const boards = useAppSelector((state) => state.boards.boards);
   const activeBoard = useAppSelector((state) => state.boards.activeBoard);
@@ -12,7 +12,7 @@ export function Sidebar() {
     dispatch(updateActiveBoard(board));
   }
   return (
-    <div className="flex flex-col gap-3 w-[300px] h-screen">
+    <div className={`flex flex-col gap-3 w-[300px] h-screen bg-white `}>
       <h2 className="text-sm text-neutral tracking-[2.4px] pl-8 py-4">
         ALL BOARDS ({boards.length})
       </h2>
@@ -39,7 +39,7 @@ export function Sidebar() {
         <IconDarkTheme />
       </div>
 
-      <SidebarListItem title="Hide Sidebar">
+      <SidebarListItem title="Hide Sidebar" onClick={onClose}>
         <IconHideSidebar />
       </SidebarListItem>
     </div>

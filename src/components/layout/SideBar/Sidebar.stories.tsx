@@ -37,18 +37,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    activeBoard: testBoards[0],
-    boards: testBoards,
-  },
-};
+export const Default: Story = {};
 
 export const CreateBoard: Story = {
-  args: {
-    activeBoard: testBoards[0],
-    boards: testBoards,
-  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const createBoardBtn = canvas.getByRole('button', {

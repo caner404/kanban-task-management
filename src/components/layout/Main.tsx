@@ -66,7 +66,7 @@ export function Main() {
   if (!board.status?.length) return <AddBoardColumn />;
 
   return (
-    <main className="flex flex-1 gap-6 p-6 bg-neutral-light overflow-x-auto">
+    <main className="flex flex-1 gap-6 p-6">
       {tasksByStatus.map((column, index) => (
         <Column
           key={index}
