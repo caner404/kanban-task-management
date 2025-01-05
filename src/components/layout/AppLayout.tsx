@@ -5,7 +5,7 @@ import { Sidebar } from './SideBar';
 import { IconShowSidebar } from '@/assets';
 
 export function AppLayout() {
-  const [hideSidebar, setHideSidebar] = useState(false);
+  const [hideSidebar, setHideSidebar] = useState(true);
   return (
     <div className="flex flex-col h-[100vh]">
       <Header />

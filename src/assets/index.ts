@@ -1,6 +1,7 @@
 export * from './IconAddTaskMobile';
 export * from './IconBoard';
 export * from './IconChevronDown';
+export * from './IconChevronUp';
 export * from './IconCross';
 export * from './IconDarkTheme';
 export * from './IconHideSidebar';

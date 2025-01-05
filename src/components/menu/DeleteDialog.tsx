@@ -19,12 +19,12 @@ export function DeleteDialog({
   {
     return (
       <div
-        className="flex flex-col p-8 gap-6 rounded-md w-[480px]"
+        className="flex flex-col p-8 gap-6 rounded-md"
         data-testid="deleteDialog"
       >
         <h2 className="text-danger text-lg">Delete this {type} ?</h2>
         <p className="text-neutral text-md">{description}</p>
-        <div className="flex gap-4 justify-center items-center">
+        <div className="flex flex-col sm:flex-row gap-4 sm:justify-center sm:items-center">
           <Button
             className="flex-1"
             variant="destructive"

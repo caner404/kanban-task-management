@@ -18,7 +18,7 @@ export function TaskDetails({ task }: { task: Task }) {
 
   if (!board) return;
   return (
-    <div className="flex flex-col gap-6 w-[480px] p-6">
+    <div className="flex flex-col gap-6  p-6">
       <div className="flex justify-between items-center">
         <h2 className="text-lg">{task.title}</h2>
         <TaskMenu task={task} currentBoard={board} />
