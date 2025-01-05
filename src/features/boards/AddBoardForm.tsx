@@ -53,7 +53,7 @@ export function AddBoardForm({
 
   return (
     <form
-      className="flex flex-col gap-4  p-4 sm:gap-6 sm:p-8 h-[470px] sm:h-fit overflow-y-scroll"
+      className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-8 h-[450px] sm:h-[490px] overflow-y-auto"
       onSubmit={handleSubmit(onSubmitForm)}
       data-testid="addBoardForm"
     >
