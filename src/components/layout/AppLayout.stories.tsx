@@ -43,7 +43,7 @@ export const CreateBoard: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.click(screen.getByTestId('showSidebar'));
+    await userEvent.click(canvas.getByTestId('showSidebar'));
     const createBoardBtn = canvas.getByRole('button', {
       name: /create/i,
     });
