@@ -12,6 +12,7 @@ export function AppLayout() {
       <div className="flex bg-neutral-light overflow-x-auto h-full">
         {hideSidebar ? (
           <div
+            data-testid="showSidebar"
             className="w-14 h-12 bg-primary rounded-tr-full rounded-br-full justify-center items-center hover:cursor-pointer absolute bottom-5 hidden sm:flex"
             onClick={() => setHideSidebar(false)}
           >

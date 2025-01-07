@@ -110,6 +110,7 @@ export const boardsSlice = createSlice({
       if (!updateBoard) throw new Error('Board not found');
       updateBoard.name = name ?? updateBoard.name;
       updateBoard.status = status ?? updateBoard.status;
+      state.activeBoard = updateBoard;
     },
     boarddDeleted(state, action: PayloadAction<Board>) {
       const { id } = action.payload;
