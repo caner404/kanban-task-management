@@ -68,7 +68,6 @@ export function MenuTrigger({ ...props }: ComponentProps<'button'>) {
       onClick={handleClick}
       aria-label="Button to open Menu"
       className="hover:cursor-pointer p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      aria-haspopup="dialog"
     >
       <IconMenu />
     </button>

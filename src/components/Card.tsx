@@ -13,7 +13,6 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         {...props}
         data-testid={dataTestid}
         ref={ref}
-        role="button"
         onClick={onClick}
         className={`rounded-md py-6 px-4 drop-shadow-lg bg-white hover:text-primary flex flex-col gap-2 focus-within:cursor-grab focus:outline-none focus:ring-2 focus:ring-blue-500 ${props.className}`}
       >

@@ -24,24 +24,30 @@ export function TaskDetails({ task }: { task: Task }) {
         <TaskMenu task={task} currentBoard={board} />
       </div>
       <p className="text-base text-neutral">{task.description}</p>
-      <Label>
-        Subtasks ({subTasksCompleted.length} of {task.subTasks.length})
-      </Label>
-      <div className="flex flex-col justify-center gap-2">
-        {task.subTasks.map((subTask) => {
-          return (
-            <Checkbox
-              key={subTask.id}
-              checked={subTask.isCompleted}
-              onCheckedChange={(isChecked) =>
-                dispatch(subTaskUpdated({ ...subTask, isCompleted: isChecked }))
-              }
-            >
-              {subTask.title}
-            </Checkbox>
-          );
-        })}
-      </div>
+
+      <fieldset>
+        <legend className="text-neutral text-sm mb-4">
+          Subtasks ({subTasksCompleted.length} of {task.subTasks.length})
+        </legend>
+        <div className="flex flex-col justify-center gap-2">
+          {task.subTasks.map((subTask) => {
+            return (
+              <Checkbox
+                key={subTask.id}
+                checked={subTask.isCompleted}
+                onCheckedChange={(isChecked) =>
+                  dispatch(
+                    subTaskUpdated({ ...subTask, isCompleted: isChecked }),
+                  )
+                }
+              >
+                {subTask.title}
+              </Checkbox>
+            );
+          })}
+        </div>
+      </fieldset>
+
       <div className="flex flex-col gap-2">
         <Label>Current Status</Label>
         <Select

@@ -28,7 +28,7 @@ function Columns({
   }, [isDraggedOver, column]);
 
   return (
-    <div className="flex flex-col gap-3 " {...props}>
+    <section className="flex flex-col gap-3 " {...props}>
       <h2 className="text-sm text-neutral uppercase">
         {column.statusName} ({column.tasksByStatusId.length})
       </h2>
@@ -51,7 +51,7 @@ function Columns({
           </Modal.Root>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }
 

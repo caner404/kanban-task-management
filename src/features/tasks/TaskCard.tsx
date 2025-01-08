@@ -36,17 +36,15 @@ export function TaskCard({
   }
 
   return (
-    <Card
-      ref={ref}
-      tabIndex={0}
-      title={task.title}
-      description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
-      role="button"
-      onClick={onClick}
-      onKeyDown={handleOnKeydown}
-      className={`${className} ${dragging ? 'bg-opacity-70' : 'bg-white'} hover:cursor-grab `}
-      dataTestid={dataTestid}
-      aria-haspopup="dialog"
-    />
+    <li onClick={onClick} onKeyDown={handleOnKeydown}>
+      <Card
+        ref={ref}
+        tabIndex={0}
+        title={task.title}
+        description={`${task.subTasks.filter((subTask) => subTask.isCompleted).length} of ${task.subTasks.length} subtasks`}
+        className={`${className} ${dragging ? 'bg-opacity-70' : 'bg-white'} hover:cursor-grab `}
+        dataTestid={dataTestid}
+      />
+    </li>
   );
 }
