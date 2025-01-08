@@ -45,7 +45,7 @@ export function TaskMenu({
           <Modal.Root>
             <Modal.Open opens="delete-task">
               <button className="text-danger hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-left">
-                Delete board
+                Delete task
               </button>
             </Modal.Open>
             <Modal.Window name="delete-task">
