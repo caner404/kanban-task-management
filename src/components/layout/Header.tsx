@@ -1,12 +1,16 @@
-import { Board, BoardMenu } from '@/features/boards';
+import { useAppSelector } from '@/app/hooks';
+import { BoardMenu } from '@/features/boards';
 import { AddTaskModal } from '@/features/tasks';
-import iconChevronDown from '@assets/icon-chevron-down.svg';
-import { IconAddTaskMobile } from '@assets/IconAddTaskMobile';
+
+import { IconChevronDown } from '@/assets';
 import logoDark from '@assets/logo-dark.svg';
 import logolightMobile from '@assets/logo-mobile.svg';
-import { Button } from '@components/Button';
+import Modal from '../Modal';
+import { Sidebar } from './SideBar';
 
-export function Header({ board }: { board: Board | null }) {
+export function Header() {
+  const board = useAppSelector((state) => state.boards.activeBoard);
+
   return (
     <div
       className={`p-4 sm:px-4 sm:border-b sm:border-b-lines-light sm:h-[81px] flex gap-[34px] items-center sm:justify-normal`}
@@ -25,25 +29,29 @@ export function Header({ board }: { board: Board | null }) {
 
       {board && (
         <>
-          <div className="flex gap-2 justify-center items-center sm:mr-auto sm:h-full">
-            <h1 className="text-lg" data-testid="board-header-name">
-              {board.name}
-            </h1>
-            <img
-              src={iconChevronDown}
-              alt="logo kanban tablet"
-              className="block sm:hidden"
-            />
+          <Modal.Root>
+            <Modal.Open opens="sidebar-modal">
+              <div className="flex items-center gap-2 sm:h-full mr-auto hover:cursor-pointer">
+                <h1
+                  className="text-lg min-w-max"
+                  data-testid="board-header-name"
+                >
+                  {board.name}
+                </h1>
+                <div className="sm:hidden">
+                  <IconChevronDown />
+                </div>
+              </div>
+            </Modal.Open>
+            <Modal.Window name="sidebar-modal">
+              <Sidebar />
+            </Modal.Window>
+          </Modal.Root>
+
+          <div className="flex items-center">
+            <AddTaskModal board={board} />
+            <BoardMenu board={board} />
           </div>
-          <Button
-            disabled={board.status.length > 0}
-            size="small"
-            className="block sm:hidden"
-          >
-            <IconAddTaskMobile />
-          </Button>
-          <AddTaskModal board={board} />
-          <BoardMenu board={board} />
         </>
       )}
     </div>

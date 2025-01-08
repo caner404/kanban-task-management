@@ -34,7 +34,6 @@ export function AddTaskForm({
 }) {
   const dispatch = useAppDispatch();
   const onSubmitForm: SubmitHandler<TaskFormValues> = (data) => {
-    console.log('save');
     const boardStatus = board.status.filter(
       (value) => value.name === data.column,
     )[0];
@@ -103,7 +102,7 @@ export function AddTaskForm({
 
   return (
     <form
-      className="flex flex-col gap-6 w-[480px] p-8"
+      className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-8 h-[470px] sm:h-[675px] overflow-y-auto "
       data-testid="addTaskForm"
       onSubmit={handleSubmit(onSubmitForm)}
     >

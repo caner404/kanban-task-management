@@ -1,71 +1,33 @@
-import { Board, boardsSlice } from '@/features/boards';
-import { openModalAndAddTaskPlay, Task, tasksSlice } from '@/features/tasks';
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { KanbanMockStore } from '@/app/ReduxMockStore';
+import { testBoards } from '@/features/boards';
+import { openModalAndAddTaskPlay, testTasks } from '@/features/tasks';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, screen, userEvent, waitFor, within } from '@storybook/test';
-import { ReactNode } from 'react';
-import { Provider } from 'react-redux';
 import { AppLayout } from './AppLayout';
-
-export const BoardMockStore = ({
-  state,
-  children,
-}: {
-  state: {
-    boardState: { boards: Board[]; loading: boolean; error?: string };
-    taskState: Task[];
-  };
-  children: ReactNode;
-}) => (
-  <Provider
-    store={configureStore({
-      reducer: {
-        boards: createSlice({
-          name: 'boards',
-          initialState: state.boardState,
-          reducers: boardsSlice.caseReducers,
-        }).reducer,
-        tasks: createSlice({
-          name: 'tasks',
-          initialState: state.taskState,
-          reducers: tasksSlice.caseReducers,
-        }).reducer,
-      },
-    })}
-  >
-    {children}
-  </Provider>
-);
-
-export const mockBoard: Board[] = [
-  {
-    id: '1',
-    name: 'Moonlight Beach',
-    status: [
-      { id: '1', name: 'Todo', boardId: '1' },
-      { id: '2', name: 'Doing', boardId: '1' },
-    ],
-  },
-];
-
-export const mockTasks: Task[] = [
-  {
-    id: '1',
-    title: 'Coffee break',
-    description: 'Something Something description',
-    subTasks: [],
-    boardId: '1',
-    boardStatusId: '1',
-  },
-];
 
 const meta = {
   title: 'components/layouts/AppLayout',
   component: AppLayout,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-  decorators: [(story) => <div style={{ margin: '3rem' }}>{story()}</div>],
-  excludeStories: ['mockBoard', 'BoardMockStore', 'mockTasks'],
+  decorators: [
+    (story) => (
+      <KanbanMockStore
+        state={{
+          boardState: {
+            boards: testBoards,
+            loading: false,
+            error: '',
+            activeBoard: testBoards[0],
+          },
+          taskState: testTasks,
+        }}
+      >
+        {story()}
+      </KanbanMockStore>
+    ),
+  ],
+  excludeStories: ['BoardMockStore'],
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: 'fullscreen',
@@ -75,34 +37,57 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
+export const Default: Story = {};
+
+export const CreateBoard: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByTestId('showSidebar'));
+    const createBoardBtn = canvas.getByRole('button', {
+      name: /create/i,
+    });
+
+    await userEvent.click(createBoardBtn);
+
+    const addBoardForm = screen.getByTestId('addBoardForm');
+    await expect(addBoardForm).toBeInTheDocument();
+
+    await userEvent.clear(within(addBoardForm).getByLabelText('Board Name'));
+    await userEvent.type(
+      within(addBoardForm).getByLabelText('Board Name'),
+      'Moonlight Sun',
+    );
+    await userEvent.clear(
+      within(addBoardForm).getByTestId('status.0.statusName'),
+    );
+    await userEvent.type(
+      within(addBoardForm).getByTestId('status.0.statusName'),
+      'todo',
+    );
+
+    await userEvent.click(
+      within(addBoardForm).getByRole('button', { name: '+ Add New Column' }),
+    );
+    await userEvent.type(
+      within(addBoardForm).getByTestId('status.1.statusName'),
+      'Done',
+    );
+
+    await userEvent.click(
+      await within(addBoardForm).findByRole('button', {
+        name: /create new board/i,
+      }),
+    );
+    await waitFor(() => expect(addBoardForm).not.toBeInTheDocument());
+
+    expect(screen.getByTestId('board-header-name')).toHaveTextContent(
+      'Moonlight Sun',
+    );
+  },
 };
 
 export const EditBoard: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const boardmenuTrigger = canvas.getByTestId('board-menu-trigger');
@@ -122,15 +107,19 @@ export const EditBoard: Story = {
     );
     await userEvent.type(
       within(addBoardForm).getByTestId('status.0.statusName'),
-      'todo test',
+      'todo',
     );
 
     await userEvent.click(
       within(addBoardForm).getByRole('button', { name: '+ Add New Column' }),
     );
+
+    await userEvent.clear(
+      within(addBoardForm).getByTestId('status.3.statusName'),
+    );
     await userEvent.type(
-      within(addBoardForm).getByTestId('status.2.statusName'),
-      'Done',
+      within(addBoardForm).getByTestId('status.3.statusName'),
+      'Testing',
     );
 
     await userEvent.click(
@@ -141,18 +130,6 @@ export const EditBoard: Story = {
 };
 
 export const DeleteBoard: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const boardmenuTrigger = canvas.getByTestId('board-menu-trigger');
@@ -165,54 +142,16 @@ export const DeleteBoard: Story = {
     await userEvent.click(deleteButton);
 
     await waitFor(() => expect(deleteBoard).not.toBeInTheDocument());
-
-    await waitFor(() =>
-      expect(screen.queryByTestId('board-header-name')).not.toBeInTheDocument(),
-    );
-
-    await waitFor(() =>
-      expect(
-        screen.queryByRole('button', { name: /add new task/i }),
-      ).not.toBeInTheDocument(),
-    );
-
-    await waitFor(() =>
-      expect(screen.queryByTestId('board-menu')).not.toBeInTheDocument(),
-    );
   },
 };
 
 export const AddTask: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ context }) => {
     openModalAndAddTaskPlay(context);
   },
 };
 
 export const EditTask: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const taskCard = canvas.getByRole('button', {
@@ -244,18 +183,6 @@ export const EditTask: Story = {
 };
 
 export const DeleteTask: Story = {
-  decorators: [
-    (story) => (
-      <BoardMockStore
-        state={{
-          boardState: { boards: mockBoard, loading: false, error: '' },
-          taskState: mockTasks,
-        }}
-      >
-        {story()}
-      </BoardMockStore>
-    ),
-  ],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const taskCard = canvas.getByRole('button', {
@@ -281,18 +208,31 @@ export const DeleteTask: Story = {
 export const NoColumns: Story = {
   decorators: [
     (story) => (
-      <BoardMockStore
-        state={{
-          boardState: {
-            boards: [{ id: '1', name: 'Moonlight Sun', status: [] }],
-            loading: false,
-            error: '',
-          },
-          taskState: [],
-        }}
-      >
-        {story()}
-      </BoardMockStore>
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: [
+                {
+                  id: 'board-1',
+                  name: 'Play GTA 6',
+                  status: [],
+                },
+              ],
+              activeBoard: {
+                id: 'board-1',
+                name: 'Play GTA 6',
+                status: [],
+              },
+              loading: false,
+              error: '',
+            },
+            taskState: [],
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
     ),
   ],
 };
@@ -300,18 +240,21 @@ export const NoColumns: Story = {
 export const NoProject: Story = {
   decorators: [
     (story) => (
-      <BoardMockStore
-        state={{
-          boardState: {
-            boards: [],
-            loading: false,
-            error: '',
-          },
-          taskState: [],
-        }}
-      >
-        {story()}
-      </BoardMockStore>
+      <div style={{ margin: '3rem' }}>
+        <KanbanMockStore
+          state={{
+            boardState: {
+              boards: [],
+              loading: false,
+              error: '',
+              activeBoard: null!,
+            },
+            taskState: [],
+          }}
+        >
+          {story()}
+        </KanbanMockStore>
+      </div>
     ),
   ],
 };

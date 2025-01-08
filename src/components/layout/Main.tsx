@@ -1,20 +1,21 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { AddBoard, AddBoardColumn, Board } from '@/features/boards';
+import { AddBoard, AddBoardColumn } from '@/features/boards';
 import { selectTasksByBoardId, Task, taskUpdated } from '@/features/tasks';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { ComponentProps, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Column from './Column';
 
-type ButtonProps = ComponentProps<'main'> & { board: Board | null };
-export function Main(props: ButtonProps) {
-  const { board } = props;
+export function Main() {
   const dispatch = useAppDispatch();
+  const board = useAppSelector((state) => state.boards.activeBoard);
 
   const tasks = useAppSelector((state) =>
     selectTasksByBoardId(state, board?.id ?? null),
   );
-  const tasksByStatus =
-    board?.status?.map((value) => {
+
+  const [tasksByStatus, setTasksByStatus] = useState(() => {
+    if (!board) return [];
+    return board.status.map((value) => {
       const tasksByStatusId = tasks.filter(
         (task) => task.boardStatusId === value.id,
       );
@@ -22,7 +23,8 @@ export function Main(props: ButtonProps) {
         statusName: value.name,
         tasksByStatusId,
       };
-    }) || [];
+    });
+  });
 
   useEffect(() => {
     monitorForElements({
@@ -45,11 +47,26 @@ export function Main(props: ButtonProps) {
     });
   }, [board, dispatch]);
 
+  useEffect(() => {
+    if (!board) return;
+    setTasksByStatus(
+      board.status.map((value) => {
+        const tasksByStatusId = tasks.filter(
+          (task) => task.boardStatusId === value.id,
+        );
+        return {
+          statusName: value.name,
+          tasksByStatusId,
+        };
+      }),
+    );
+  }, [board, tasks]);
+
   if (!board) return <AddBoard />;
   if (!board.status?.length) return <AddBoardColumn />;
 
   return (
-    <main className="flex flex-1 gap-6 p-6 bg-neutral-light overflow-x-auto">
+    <main className="flex flex-1 gap-6 p-6">
       {tasksByStatus.map((column, index) => (
         <Column
           key={index}
