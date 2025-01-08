@@ -29,9 +29,9 @@ function Columns({
 
   return (
     <div className="flex flex-col gap-3 " {...props}>
-      <h3 className="text-sm text-neutral uppercase">
+      <h2 className="text-sm text-neutral uppercase">
         {column.statusName} ({column.tasksByStatusId.length})
-      </h3>
+      </h2>
       <ul
         ref={ref}
         className={`${isDraggedOver ? 'bg-neutral bg-opacity-25' : ''} flex-1 w-[280px]`}
@@ -41,7 +41,7 @@ function Columns({
             <Modal.Open opens="task-details">
               <TaskCard
                 task={task}
-                className="m-5"
+                className="my-5"
                 dataTestid={`task-${index + 1}`}
               />
             </Modal.Open>

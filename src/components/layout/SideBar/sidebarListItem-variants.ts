@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const sidebarListItemVariants = {
   default: ['text-neutral'],
   create: ['text-primary'],
-  active: ['bg-primary text-white rounded-tr-full rounded-br-full'],
+  active: ['bg-primary text-white'],
 } as const;
 
 export type SidebarListItemVariantKeys = keyof typeof sidebarListItemVariants;

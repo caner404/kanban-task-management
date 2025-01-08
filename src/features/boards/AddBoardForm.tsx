@@ -58,14 +58,14 @@ export function AddBoardForm({
       data-testid="addBoardForm"
     >
       <h2 className="text-lg"> {editBoard ? 'Edit' : 'Add'} Board</h2>
-      <div className="flex flex-col gap-6">
+      <section className="flex flex-col gap-6">
         <Textbox
           placeholder="e.g Web Design"
           label="Board Name"
           id="board-name"
           {...register('boardName', { required: true })}
         />
-        <div className="flex flex-col gap-2">
+        <section className="flex flex-col gap-2">
           <Label>Columns</Label>
           {fields.map((field, index) => (
             <div className="flex gap-2" key={field.id}>
@@ -84,14 +84,16 @@ export function AddBoardForm({
               </Button>
             </div>
           ))}
-        </div>
-        <Button
-          variant="secondary"
-          onClick={() => append({ statusName: '', count: 0 })}
-        >
-          + Add New Column
-        </Button>
-      </div>
+
+          <Button
+            variant="secondary"
+            className="mt-4"
+            onClick={() => append({ statusName: '', count: 0 })}
+          >
+            + Add New Column
+          </Button>
+        </section>
+      </section>
       <Button
         variant="primary"
         name="addBoardFormBtn"

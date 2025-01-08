@@ -55,17 +55,23 @@ export function Menu({
   );
 }
 
-export function MenuTrigger({ ...props }: ComponentProps<'div'>) {
+export function MenuTrigger({ ...props }: ComponentProps<'button'>) {
   const { setIsVisible } = useMenuContext();
-  function handleClick(e: React.MouseEvent<HTMLElement>) {
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     setIsVisible((isVisisble) => !isVisisble);
   }
 
   return (
-    <div {...props} onClick={handleClick} className="hover:cursor-pointer p-4">
+    <button
+      {...props}
+      onClick={handleClick}
+      aria-label="Button to open Menu"
+      className="hover:cursor-pointer p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      aria-haspopup="dialog"
+    >
       <IconMenu />
-    </div>
+    </button>
   );
 }
 
@@ -80,15 +86,8 @@ export function MenuContent({ children }: PropsWithChildren) {
   );
 }
 
-export function MenuItem({
-  children,
-  onClick,
-}: PropsWithChildren<{ onClick?: () => void }>) {
-  return (
-    <div onClick={onClick} className="hover:cursor-pointer">
-      {children}
-    </div>
-  );
+export function MenuItem({ children }: PropsWithChildren) {
+  return <li>{children}</li>;
 }
 
 export default {

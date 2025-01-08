@@ -24,7 +24,7 @@ export function BoardMenu({ board }: { board: Board }) {
     dispatch(tasksDeleted(tasks));
   }
 
-  if (!board) return <div>No Board was found</div>;
+  if (!board) return;
 
   return (
     <Menu data-testid="board-menu">
@@ -33,9 +33,9 @@ export function BoardMenu({ board }: { board: Board }) {
         <MenuItem>
           <Modal.Root>
             <Modal.Open opens="edit-board">
-              <MenuItem>
-                <p className="text-neutral">Edit board</p>
-              </MenuItem>
+              <button className="text-neutral hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-left">
+                Edit board
+              </button>
             </Modal.Open>
             <Modal.Window name="edit-board">
               <AddBoardForm
@@ -62,22 +62,20 @@ export function BoardMenu({ board }: { board: Board }) {
           </Modal.Root>
         </MenuItem>
         <MenuItem>
-          <MenuItem>
-            <Modal.Root>
-              <Modal.Open opens="delete-board">
-                <MenuItem>
-                  <p className="text-danger">Delete board</p>
-                </MenuItem>
-              </Modal.Open>
-              <Modal.Window name="delete-board">
-                <DeleteDialog
-                  type="board"
-                  description={`Are you sure you want to delete the '${board.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
-                  onDelete={() => handleDelete()}
-                />
-              </Modal.Window>
-            </Modal.Root>
-          </MenuItem>
+          <Modal.Root>
+            <Modal.Open opens="delete-board">
+              <button className="text-danger hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-left">
+                Delete board
+              </button>
+            </Modal.Open>
+            <Modal.Window name="delete-board">
+              <DeleteDialog
+                type="board"
+                description={`Are you sure you want to delete the '${board.name}' board? This action will remove all columns and tasks and cannot be reversed.`}
+                onDelete={() => handleDelete()}
+              />
+            </Modal.Window>
+          </Modal.Root>
         </MenuItem>
       </MenuContent>
     </Menu>

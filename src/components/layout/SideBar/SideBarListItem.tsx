@@ -1,15 +1,15 @@
 import { IconBoard } from '@/assets';
-import { ComponentProps, MouseEventHandler } from 'react';
+import { ComponentProps } from 'react';
 import {
   SidebarListItemVariantKeys,
   SidebarListItemVariants,
   variants,
 } from './sidebarListItem-variants';
 
-export type SidebarListItemProps = ComponentProps<'div'> &
+export type SidebarListItemProps = ComponentProps<'li'> &
   SidebarListItemVariants & {
     children?: React.ReactNode;
-    onClick?: MouseEventHandler<HTMLDivElement>;
+    onClick?: () => void;
   };
 
 export function SidebarListItem({
@@ -26,16 +26,23 @@ export function SidebarListItem({
   };
 
   return (
-    <div
+    <li
+      tabIndex={0}
       {...props}
       role="button"
-      className={`${props.className} ${variants({ variant })} hover:cursor-pointer`}
+      className={`${props.className} ${variants({ variant })} rounded-tr-full rounded-br-full hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500`}
       onClick={onClick}
+      onKeyDown={(e: React.KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       {children || (
         <IconBoard fillColor={fillColorValue[variant ?? 'default']} />
       )}
-      <p>{title}</p>
-    </div>
+      {title}
+    </li>
   );
 }

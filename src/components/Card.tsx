@@ -9,19 +9,17 @@ export type CardProps = ComponentProps<'div'> & {
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ title, description, onClick, dataTestid, ...props }, ref) => {
     return (
-      <div
+      <article
         {...props}
         data-testid={dataTestid}
         ref={ref}
         role="button"
         onClick={onClick}
-        className={`${props.className} rounded-md py-6 px-4 drop-shadow-lg bg-white hover:text-primary`}
+        className={`rounded-md py-6 px-4 drop-shadow-lg bg-white hover:text-primary flex flex-col gap-2 focus-within:cursor-grab focus:outline-none focus:ring-2 focus:ring-blue-500 ${props.className}`}
       >
-        <div className="flex flex-col gap-2 ">
-          <p className="text-md">{title}</p>
-          <p className="text-sm text-neutral">{description}</p>
-        </div>
-      </div>
+        <header className="text-md">{title}</header>
+        <p className="text-sm text-neutral">{description}</p>
+      </article>
     );
   },
 );
