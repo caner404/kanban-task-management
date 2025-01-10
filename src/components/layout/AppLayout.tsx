@@ -9,7 +9,7 @@ export function AppLayout() {
   return (
     <div className="flex flex-col h-[100vh]">
       <Header />
-      <div className="flex bg-neutral-light overflow-x-auto h-full">
+      <div className="flex bg-neutral-light  overflow-x-auto h-full">
         {hideSidebar ? (
           <button
             data-testid="showSidebar"

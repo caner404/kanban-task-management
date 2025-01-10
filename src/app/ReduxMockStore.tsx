@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { Board, boardsSlice } from '../features/boards';
 import { Task, tasksSlice } from '../features/tasks';
+import { DarkModeProvider } from '@/context';
 
 export const KanbanMockStore = ({
   state,
@@ -35,6 +36,6 @@ export const KanbanMockStore = ({
       },
     })}
   >
-    {children}
+    <DarkModeProvider>{children}</DarkModeProvider>
   </Provider>
 );

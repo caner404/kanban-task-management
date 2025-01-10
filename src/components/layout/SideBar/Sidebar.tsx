@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { IconDarkTheme, IconHideSidebar, IconLightTheme } from '@/assets';
+import { useDarkMode } from '@/context';
 import { AddBoardModal, Board, updateActiveBoard } from '@/features/boards';
 import { SidebarListItem } from './SideBarListItem';
 
@@ -7,11 +8,13 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
   const dispatch = useAppDispatch();
   const boards = useAppSelector((state) => state.boards.boards);
   const activeBoard = useAppSelector((state) => state.boards.activeBoard);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 
   function handleSelectBoard(board: Board) {
     dispatch(updateActiveBoard(board));
     onClose?.();
   }
+
   return (
     <aside
       className={`flex flex-col gap-3 w-[300px] bg-white rounded-lg md:rounded-none py-4`}
@@ -37,9 +40,14 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
       <div className="flex items-center justify-center gap-6 mt-auto mx-4 p-4 rounded-xl bg-neutral-light">
         <IconLightTheme />
-        <div className="w-10 h5 bg-primary rounded-xl p-1">
-          <div className="h-4 w-4 bg-white rounded-full"></div>
-        </div>
+        <button
+          className="w-10 h5 bg-primary rounded-xl p-1"
+          onClick={() => toggleDarkMode()}
+        >
+          <div
+            className={`h-4 w-4 bg-white rounded-full transition-transform ${!isDarkMode ? 'translate-x-0' : 'translate-x-full'}`}
+          ></div>
+        </button>
         <IconDarkTheme />
       </div>
 
