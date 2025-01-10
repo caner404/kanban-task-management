@@ -18,33 +18,40 @@ export function TaskDetails({ task }: { task: Task }) {
 
   if (!board) return;
   return (
-    <div className="flex flex-col gap-6  p-6">
+    <div className="flex flex-col gap-6 p-6">
       <div className="flex justify-between items-center">
         <h2 className="text-lg">{task.title}</h2>
         <TaskMenu task={task} currentBoard={board} />
       </div>
       <p className="text-base text-neutral">{task.description}</p>
-      <Label>
-        Subtasks ({subTasksCompleted.length} of {task.subTasks.length})
-      </Label>
-      <div className="flex flex-col justify-center gap-2">
-        {task.subTasks.map((subTask) => {
-          return (
-            <Checkbox
-              key={subTask.id}
-              checked={subTask.isCompleted}
-              onCheckedChange={(isChecked) =>
-                dispatch(subTaskUpdated({ ...subTask, isCompleted: isChecked }))
-              }
-            >
-              {subTask.title}
-            </Checkbox>
-          );
-        })}
-      </div>
+
+      <fieldset>
+        <legend className="text-neutral text-sm mb-4">
+          Subtasks ({subTasksCompleted.length} of {task.subTasks.length})
+        </legend>
+        <div className="flex flex-col justify-center gap-2">
+          {task.subTasks.map((subTask) => {
+            return (
+              <Checkbox
+                key={subTask.id}
+                checked={subTask.isCompleted}
+                onCheckedChange={(isChecked) =>
+                  dispatch(
+                    subTaskUpdated({ ...subTask, isCompleted: isChecked }),
+                  )
+                }
+              >
+                {subTask.title}
+              </Checkbox>
+            );
+          })}
+        </div>
+      </fieldset>
+
       <div className="flex flex-col gap-2">
-        <Label>Current Status</Label>
+        <Label htmlFor="select-column">Current Status</Label>
         <Select
+          id='"select-column"'
           defaultValue={
             board?.status.find((status) => status.id === task.boardStatusId)
               ?.name

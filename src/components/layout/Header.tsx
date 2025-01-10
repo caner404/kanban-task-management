@@ -12,17 +12,17 @@ export function Header() {
   const board = useAppSelector((state) => state.boards.activeBoard);
 
   return (
-    <div
+    <header
       className={`p-4 sm:px-4 sm:border-b sm:border-b-lines-light sm:h-[81px] flex gap-[34px] items-center sm:justify-normal`}
     >
       <img
         src={logolightMobile}
-        alt="logo kanban mobile"
+        alt="logo of kanban board"
         className="block sm:hidden"
       />
       <img
         src={logoDark}
-        alt="logo kanban tablet"
+        alt="logo of kanban board with the text 'kanban'"
         className="hidden sm:block"
       />
       <div className="hidden sm:block w-[1px] h-full bg-lines-light"></div>
@@ -38,9 +38,9 @@ export function Header() {
                 >
                   {board.name}
                 </h1>
-                <div className="sm:hidden">
+                <button className="sm:hidden">
                   <IconChevronDown />
-                </div>
+                </button>
               </div>
             </Modal.Open>
             <Modal.Window name="sidebar-modal">
@@ -54,6 +54,6 @@ export function Header() {
           </div>
         </>
       )}
-    </div>
+    </header>
   );
 }

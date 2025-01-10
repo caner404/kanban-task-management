@@ -12,14 +12,24 @@ export const sizes = {
   medium: ['px-[17px]', 'py-[14px]'],
 };
 
-export const variants = cva(['rounded-3xl', 'cursor-pointer', 'text-md'], {
-  variants: {
-    variant: buttonVariants,
-    size: sizes,
-    disabled: {
-      true: ['opacity-25', 'cursor-not-allowed'],
+export const variants = cva(
+  [
+    'rounded-3xl',
+    'cursor-pointer',
+    'text-md',
+    'focus:outline-none',
+    'focus:ring-2',
+    'focus:ring-blue-500',
+  ],
+  {
+    variants: {
+      variant: buttonVariants,
+      size: sizes,
+      disabled: {
+        true: ['opacity-25', 'cursor-not-allowed'],
+      },
     },
   },
-});
+);
 
 export type ButtonVariants = VariantProps<typeof variants>;

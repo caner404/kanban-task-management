@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/app/hooks';
-import { AddBoard, AddBoardColumn } from '@/features/boards';
+import { AddBoard, AddBoardColumn, AddBoardModal } from '@/features/boards';
 import { selectTasksByBoardId, Task, taskUpdated } from '@/features/tasks';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useEffect, useState } from 'react';
@@ -66,7 +66,7 @@ export function Main() {
   if (!board.status?.length) return <AddBoardColumn />;
 
   return (
-    <main className="flex flex-1 gap-6 p-6">
+    <main className="flex flex-1 gap-6 p-6 h-max sm:h-[100vh]">
       {tasksByStatus.map((column, index) => (
         <Column
           key={index}
@@ -74,6 +74,13 @@ export function Main() {
           data-testid={`column-${index + 1}`}
         />
       ))}
+      <AddBoardModal board={board}>
+        <section className="bg-[#E9EFFA] h-full w-[280px] flex justify-center items-center rounded-md hover:cursor-pointer">
+          <button className="text-lg text-neutral hover:text-primary ">
+            + New Column
+          </button>
+        </section>
+      </AddBoardModal>
     </main>
   );
 }

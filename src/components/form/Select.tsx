@@ -21,7 +21,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
         {...props}
         ref={ref}
         onChange={handleChange}
-        className={`${props.className} px-4 py-2 bg-white  text-black text-base border rounded border-primary appearance-none`}
+        className={`${props.className} px-4 py-2 bg-white  text-black text-base border rounded border-primary appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500`}
       >
         {children}
       </select>

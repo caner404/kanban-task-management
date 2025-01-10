@@ -1,14 +1,16 @@
-import { useAppDispatch } from '@/app/hooks';
 import { Button } from '@components/Button';
 import Modal from '@components/Modal';
-import { nanoid } from '@reduxjs/toolkit';
 import React from 'react';
-import { AddBoardForm, BoardFormValues } from './AddBoardForm';
-import { boardAdded } from './boardsSlice';
+import { AddBoardForm } from './AddBoardForm';
+import { Board } from './types';
 
-export function AddBoardModal({ children }: { children?: React.ReactNode }) {
-  const dispatch = useAppDispatch();
-
+export function AddBoardModal({
+  children,
+  board,
+}: {
+  children?: React.ReactNode;
+  board?: Board;
+}) {
   return (
     <div>
       <Modal.Root>
@@ -16,22 +18,7 @@ export function AddBoardModal({ children }: { children?: React.ReactNode }) {
           {children || <Button name="addBoardBtn">+ add a board</Button>}
         </Modal.Open>
         <Modal.Window name="board-form">
-          <AddBoardForm
-            onSubmit={(data: BoardFormValues) => {
-              const boardId = nanoid();
-              dispatch(
-                boardAdded({
-                  id: boardId,
-                  name: data.boardName,
-                  status: data.status.map((value) => ({
-                    id: nanoid(),
-                    name: value.statusName,
-                    boardId: boardId,
-                  })),
-                }),
-              );
-            }}
-          />
+          <AddBoardForm editBoard={board} />
         </Modal.Window>
       </Modal.Root>
     </div>

@@ -32,9 +32,9 @@ export function TaskMenu({
         <MenuItem>
           <Modal.Root>
             <Modal.Open opens="edit-task">
-              <MenuItem>
-                <p className="text-neutral">Edit Task</p>
-              </MenuItem>
+              <button className="text-neutral hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-left">
+                Edit Task
+              </button>
             </Modal.Open>
             <Modal.Window name="edit-task">
               <AddTaskForm editTask={task} board={currentBoard} />
@@ -42,22 +42,20 @@ export function TaskMenu({
           </Modal.Root>
         </MenuItem>
         <MenuItem>
-          <MenuItem>
-            <Modal.Root>
-              <Modal.Open opens="delete-task">
-                <MenuItem>
-                  <p className="text-danger">Delete Task</p>
-                </MenuItem>
-              </Modal.Open>
-              <Modal.Window name="delete-task">
-                <DeleteDialog
-                  type="task"
-                  description={`Are you sure you want to delete the ‘${task.title}’ task and its subtasks? This action cannot be reversed.`}
-                  onDelete={() => handleTaskDelete()}
-                />
-              </Modal.Window>
-            </Modal.Root>
-          </MenuItem>
+          <Modal.Root>
+            <Modal.Open opens="delete-task">
+              <button className="text-danger hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 w-full text-left">
+                Delete task
+              </button>
+            </Modal.Open>
+            <Modal.Window name="delete-task">
+              <DeleteDialog
+                type="task"
+                description={`Are you sure you want to delete the ‘${task.title}’ task and its subtasks? This action cannot be reversed.`}
+                onDelete={() => handleTaskDelete()}
+              />
+            </Modal.Window>
+          </Modal.Root>
         </MenuItem>
       </MenuContent>
     </Menu>

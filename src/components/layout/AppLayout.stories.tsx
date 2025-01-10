@@ -134,10 +134,12 @@ export const DeleteBoard: Story = {
     const canvas = within(canvasElement);
     const boardmenuTrigger = canvas.getByTestId('board-menu-trigger');
     await userEvent.click(boardmenuTrigger);
-    await userEvent.click(canvas.getByText(/Delete/i));
+    await userEvent.click(canvas.getByText(/delete/i));
 
     const deleteBoard = screen.getByTestId('deleteDialog');
-    const deleteButton = screen.getByRole('button', { name: /delete/i });
+    const deleteButton = within(deleteBoard).getByRole('button', {
+      name: /delete/i,
+    });
 
     await userEvent.click(deleteButton);
 
@@ -154,9 +156,7 @@ export const AddTask: Story = {
 export const EditTask: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const taskCard = canvas.getByRole('button', {
-      name: /coffee break/i,
-    });
+    const taskCard = canvas.getByText(/coffee break/i);
 
     await userEvent.click(taskCard);
 
@@ -185,9 +185,7 @@ export const EditTask: Story = {
 export const DeleteTask: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const taskCard = canvas.getByRole('button', {
-      name: /coffee break/i,
-    });
+    const taskCard = canvas.getByText(/coffee break/i);
 
     await userEvent.click(taskCard);
 

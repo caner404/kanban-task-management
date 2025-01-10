@@ -102,12 +102,12 @@ export function AddTaskForm({
 
   return (
     <form
-      className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-8 h-[470px] sm:h-[675px] overflow-y-auto "
+      className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-8 h-[470px] sm:h-[675px] md:h-fit overflow-y-auto "
       data-testid="addTaskForm"
       onSubmit={handleSubmit(onSubmitForm)}
     >
       <h2 className="text-lg">{editTask ? 'Edit Task' : 'Add New Task'}</h2>
-      <div className="flex flex-col gap-6">
+      <section className="flex flex-col gap-6">
         <Textbox
           placeholder="e.g Take coffee break"
           label="Title"
@@ -121,8 +121,11 @@ export function AddTaskForm({
           {...register('description', { required: true })}
         />
 
-        <div className="flex flex-col gap-2">
-          <Label>SubTasks</Label>
+        <section
+          className="flex flex-col gap-2"
+          aria-labelledby="subtasks-heading"
+        >
+          <Label id="subtasks-heading">SubTasks</Label>
           {fields.map((field, index) => (
             <div className="flex gap-2" key={field.id}>
               <Input
@@ -139,36 +142,41 @@ export function AddTaskForm({
               </Button>
             </div>
           ))}
-        </div>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            append({ subTask: '' });
-          }}
+
+          <Button
+            variant="secondary"
+            className="mt-4"
+            onClick={() => {
+              append({ subTask: '' });
+            }}
+          >
+            + Add New SubTask
+          </Button>
+        </section>
+
+        <section
+          className="flex flex-col gap-2"
+          aria-labelledby="column-heading"
         >
-          + Add New SubTask
+          <Label id="column-heading">Current Status</Label>
+          <Select {...register('column', { required: true })}>
+            {board.status.map((value) => (
+              <SelectItem key={value.id} value={`${value.name}`}>
+                {value.name}
+              </SelectItem>
+            ))}
+          </Select>
+        </section>
+
+        <Button
+          variant="primary"
+          name="addTaskFormBtn"
+          data-testid="submitTaskFormBtn"
+          type="submit"
+        >
+          {editTask ? 'Save Changes' : 'Create new Task'}
         </Button>
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>Current Status</Label>
-        <Select {...register('column', { required: true })}>
-          {board.status.map((value) => (
-            <SelectItem key={value.id} value={`${value.name}`}>
-              {value.name}
-            </SelectItem>
-          ))}
-        </Select>
-      </div>
-
-      <Button
-        variant="primary"
-        name="addTaskFormBtn"
-        data-testid="submitTaskFormBtn"
-        type="submit"
-      >
-        {editTask ? 'Save Changes' : 'Create new Task'}
-      </Button>
+      </section>
     </form>
   );
 }
