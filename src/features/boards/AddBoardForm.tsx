@@ -4,8 +4,10 @@ import { Input, Label, Textbox } from '@/components/form';
 
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { Board } from './types';
-import { useAppSelector } from '@/app/hooks';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { selectColumnsCount } from '../tasks';
+import { boardAdded, boardUpdated } from './boardsSlice';
+import { nanoid } from '@reduxjs/toolkit';
 
 interface Column {
   statusName: string;
@@ -18,16 +20,44 @@ export interface BoardFormValues {
 }
 
 export function AddBoardForm({
-  onSubmit,
   onClose,
   editBoard,
 }: {
-  onSubmit: (data: BoardFormValues) => void;
   onClose?: () => void; //comes from Modal Component
   editBoard?: Board;
 }) {
+  const dispatch = useAppDispatch();
   const onSubmitForm: SubmitHandler<BoardFormValues> = (data) => {
-    onSubmit(data);
+    if (editBoard) {
+      dispatch(
+        boardUpdated({
+          id: editBoard.id,
+          name: data.boardName,
+          status: data.status.map((value, index) => {
+            return {
+              id: editBoard.status[index]
+                ? editBoard.status[index].id
+                : nanoid(),
+              boardId: editBoard.id,
+              name: value.statusName,
+            };
+          }),
+        }),
+      );
+    } else {
+      const boardId = nanoid();
+      dispatch(
+        boardAdded({
+          id: boardId,
+          name: data.boardName,
+          status: data.status.map((value) => ({
+            id: nanoid(),
+            name: value.statusName,
+            boardId: boardId,
+          })),
+        }),
+      );
+    }
     onClose?.();
   };
 
@@ -53,7 +83,7 @@ export function AddBoardForm({
 
   return (
     <form
-      className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-8 h-[450px] sm:h-[490px] overflow-y-auto"
+      className="flex flex-col gap-4 p-4 sm:gap-6 sm:p-8 h-[450px] sm:h-[490px] md:h-fit overflow-y-auto"
       onSubmit={handleSubmit(onSubmitForm)}
       data-testid="addBoardForm"
     >

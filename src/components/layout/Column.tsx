@@ -7,7 +7,7 @@ function Columns({
   column,
   ...props
 }: {
-  column: {
+  column?: {
     statusName: string;
     tasksByStatusId: Task[];
   } & ComponentProps<'div'>;
@@ -23,7 +23,7 @@ function Columns({
       onDragEnter: () => setIsDraggedOver(true),
       onDragLeave: () => setIsDraggedOver(false),
       onDrop: () => setIsDraggedOver(false),
-      getData: () => ({ statusName: column.statusName }),
+      getData: () => ({ statusName: column?.statusName }),
     });
   }, [isDraggedOver, column]);
 
@@ -34,13 +34,13 @@ function Columns({
       aria-labelledby="column-heading"
     >
       <h2 className="text-sm text-neutral uppercase" id="column-heading">
-        {column.statusName} ({column.tasksByStatusId.length})
+        {column?.statusName} ({column?.tasksByStatusId.length})
       </h2>
       <ul
         ref={ref}
         className={`${isDraggedOver ? 'bg-neutral bg-opacity-25' : ''} flex-1 w-[280px]`}
       >
-        {column.tasksByStatusId.map((task, index) => (
+        {column?.tasksByStatusId.map((task, index) => (
           <Modal.Root key={task.id}>
             <Modal.Open opens="task-details">
               <TaskCard

@@ -7,10 +7,9 @@ import {
   MenuTrigger,
 } from '@/components/menu';
 import Modal from '@/components/Modal';
-import { nanoid } from '@reduxjs/toolkit';
 import { selectTasksByBoardId, tasksDeleted } from '../tasks';
-import { AddBoardForm, BoardFormValues } from './AddBoardForm';
-import { boarddDeleted, boardUpdated } from './boardsSlice';
+import { AddBoardForm } from './AddBoardForm';
+import { boarddDeleted } from './boardsSlice';
 import { Board } from './types';
 
 export function BoardMenu({ board }: { board: Board }) {
@@ -38,26 +37,7 @@ export function BoardMenu({ board }: { board: Board }) {
               </button>
             </Modal.Open>
             <Modal.Window name="edit-board">
-              <AddBoardForm
-                editBoard={board}
-                onSubmit={(data: BoardFormValues) => {
-                  dispatch(
-                    boardUpdated({
-                      id: board.id,
-                      name: data.boardName,
-                      status: data.status.map((value, index) => {
-                        return {
-                          id: board.status[index]
-                            ? board.status[index].id
-                            : nanoid(),
-                          boardId: board.id,
-                          name: value.statusName,
-                        };
-                      }),
-                    }),
-                  );
-                }}
-              />
+              <AddBoardForm editBoard={board} />
             </Modal.Window>
           </Modal.Root>
         </MenuItem>
