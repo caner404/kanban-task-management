@@ -22,11 +22,20 @@ export function AddTaskModal({ board }: { board: Board }) {
       <Modal.Root>
         <Modal.Open opens="task-form">
           {isMobile ? (
-            <Button disabled={board.status.length === 0} size="small">
+            <Button
+              disabled={board.status.length === 0}
+              aria-disabled={board.status.length === 0}
+              size="small"
+              aria-label="add new task"
+            >
               <IconAddTaskMobile />
             </Button>
           ) : (
-            <Button name="addTaskBtn" disabled={board.status.length === 0}>
+            <Button
+              name="addTaskBtn"
+              disabled={board.status.length === 0}
+              aria-disabled={board.status.length === 0}
+            >
               + Add New Task
             </Button>
           )}

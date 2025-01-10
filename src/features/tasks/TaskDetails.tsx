@@ -49,8 +49,9 @@ export function TaskDetails({ task }: { task: Task }) {
       </fieldset>
 
       <div className="flex flex-col gap-2">
-        <Label>Current Status</Label>
+        <Label htmlFor="select-column">Current Status</Label>
         <Select
+          id='"select-column"'
           defaultValue={
             board?.status.find((status) => status.id === task.boardStatusId)
               ?.name

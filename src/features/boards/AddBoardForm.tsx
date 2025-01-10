@@ -65,8 +65,11 @@ export function AddBoardForm({
           id="board-name"
           {...register('boardName', { required: true })}
         />
-        <section className="flex flex-col gap-2">
-          <Label>Columns</Label>
+        <section
+          className="flex flex-col gap-2"
+          aria-labelledby="columns-heading"
+        >
+          <Label id="columns-heading">Columns</Label>
           {fields.map((field, index) => (
             <div className="flex gap-2" key={field.id}>
               <Input

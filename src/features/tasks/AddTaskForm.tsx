@@ -121,8 +121,11 @@ export function AddTaskForm({
           {...register('description', { required: true })}
         />
 
-        <section className="flex flex-col gap-2">
-          <Label>SubTasks</Label>
+        <section
+          className="flex flex-col gap-2"
+          aria-labelledby="subtasks-heading"
+        >
+          <Label id="subtasks-heading">SubTasks</Label>
           {fields.map((field, index) => (
             <div className="flex gap-2" key={field.id}>
               <Input
@@ -151,8 +154,11 @@ export function AddTaskForm({
           </Button>
         </section>
 
-        <div className="flex flex-col gap-2">
-          <Label>Current Status</Label>
+        <section
+          className="flex flex-col gap-2"
+          aria-labelledby="column-heading"
+        >
+          <Label id="column-heading">Current Status</Label>
           <Select {...register('column', { required: true })}>
             {board.status.map((value) => (
               <SelectItem key={value.id} value={`${value.name}`}>
@@ -160,7 +166,7 @@ export function AddTaskForm({
               </SelectItem>
             ))}
           </Select>
-        </div>
+        </section>
 
         <Button
           variant="primary"

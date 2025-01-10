@@ -28,8 +28,12 @@ function Columns({
   }, [isDraggedOver, column]);
 
   return (
-    <section className="flex flex-col gap-3 " {...props}>
-      <h2 className="text-sm text-neutral uppercase">
+    <section
+      className="flex flex-col gap-3 "
+      {...props}
+      aria-labelledby="column-heading"
+    >
+      <h2 className="text-sm text-neutral uppercase" id="column-heading">
         {column.statusName} ({column.tasksByStatusId.length})
       </h2>
       <ul
