@@ -106,7 +106,9 @@ export function AddTaskForm({
       data-testid="addTaskForm"
       onSubmit={handleSubmit(onSubmitForm)}
     >
-      <h2 className="text-lg">{editTask ? 'Edit Task' : 'Add New Task'}</h2>
+      <h2 className="text-lg dark:text-white">
+        {editTask ? 'Edit Task' : 'Add New Task'}
+      </h2>
       <section className="flex flex-col gap-6">
         <Textbox
           placeholder="e.g Take coffee break"

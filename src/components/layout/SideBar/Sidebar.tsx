@@ -17,7 +17,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
   return (
     <aside
-      className={`flex flex-col gap-3 w-[300px] bg-white rounded-lg md:rounded-none py-4`}
+      className={`flex flex-col gap-3 w-[300px] bg-white dark:bg-neutral-dark rounded-lg md:rounded-none py-4`}
     >
       <h2 className="text-sm text-neutral tracking-[2.4px] pl-8">
         ALL BOARDS ({boards.length})
@@ -38,7 +38,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
         </ul>
       </nav>
 
-      <div className="flex items-center justify-center gap-6 mt-auto mx-4 p-4 rounded-xl bg-neutral-light">
+      <div className="flex items-center justify-center gap-6 mt-auto mx-4 p-4 rounded-xl bg-neutral-light dark:bg-neutral-darker">
         <IconLightTheme />
         <button
           className="w-10 h5 bg-primary rounded-xl p-1"

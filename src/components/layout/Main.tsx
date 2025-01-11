@@ -66,7 +66,7 @@ export function Main() {
   if (!board.status?.length) return <AddBoardColumn />;
 
   return (
-    <main className="flex flex-1 gap-6 p-6 h-max sm:h-[100vh]">
+    <main className="flex flex-1 gap-6 p-6 h-full  dark:bg-neutral-darker">
       {tasksByStatus.map((column, index) => (
         <Column
           key={index}
@@ -75,7 +75,7 @@ export function Main() {
         />
       ))}
       <AddBoardModal board={board}>
-        <section className="bg-[#E9EFFA] h-full w-[280px] flex justify-center items-center rounded-md hover:cursor-pointer">
+        <section className="bg-[#E9EFFA] dark:bg-neutral-dark h-full w-[280px] flex justify-center items-center rounded-md hover:cursor-pointer">
           <button className="text-lg text-neutral hover:text-primary ">
             + New Column
           </button>

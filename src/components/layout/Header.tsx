@@ -16,7 +16,7 @@ export function Header() {
 
   return (
     <header
-      className={`p-4 sm:px-4 sm:border-b sm:border-b-lines-light sm:h-[81px] flex gap-[34px] items-center sm:justify-normal dark:bg-neutral-dark`}
+      className={`p-4 sm:p-0 sm:px-4 md:h-[96px] sm:border-b sm:border-b-lines-light dark:sm:border-b-lines-dark sm:h-[81px] flex gap-[34px] items-center sm:justify-normal dark:bg-neutral-dark`}
     >
       {isDarkMode ? (
         <img
@@ -28,7 +28,7 @@ export function Header() {
         <img
           src={logoDark}
           alt="logo of kanban board with the text 'kanban'"
-          className="hidden sm:block"
+          className="hidden sm:inline-block"
         />
       )}
 
@@ -38,7 +38,7 @@ export function Header() {
         className="block sm:hidden"
       />
 
-      <div className="hidden sm:block w-[1px] h-full bg-lines-light"></div>
+      <div className="hidden sm:block sm:w-[1px] sm:h-full bg-lines-light dark:bg-lines-dark"></div>
 
       {board && (
         <>

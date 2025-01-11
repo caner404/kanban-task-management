@@ -87,7 +87,9 @@ export function AddBoardForm({
       onSubmit={handleSubmit(onSubmitForm)}
       data-testid="addBoardForm"
     >
-      <h2 className="text-lg"> {editBoard ? 'Edit' : 'Add'} Board</h2>
+      <h2 className="text-lg dark:text-white">
+        {editBoard ? 'Edit' : 'Add New '} Board
+      </h2>
       <section className="flex flex-col gap-6">
         <Textbox
           placeholder="e.g Web Design"
