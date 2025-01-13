@@ -8,15 +8,11 @@ module.exports = {
     'plugin:storybook/recommended',
     'prettier',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', '!/.storybook'],
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
-  ignorePatterns: ['!/.storybook'],
   rules: {
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true },
-    ],
+    'react-refresh/only-export-components': 'off',
     'no-restricted-imports': [
       'error',
       {

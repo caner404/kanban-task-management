@@ -18,15 +18,15 @@ export function TaskDetails({ task }: { task: Task }) {
 
   if (!board) return;
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <div className="flex flex-col gap-6 p-6 dark:bg-neutral-dark">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg">{task.title}</h2>
+        <h2 className="text-lg dark:text-white">{task.title}</h2>
         <TaskMenu task={task} currentBoard={board} />
       </div>
       <p className="text-base text-neutral">{task.description}</p>
 
       <fieldset>
-        <legend className="text-neutral text-sm mb-4">
+        <legend className="text-neutral dark:text-white text-sm mb-4">
           Subtasks ({subTasksCompleted.length} of {task.subTasks.length})
         </legend>
         <div className="flex flex-col justify-center gap-2">

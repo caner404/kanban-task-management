@@ -22,16 +22,17 @@ export const Checkbox = forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <div className="flex gap-4 bg-neutral-light rounded p-3">
+      <div className="flex gap-4 bg-neutral-light dark:bg-neutral-darker rounded p-3">
         <input
           {...props}
           checked={completed}
           type="checkbox"
           ref={ref}
           onChange={handleChange}
+          className="dark:accent-primary"
         />
         <Label
-          className={`text-sm ${completed ? 'text-black/50 line-through' : 'text-black'}`}
+          className={`text-sm ${completed ? 'text-black/50 dark:text-neutral line-through' : 'text-black dark:text-neutral'}`}
           htmlFor={props.id}
         >
           {children}
