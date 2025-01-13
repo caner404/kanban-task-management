@@ -16,7 +16,7 @@ export function Header() {
 
   return (
     <header
-      className={`p-4 sm:p-0 sm:px-4 md:h-[96px] sm:border-b sm:border-b-lines-light dark:sm:border-b-lines-dark sm:h-[81px] flex gap-[34px] items-center sm:justify-normal dark:bg-neutral-dark`}
+      className={`p-4 sm:p-0 sm:px-4 md:h-[96px] sm:border-b sm:border-b-lines-light dark:sm:border-b-lines-dark sm:h-[81px] flex gap-[34px] items-center sm:justify-normal bg-white dark:bg-neutral-dark`}
     >
       {isDarkMode ? (
         <img

@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export const buttonVariants = {
-  primary: ['bg-primary', 'text-white'],
+  primary: ['bg-primary', 'text-white', 'hover:bg-primary-light'],
   secondary: [
     'bg-primary',
     'bg-opacity-10',

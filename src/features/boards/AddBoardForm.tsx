@@ -64,7 +64,12 @@ export function AddBoardForm({
   const columnCounts = useAppSelector((state) =>
     selectColumnsCount(state, editBoard?.status),
   );
-  const { register, handleSubmit, control } = useForm<BoardFormValues>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<BoardFormValues>({
     defaultValues: {
       boardName: editBoard?.name ?? '',
       status: editBoard?.status.map((value) => {
@@ -109,6 +114,9 @@ export function AddBoardForm({
                 data-testid={`status.${index}.statusName`}
                 id={`status.${index}.statusName`}
                 {...register(`status.${index}.statusName`, { required: true })}
+                errorMessage={
+                  errors.status?.[index]?.statusName ? 'Cant be empty' : ''
+                }
               />
               <Button
                 variant="inline"

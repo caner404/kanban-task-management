@@ -14,7 +14,7 @@ export function AppLayout() {
           <button
             data-testid="showSidebar"
             aria-label="Open Sidebar for Kanban Boards"
-            className="w-14 h-12 bg-primary rounded-tr-full rounded-br-full justify-center items-center hover:cursor-pointer absolute bottom-5 hidden sm:flex focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-14 h-12 bg-primary rounded-tr-full rounded-br-full justify-center items-center hover:cursor-pointer absolute bottom-5 hidden sm:flex focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-primary-light text-white"
             onClick={() => setHideSidebar(false)}
           >
             <IconShowSidebar />
