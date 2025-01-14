@@ -1,10 +1,6 @@
 import { IconBoard } from '@/assets';
 import { ComponentProps } from 'react';
-import {
-  SidebarListItemVariantKeys,
-  SidebarListItemVariants,
-  variants,
-} from './sidebarListItem-variants';
+import { SidebarListItemVariants, variants } from './sidebarListItem-variants';
 
 export type SidebarListItemProps = ComponentProps<'li'> &
   SidebarListItemVariants & {
@@ -19,18 +15,12 @@ export function SidebarListItem({
   onClick,
   ...props
 }: SidebarListItemProps) {
-  const fillColorValue: Record<SidebarListItemVariantKeys, string> = {
-    default: '#828FA3',
-    active: '#fff',
-    create: '#635fc7',
-  };
-
   return (
     <li
       tabIndex={0}
       {...props}
       role="button"
-      className={`${props.className} ${variants({ variant })} rounded-tr-full rounded-br-full hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500`}
+      className={`${props.className} ${variants({ variant })} group rounded-tr-full rounded-br-full hover:cursor-pointer  focus:outline-none focus:ring-2 focus:ring-blue-500 `}
       onClick={onClick}
       onKeyDown={(e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -39,9 +29,7 @@ export function SidebarListItem({
         }
       }}
     >
-      {children || (
-        <IconBoard fillColor={fillColorValue[variant ?? 'default']} />
-      )}
+      {children || <IconBoard />}
       {title}
     </li>
   );

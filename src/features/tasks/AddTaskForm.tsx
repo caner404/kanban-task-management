@@ -11,8 +11,8 @@ import {
   Textarea,
   Textbox,
 } from '@/components/form';
-import { nanoid } from '@reduxjs/toolkit';
 import { Board } from '@/features/boards';
+import { nanoid } from '@reduxjs/toolkit';
 import { taskAdded, taskUpdated } from './tasksSlice';
 import { Task } from './types';
 
@@ -87,7 +87,12 @@ export function AddTaskForm({
     ? editTask.subTasks.map((subTask) => ({ subTask: subTask.title }))
     : [{ subTask: '' }];
 
-  const { register, handleSubmit, control } = useForm<TaskFormValues>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<TaskFormValues>({
     defaultValues: {
       title: editTask ? editTask.title : '',
       description: editTask?.description ?? '',
@@ -132,13 +137,19 @@ export function AddTaskForm({
             <div className="flex gap-2" key={field.id}>
               <Input
                 className="flex-1"
-                placeholder=""
                 data-testid={`subTasks.${index}.subTask`}
                 id={`subTasks.${index}.subTask`}
                 {...register(`subTasks.${index}.subTask`, {
                   required: true,
                 })}
+                errorMessage={
+                  errors.subTasks?.[index]?.subTask ? 'Cant be empty' : ''
+                }
+                aria-invalid={
+                  errors.subTasks?.[index]?.subTask ? 'true' : 'false'
+                }
               />
+
               <Button variant="inline" onClick={() => remove(index)}>
                 <IconCross />
               </Button>

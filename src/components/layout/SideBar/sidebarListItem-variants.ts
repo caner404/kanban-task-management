@@ -1,9 +1,15 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
 export const sidebarListItemVariants = {
-  default: ['text-neutral'],
+  default: [
+    'text-neutral',
+    'hover:text-primary',
+    'hover:bg-neutral-light',
+    'group-hover:text-primary',
+    'group-hover:fill-primary',
+  ],
   create: ['text-primary'],
-  active: ['bg-primary text-white'],
+  active: ['text-white', 'bg-primary'],
 } as const;
 
 export type SidebarListItemVariantKeys = keyof typeof sidebarListItemVariants;

@@ -13,26 +13,34 @@ type InputProps = ComponentProps<'input'> &
   };
 export const Checkbox = forwardRef<HTMLInputElement, InputProps>(
   ({ children, onCheckedChange, ...props }, ref) => {
-    const [completed, setCompleted] = useState(props.checked);
+    const [isChecked, setisChecked] = useState(props.checked);
 
     function handleChange(e: ChangeEvent) {
       const target = e.target as HTMLInputElement;
-      setCompleted(target.checked);
+      setisChecked(target.checked);
       onCheckedChange?.(target.checked);
     }
 
+    function handleClick() {
+      setisChecked(!isChecked);
+      onCheckedChange?.(!isChecked);
+    }
+
     return (
-      <div className="flex gap-4 bg-neutral-light dark:bg-neutral-darker rounded p-3">
+      <div
+        className="relative flex gap-4 bg-neutral-light  hover:bg-primary/25 dark:bg-neutral-darker dark:hover:bg-primary/25 rounded p-3 hover:cursor-pointer"
+        onClick={handleClick}
+      >
         <input
           {...props}
-          checked={completed}
+          checked={isChecked}
           type="checkbox"
           ref={ref}
           onChange={handleChange}
           className="dark:accent-primary"
         />
         <Label
-          className={`text-sm ${completed ? 'text-black/50 dark:text-neutral line-through' : 'text-black dark:text-neutral'}`}
+          className={`relative text-sm z-10 ${isChecked ? 'text-black/50 dark:text-neutral line-through' : 'text-black dark:text-neutral'}`}
           htmlFor={props.id}
         >
           {children}
