@@ -27,15 +27,27 @@ function Columns({
     });
   }, [isDraggedOver, column]);
 
+  const getRandomInt = () => {
+    return Math.floor(Math.random() * 256);
+  };
+
   return (
     <section
       className="flex flex-col gap-3 "
       {...props}
       aria-labelledby="column-heading"
     >
-      <h2 className="text-sm text-neutral uppercase" id="column-heading">
-        {column?.statusName} ({column?.tasksByStatusId.length})
-      </h2>
+      <div className="flex gap-3">
+        <div
+          className="rounded-full w-4 h-4"
+          style={{
+            backgroundColor: `rgb(${getRandomInt()},${getRandomInt()},${(getRandomInt(), Math.random() * 1)})`,
+          }}
+        ></div>
+        <h2 className="text-sm text-neutral uppercase" id="column-heading">
+          {column?.statusName} ({column?.tasksByStatusId.length})
+        </h2>
+      </div>
       <ul
         ref={ref}
         className={`${isDraggedOver ? 'bg-neutral bg-opacity-25' : ''} flex-1 w-[280px]`}
