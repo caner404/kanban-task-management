@@ -44,7 +44,7 @@ type SubtaskJSONData = {
 export const fetchBoards = createAsyncThunk(
   'boards/fetchBoards',
   async (_, thunkAPI) => {
-    const response = await fetch('/data.json');
+    const response = await fetch('src/data.json');
     if (!response.ok) throw new Error('Failed to load data.json');
     const data = await response.json();
     const boards: Board[] = data.boards.map((boardData: BoardJSONData) => {
