@@ -5,8 +5,8 @@ import {
   nanoid,
   PayloadAction,
 } from '@reduxjs/toolkit';
-import { Board, BoardStatus } from './types/Board';
 import { taskAdded } from '../tasks';
+import { Board, BoardStatus } from './types/Board';
 
 interface BoardsState {
   boards: Board[];
@@ -16,8 +16,8 @@ interface BoardsState {
 }
 
 const initialState: BoardsState = {
-  boards: [],
-  activeBoard: null,
+  boards: JSON.parse(localStorage.getItem('boards') || '[]'),
+  activeBoard: JSON.parse(localStorage.getItem('activeBoard') || 'null'),
   loading: false,
 };
 
@@ -44,7 +44,12 @@ type SubtaskJSONData = {
 export const fetchBoards = createAsyncThunk(
   'boards/fetchBoards',
   async (_, thunkAPI) => {
-    console.log(import.meta.env.BASE_URL);
+    if (initialState.boards.length > 0)
+      return {
+        boards: initialState.boards,
+        activeBoard: initialState.activeBoard,
+      };
+
     const response = await fetch(`${import.meta.env.BASE_URL}data.json`);
     if (!response.ok) throw new Error('Failed to load data.json');
     const data = await response.json();
@@ -86,6 +91,8 @@ export const fetchBoards = createAsyncThunk(
       return { id: boardId, name: boardData.name, status: statuses };
     });
 
+    localStorage.setItem('boards', JSON.stringify(boards));
+    localStorage.setItem('activeBoard', JSON.stringify(boards[0]));
     return {
       boards,
     };
@@ -104,6 +111,8 @@ export const boardsSlice = createSlice({
       };
       state.boards.push(newBoard);
       state.activeBoard = newBoard;
+      localStorage.setItem('boards', JSON.stringify(state.boards));
+      localStorage.setItem('activeBoard', JSON.stringify(state.activeBoard));
     },
     boardUpdated(state, action: PayloadAction<Board>) {
       const { id, name, status } = action.payload;
@@ -112,18 +121,23 @@ export const boardsSlice = createSlice({
       updateBoard.name = name ?? updateBoard.name;
       updateBoard.status = status ?? updateBoard.status;
       state.activeBoard = updateBoard;
+      localStorage.setItem('boards', JSON.stringify(state.boards));
+      localStorage.setItem('activeBoard', JSON.stringify(state.activeBoard));
     },
     boarddDeleted(state, action: PayloadAction<Board>) {
       const { id } = action.payload;
       const boards = state.boards.filter((board) => board.id !== id);
       state.boards = boards;
       state.activeBoard = state.boards.length > 1 ? boards[0] : null!;
+      localStorage.setItem('boards', JSON.stringify(state.boards));
+      localStorage.setItem('activeBoard', JSON.stringify(state.activeBoard));
     },
     updateActiveBoard(state, action: PayloadAction<Board>) {
       const { id } = action.payload;
       const board = state.boards.find((board) => board.id === id);
       if (board === undefined) throw new Error('Board not found');
       state.activeBoard = board;
+      localStorage.setItem('activeBoard', JSON.stringify(state.activeBoard));
     },
   },
   extraReducers: (builder) => {

@@ -3,7 +3,7 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SubTask, Task } from './types/Task';
 import { BoardStatus } from '../boards';
 
-const initialState: Task[] = [];
+const initialState: Task[] = JSON.parse(localStorage.getItem('tasks') || '[]');
 
 export const tasksSlice = createSlice({
   name: 'tasks',
@@ -18,6 +18,8 @@ export const tasksSlice = createSlice({
         boardId: action.payload.boardId,
         boardStatusId: action.payload.boardStatusId,
       });
+      localStorage.removeItem('tasks');
+      localStorage.setItem('tasks', JSON.stringify(state));
     },
     taskUpdated(state, action: PayloadAction<Task>) {
       const { id, boardStatusId, description, subTasks, title } =
@@ -34,6 +36,8 @@ export const tasksSlice = createSlice({
         subTasks,
         boardStatusId,
       };
+      localStorage.removeItem('tasks');
+      localStorage.setItem('tasks', JSON.stringify(state));
     },
     subTaskUpdated(state, action: PayloadAction<SubTask>) {
       const { id, taskId, isCompleted, title } = action.payload;
@@ -43,10 +47,21 @@ export const tasksSlice = createSlice({
       if (!updateSubTask) throw new Error('updateSubTask not found');
       updateSubTask.isCompleted = isCompleted;
       updateSubTask.title = title;
+
+      localStorage.removeItem('tasks');
+      localStorage.setItem('tasks', JSON.stringify(state));
     },
     tasksDeleted(state, action: PayloadAction<Task[]>) {
       const tasksToDelete = action.payload;
       const taskIdsToRemove = tasksToDelete.map((task) => task.id);
+
+      localStorage.removeItem('tasks');
+      localStorage.setItem(
+        'tasks',
+        JSON.stringify(
+          state.filter((task) => !taskIdsToRemove.includes(task.id)),
+        ),
+      );
       return state.filter((task) => !taskIdsToRemove.includes(task.id));
     },
   },
