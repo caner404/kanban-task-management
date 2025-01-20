@@ -133,7 +133,7 @@ Feel free to contact me with any questions or feedback!
 
 ### Acknowledgments
 
-This app was developed as part of the [Udemy course](https://www.udemy.com/course/the-ultimate-react-course) "The Ultimate React Course 2023: React, Redux & More" by [Jonas Smechmann](https://twitter.com/jonasschmedtman). Special thanks to Jonas for his exceptional teaching and guidance during the course.
+This app was developed as part of a frontendmentor challenge [Frontendmentor](https://www.frontendmentor.io/).
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
